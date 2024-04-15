@@ -10,27 +10,26 @@
 """
         
 if __name__ == '__main__':
-    N, S = [int(i) for i in input().split(" ")]
-    arr = [int(i) for i in input().split(" ")]
-    sumed_arr = [0]
-    for i in range(N):
-        sumed_arr.append(sumed_arr[i] + arr[i])
-    L = 1
-    R = 1
-    answer = []
-    print(sumed_arr)
-    while L <= R and R <= N:
-        s = sumed_arr[R] - sumed_arr[L]
-        print(L,R,s)
-        
-        if s >= S:
-            L = L + 1
-            answer.append(R - L + 1)
-        else:
-            R = R + 1
+    N, S = map(int, input().split())
+    arr = list(map(int, input().split()))
+    sumed_arr = [0] * (N + 1)
+    for i in range(1, N + 1):
+        sumed_arr[i] = sumed_arr[i - 1] + arr[i - 1]
     
-    if answer:
-        print(min(answer))
+    L, R = 0, 0
+    answer = N + 1  
+
+    while R <= N:
+        current_sum = sumed_arr[R] - sumed_arr[L]
+        
+        if current_sum >= S:    
+            answer = min(answer, R - L)
+            L += 1  
+        else:
+            R += 1  
+    
+    if answer <= N:
+        print(answer)
     else:
         print(0)
                 
