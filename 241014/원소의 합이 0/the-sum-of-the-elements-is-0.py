@@ -29,4 +29,4 @@ for d1 in diff_1:
             answer += (diff_1[d1] + diff_2[d2])
 
 
-print(answer//2)
+print(answer)
