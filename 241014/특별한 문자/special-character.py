@@ -7,11 +7,9 @@ for i in s:
     else:
         dic[i] = 1
 
-
 fail = True
-for value, key  in enumerate(dic):
-    
-    if value == 1:
+for key in dic:    
+    if dic[key] == 1:
         print(key)
         fail= False
         break
