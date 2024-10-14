@@ -8,8 +8,9 @@ for i in range(1,n+1):
     for j in range(1,n+1):
         prefix[i][j] = prefix[i-1][j] + prefix[i][j] - prefix[i-1][j-1] + maps[i][j]
 
-def get_sum(x1,y1,x2,y2):
-    return prefix[x2][y2] - prefix[x1-1][y2] - prefix[x2][y1 -1] + prefix[x1 -1 ][y1-1]
+def get_sum(x1, y1, x2, y2):
+    return prefix[x2][y2]     - prefix[x1 - 1][y2] - \
+           prefix[x2][y1 - 1] + prefix[x1 - 1][y1 - 1]
 
 answer = 0 
 for i in range(1, n-k +2):
