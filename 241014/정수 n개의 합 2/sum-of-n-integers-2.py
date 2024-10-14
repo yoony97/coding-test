@@ -7,8 +7,8 @@ for i in range(1, n):
 
 a = 0
 maximum = 0 
-for i in range(k, n, k):
+for i in range(k, n):
     if maximum < prefix[i] - prefix[a]:
         maximum = prefix[i] - prefix[a]
-    a = i
+    a += 1
 print(maximum)
