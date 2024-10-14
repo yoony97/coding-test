@@ -24,9 +24,7 @@ for i in range(N):
 
 answer = 0
 for d1 in diff_1:
-    for d2 in diff_2:
-        if d1 + d2 == 0:
-            answer += (diff_1[d1]*diff_2[d2])
-
+    if -d1 in diff_2:
+        answer += (diff_1[d1]*diff_2[-d1])
 
 print(answer)
