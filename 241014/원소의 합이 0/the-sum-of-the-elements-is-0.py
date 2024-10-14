@@ -20,13 +20,13 @@ for i in range(N):
         if res in diff_2:
             diff_2[res] += 1
         else:
-            diff_2[res] =1
+            diff_2[res] = 1
 
 answer = 0
 for d1 in diff_1:
     for d2 in diff_2:
         if d1 + d2 == 0:
-            answer += (diff_1[d1] + diff_2[d2])
+            answer += (diff_1[d1]*diff_2[d2])
 
 
 print(answer)
