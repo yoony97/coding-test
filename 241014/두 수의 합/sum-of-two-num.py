@@ -12,6 +12,6 @@ for i in range(n):
 answer = 0
 for i in range(n):
     if li[i] in dic:
-        answer += dic[li[i]]
+        answer += dic[li[i]]//2
 
-print(answer//2)
+print(answer)
