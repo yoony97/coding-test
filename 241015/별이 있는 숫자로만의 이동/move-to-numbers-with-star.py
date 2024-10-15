@@ -13,10 +13,10 @@ for i in range(1, N+1):
 # 4. 구간 합 함수 (경계 체크 포함)
 def get_sum(S, x1, y1, x2, y2):
     # 구간의 경계를 안전하게 클리핑
-    x1 = max(1, min(x1, N))
-    y1 = max(1, min(y1, N))
-    x2 = max(1, min(x2, N))
-    y2 = max(1, min(y2, N))
+    x1 = max(0, min(x1, N))
+    y1 = max(0, min(y1, N))
+    x2 = max(0, min(x2, N))
+    y2 = max(0, min(y2, N))
 
     # 구간 합 계산
     return S[x2][y2] - S[x1 - 1][y2] - S[x2][y1 - 1] + S[x1 - 1][y1 - 1]
