@@ -4,12 +4,12 @@ data = sys.stdin.read().strip().split("\n")
 N, M, K = map(int, data[0].split())
 data = data[1:]
 
-a_arr = [[0]*(N+1) for _ in range(N+1)]
-b_arr = [[0]*(N+1) for _ in range(N+1)]
-c_arr = [[0]*(N+1) for _ in range(N+1)]
-aS = [[0]*(N+1) for i in range(N+1)]
-bS = [[0]*(N+1) for i in range(N+1)]
-cS = [[0]*(N+1) for i in range(N+1)]
+a_arr = [[0]*(M+1) for _ in range(N+1)]
+b_arr = [[0]*(M+1) for _ in range(N+1)]
+c_arr = [[0]*(M+1) for _ in range(N+1)]
+aS = [[0]*(M+1) for i in range(N+1)]
+bS = [[0]*(M+1) for i in range(N+1)]
+cS = [[0]*(M+1) for i in range(N+1)]
 #init
 for i in range(N):
     s = data[i]
@@ -26,7 +26,7 @@ data = data[N:]
 #make prefix
 
 for i in range(1, N+1):
-    for j in range(1, N+1):
+    for j in range(1, M+1):
         aS[i][j] = aS[i-1][j] + aS[i][j-1] - aS[i-1][j-1] +a_arr[i][j] 
         bS[i][j] = bS[i-1][j] + bS[i][j-1] - bS[i-1][j-1] +b_arr[i][j] 
         cS[i][j] = cS[i-1][j] + cS[i][j-1] - cS[i-1][j-1] +c_arr[i][j] 
