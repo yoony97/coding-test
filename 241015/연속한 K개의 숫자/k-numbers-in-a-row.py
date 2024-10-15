@@ -3,7 +3,8 @@ def get_sum(S, s,e):
 
 def count(numbers, s,e):
     count = 0
-    for i in range(s, e-1):
+    print(f"s : {s}, e : {e}")
+    for i in range(s-1, e):
         if numbers[i] != 0:
             count += 1
     return count
