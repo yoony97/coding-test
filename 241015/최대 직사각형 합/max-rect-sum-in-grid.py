@@ -18,7 +18,7 @@ def get_sum(x1, y1, x2, y2):
     return S[x2 + 1][y2 + 1] - S[x1][y2 + 1] - S[x2 + 1][y1] + S[x1][y1]
 ans = -1*float('inf')
 
-print(S)
+#print(S)
 
 for start_x in range(N):
     for start_y in range(N):
