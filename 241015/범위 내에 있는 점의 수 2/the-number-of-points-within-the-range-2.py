@@ -22,9 +22,10 @@ def get_sum(s, e):
 # 쿼리 처리
 for _ in range(Q):
     s, e = map(int, input().split())  # 1 기반 입력
-    if 1 <= s <= max_length and 1 <= e <= max_length:  # 1 기반 경계 조건
-        print(get_sum(s, e))
-    elif 1 <= s <= max_length and e < 0 and e > max_length:
-        print(get_sum(s,max_length))
+    if 0 <= s < max_length:
+        if 0 <= e < max_length:  # 1 기반 경계 조건
+            print(get_sum(s, e))
+        else:
+            print(get_sum(s, max_length))
     else:
         print(0)
