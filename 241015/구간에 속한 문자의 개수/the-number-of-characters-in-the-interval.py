@@ -13,7 +13,7 @@ cS = [[0]*(N+1) for i in range(N+1)]
 #init
 for i in range(N):
     s = data[i]
-    for j in range(N):
+    for j in range(M):
         if s[j] == 'a':
             a_arr[i+1][j+1] = 1
         if s[j] == 'b':
