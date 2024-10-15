@@ -23,6 +23,8 @@ def get_sum(S, x1, y1, x2, y2):
 
 # 5. 중심 좌표와 반경에 대한 합 계산 함수
 def calculate_area_sum(S, maps, cx, cy, k):
+    if k == 0:
+        return maps[cx][cy]
     # 십자 모양의 합 계산 (수직 + 수평)
     cross_sum = (
         get_sum(S, cx - k, cy, cx + k, cy) +  # 수직 방향 합
