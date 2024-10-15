@@ -1,5 +1,5 @@
-def get_sum(S, s,e):
-    return S[e] - S[s-1]
+def get_sum(S, s, e):
+    return S[e] - S[s - 1]
 
 def preprocess(numbers):
     n = len(numbers)
@@ -8,38 +8,23 @@ def preprocess(numbers):
         prefix[i + 1] = prefix[i] + (1 if numbers[i] != 0 else 0)
     return prefix
 
-
-
 N, K, B = map(int, input().split())
-original = list(range(1, N+1))
-onumbers = list(range(1, N+1))
-bnumbers = [0]*N
-oS = [0]*(N+1)
-bS = [0]*(N+1)
-original_fix = [0]*(N+1)
+original = list(range(1, N + 1))
+onumbers = [1] * N  # 1로 초기화, 고장난 신호등은 0으로 변경
+bnumbers = [0] * N  # 고장난 신호등을 기록
 
-for i in range(B):
+for _ in range(B):
     blank = int(input())
-    bnumbers[blank-1] = blank
-    onumbers[blank-1] = 0
+    onumbers[blank - 1] = 0  # 해당 위치의 신호등이 고장남
+    bnumbers[blank - 1] = 1  # 고장난 신호등 위치 표시
 
-for i in range(1, N+1):
-    oS[i] = oS[i-1] + onumbers[i-1]
-    bS[i] = bS[i-1] + bnumbers[i-1]
-    counting = preprocess(bnumbers)
-    original_fix[i] = original_fix[i-1] + original[i-1]
+# 고장난 신호등의 누적 합 (Prefix Sum)
+counting = preprocess(bnumbers)
 
-d = {}
+# 슬라이딩 윈도우를 사용해 최소 고장난 신호등 개수 찾기
+answer = float('inf')
+for i in range(1, N - K + 2):
+    broken_in_range = get_sum(counting, i, i + K - 1)
+    answer = min(answer, broken_in_range)
 
-
-answer = 99999999999
-
-for i in range(1,N-K+1):
-    o = get_sum(original_fix, i, i+K-1)
-    osum = get_sum(oS, i, i+K-1)
-    bsum = get_sum(bS, i, i+K-1) 
-    
-    if o == osum + bsum:
-        answer = min(answer, get_sum(counting, i, i+K-1))
-    
 print(answer)
