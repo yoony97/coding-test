@@ -28,4 +28,4 @@ for i in range(1,N-K+1):
             d[diff] += 1
         else:
             d[diff] = 1
-print(d)
+print(min(d.values()))
