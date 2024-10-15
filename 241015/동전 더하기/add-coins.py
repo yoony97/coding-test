@@ -8,7 +8,8 @@ for i in range(N):
 
 ans = 0
 for i in reversed(li):
-    K = K - i*(K//i)
-    ans += K//i
+    while K - i >= 0:
+        K = K - i
+        ans += 1
 
 print(ans)
