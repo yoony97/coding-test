@@ -3,7 +3,7 @@ li = list(map(int, input().split()))
 
 
 s = li[0]
-maximum = 0
+maximum = -1*float('inf')
 for i in range(1,N):
     if s + li[i] <= li[i]:
         s = li[i]
