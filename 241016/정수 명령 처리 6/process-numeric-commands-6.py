@@ -40,3 +40,5 @@ for i in range(n):
         print(a.empty())
     elif op[0] == 'pop':
         print(a.pop())
+    else:
+        print(a.top())
