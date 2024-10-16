@@ -1,7 +1,7 @@
 n = int(input())
-arr1 = list(map(int, input().split()))
+arr1 = set(map(int, input().split()))
 m = int(input())
-arr2 = list(map(int, input().split()))
+arr2 = set(map(int, input().split()))
 
 s = []
 for i in range(m):
