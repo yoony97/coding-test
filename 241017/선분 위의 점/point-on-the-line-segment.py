@@ -7,6 +7,6 @@ for i in range(M):
     left -= 1
     cnt = 0
     for p in points:
-        if left <= p <= right:
+        if left < p < right:
             cnt +=1
     print(cnt)
