@@ -8,13 +8,5 @@ for i in range(M):
     cnt = 0
     for p in points:
         if left <= p <= right:
-            while left <= right:
-                mid = (left+right)//2
-                if mid > p:
-                    right = mid -1
-                elif mid < p:
-                    left = mid + 1
-                elif mid == p:
-                    cnt +=1
-                    break
+            cnt +=1
     print(cnt)
