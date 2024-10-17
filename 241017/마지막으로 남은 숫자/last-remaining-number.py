@@ -11,4 +11,7 @@ while len(q) >= 2:
     if a - b != 0:
         heapq.heappush(q, -(a-b))
 
-print(-q[0])
+if q:
+    print(-q[0])
+else:
+    print(0)
