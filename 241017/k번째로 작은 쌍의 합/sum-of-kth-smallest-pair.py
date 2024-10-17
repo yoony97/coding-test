@@ -1,11 +1,12 @@
 import heapq
+import sys
 
-N, M, K = map(int, input().split())
-arr1 = list(map(int,input().split()))
-arr2 = list(map(int,input().split()))
+data = sys.stdin.read().strip().split("\n")
+
+N, M, K = map(int, data[0].split())
 q = []
-for i in arr1:
-    for j in arr2:
+for i in list(map(int, data[1].split())):
+    for j in list(map(int, data[2].split())):
         heapq.heappush(q, (i+j, i,j))
 
 for i in range(K):
