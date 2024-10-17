@@ -9,12 +9,14 @@ q = []
 #     heapq.heappush(q, -i)
 
 maximum = 0
+#prefix 할까?
+#최대값이면 최소값을 기준으로 백트레킹?
 
+minimum = float('inf')
 for K in range(1, N-1):
-    q = []
-    for i in numbers[K:]:
-        heapq.heappush(q, i)
-    heapq.heappop(q) 
+    heapq.heapify(numbers[K:])
+    res = heapq.heappop(q)
+    
     maximum = max(maximum, (sum(q)/len(q)))
 
 print(format(maximum, '.2f'))
