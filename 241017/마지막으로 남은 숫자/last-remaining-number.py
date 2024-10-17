@@ -14,4 +14,4 @@ while len(q) >= 2:
 if q:
     print(-q[0])
 else:
-    print(0)
+    print(-1)
