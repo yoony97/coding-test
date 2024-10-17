@@ -14,7 +14,8 @@ maximum = 0
 
 minimum = float('inf')
 for K in range(1, N-1):
-    heapq.heapify(numbers[K:])
+    q = copy.deepcopy(numbers[K:])
+    heapq.heapify(q)
     res = heapq.heappop(q)
     
     maximum = max(maximum, (sum(q)/len(q)))
