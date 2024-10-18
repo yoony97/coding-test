@@ -1,51 +1,49 @@
-n, M = map(int, input().split())
+# 변수 선언 및 입력:
+n, m = tuple(map(int, input().split()))
 arr = list(map(int, input().split()))
 
+
+# target보다 큰 최초의 위치를 반환합니다.
 def upper_bound(target):
-    left = 0                             # 첫 번째 원소의 위치로 설정합니다.
-    right = n - 1                        # 마지막 원소의 위치로 설정합니다.
-    min_idx = n                          # 최소이므로, 답이 될 수 있는 값보다 더 큰 값으로 설정합니다.
-
-    while left <= right:                 # [left, right]가 유효한 구간이면 계속 수행합니다.
-        mid = (left + right) // 2        # 가운데 위치를 선택합니다.
-        if arr[mid] > target:           # 만약에 선택한 원소가 target보다 같거나 크다면 
-            min_idx = min(min_idx, mid)  # 같거나 큰 값들의 위치 중 최솟값을 계속 갱신해줍니다.
-            right = mid - 1              # 왼쪽에 조건을 만족하는 숫자가 더 있을 가능성 때문에 right를 바꿔줍니다.
+    left, right = 0, n - 1
+    min_idx = n
+    while left <= right:
+        mid = (left + right) // 2
+        if arr[mid] > target:
+            right = mid - 1
+            min_idx = min(min_idx, mid)
         else:
-            left = mid + 1               # 작은 경우라면 left를 바꿔줍니다.
-    
-    return min_idx                       # 조건을 만족하는 최소 index 값을 반환합니다.
+            left = mid + 1
 
+    return min_idx
+
+
+# target보다 같거나 큰 최초의 위치를 반환합니다.
 def lower_bound(target):
-    left = 0                             # 첫 번째 원소의 위치로 설정합니다.
-    right = n - 1                        # 마지막 원소의 위치로 설정합니다.
-    min_idx = n                          # 최소이므로, 답이 될 수 있는 값보다 더 큰 값으로 설정합니다.
-
-    while left <= right:                 # [left, right]가 유효한 구간이면 계속 수행합니다.
-        mid = (left + right) // 2        # 가운데 위치를 선택합니다.
-        if arr[mid] >= target:           # 만약에 선택한 원소가 target보다 같거나 크다면 
-            min_idx = min(min_idx, mid)  # 같거나 큰 값들의 위치 중 최솟값을 계속 갱신해줍니다.
-            right = mid - 1              # 왼쪽에 조건을 만족하는 숫자가 더 있을 가능성 때문에 right를 바꿔줍니다.
+    left, right = 0, n - 1
+    min_idx = n
+    while left <= right:
+        mid = (left + right) // 2
+        if arr[mid] >= target:
+            right = mid - 1
+            min_idx = min(min_idx, mid)
         else:
-            left = mid + 1               # 작은 경우라면 left를 바꿔줍니다.
-    
-    return min_idx                       # 조건을 만족하는 최소 index 값을 반환합니다.
+            left = mid + 1
+
+    return min_idx
 
 
+# 이진탐색을 진행하기 전에
+# 정렬을 진행해줍니다.
+arr.sort()
 
+# m개의 질의에 대한 답을 계산합니다.
+for _ in range(m):
+    a, b = tuple(map(int, input().split()))
 
-for _ in range(M):
-    a, b = map(int, input().split())
-    left = lower_bound(a)
-    right = lower_bound(b)
-    answer = right - left + 1
-    if right != n and b < arr[right]:
-        answer -= 1
-    
-    if left != n and a > arr[left]:
-        answer -= 1
-
-    if right == n:
-        answer -= 1
-        
-    print(answer)
+    # 이진탐색을 진행합니다.
+    # b보다 큰 최초의 숫자 위치에서
+    # a보다 같거나 큰 최초의 숫자 위치를 빼면
+    # 문제에서 원하는 답이 됩니다.
+    count = upper_bound(b) - lower_bound(a)
+    print(count)
