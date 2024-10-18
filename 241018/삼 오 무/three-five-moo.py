@@ -1,18 +1,9 @@
 n = int(input())
 
 left = 1
-right = 10**9//(3*5)
+right = 10**9
 def get_count(target):
-    count = 0
-    for i in range(1, target+1):
-        if i%3 == 0:
-            count += 1
-        if i%5 == 0:
-            count += 1
-        if i%15 == 0:
-            count -= 1
-        
-    return target-count
+    return target - (target // 3 + target // 5 - target // 15)
 
 
 
