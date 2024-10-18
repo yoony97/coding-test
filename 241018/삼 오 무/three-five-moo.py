@@ -1,7 +1,7 @@
 n = int(input())
 
 left = 1
-right = 10**9
+right = (10**9)*3*5
 
 def get_count(target):
     return target - (target // 3 + target // 5 - target // 15)
