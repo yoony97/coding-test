@@ -38,6 +38,14 @@ for _ in range(M):
     a, b = map(int, input().split())
     left = lower_bound(a)
     right = lower_bound(b)
+    answer = right - left + 1
+    if right != n and b < arr[right]:
+        answer -= 1
     
+    if a > arr[left]:
+        answer -= 1
 
-    print(right - left)
+    if right == n:
+        answer -= 1
+        
+    print(answer)
