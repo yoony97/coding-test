@@ -42,7 +42,7 @@ for _ in range(M):
     if right != n and b < arr[right]:
         answer -= 1
     
-    if a > arr[left]:
+    if left != n and a > arr[left]:
         answer -= 1
 
     if right == n:
