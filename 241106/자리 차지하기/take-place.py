@@ -5,8 +5,9 @@ s = SortedSet([i for i in range(1, m+1)]) #i번째 사람은 1번 이상 a_i번 
 cnt = 0
 for i in li:
     idx = s.bisect_left(i)
-    if s[idx] != i:
-        break
+    if idx == 0:
+        if s[idx] != i:
+            break
     else:
         s.remove(s[idx])
         cnt += 1
