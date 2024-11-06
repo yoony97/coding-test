@@ -8,6 +8,8 @@ for i in li:
     if idx == 0:
         if s[idx] != i:
             break
+    if idx == len(s):
+        break
     s.remove(s[idx])
     cnt += 1
 
