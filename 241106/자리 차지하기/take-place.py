@@ -8,8 +8,7 @@ for i in li:
     if idx == 0:
         if s[idx] != i:
             break
-    else:
-        s.remove(s[idx])
-        cnt += 1
+    s.remove(s[idx])
+    cnt += 1
 
 print(cnt)
