@@ -8,7 +8,7 @@ minimum = float('inf')
 for num in data[1:]:
     num = int(num)
     idx = s.bisect_right(num+m)
-    if idx != len(s):
-        minimum = min(minimum, abs(num - s[idx]))
+    if idx < len(s):
+        minimum = min(minimum, s[idx]- num)
 
 print(minimum)
