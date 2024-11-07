@@ -10,5 +10,7 @@ for num in data[1:]:
     idx = s.bisect_right(num+m)
     if idx < len(s):
         minimum = min(minimum, s[idx]- num)
-
-print(minimum)
+if minimum == float('inf'):
+    print(-1)
+else:
+    print(minimum)
