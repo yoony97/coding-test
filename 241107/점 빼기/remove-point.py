@@ -9,11 +9,15 @@ n ,m = map(int, inputs[0].split())
 
 #init s
 for i in range(n):
-    s.add(tuple(map(int, inputs[i+1].split())))
+    a, b= map(int, inputs[i+1].split())
+    s.add((a,b))
 inputs = inputs[n+1:]
 
 #query
 for j in range(m):
-    idx = s.bisect_left(int(inputs[j]))
+    idx = s.bisect_left((int(inputs[j]), 1))
     if idx < len(s):
-        print(s[idx])
+        print(s[idx][0], s[idx][1])
+        s.remove(s[idx])
+    else:
+        print(-1,-1)
