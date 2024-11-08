@@ -9,6 +9,8 @@ li = list(map(int, input().split()))
 def cal():
     max_len = 0
     current_len = 1
+    if not s:  # SortedSet이 비어 있는 경우
+        return 0
 
     for i in range(1, len(s)):
         # 연속된 숫자인지 확인
@@ -24,7 +26,6 @@ def cal():
 
 for num in li:
     s.remove(num)
-    #idx = s.bisect_right(num)
     
     print(cal())
 #이게 왜 TreeSet인가?
