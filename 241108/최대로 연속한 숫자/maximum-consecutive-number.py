@@ -12,6 +12,10 @@ def cal():
     if len(s) == 1:
         return 1
 
+    if len(s) == 2:
+        return 2
+
+
     max_len = 0
     current_len = 1
 
