@@ -12,8 +12,25 @@ for i in range(N):
     s.add((l,v))
 
 for _ in range(T):
-    #print(s)
+    new_s = SortedSet()
+    
     for _ in range(len(s)):
         l, v = s.pop(0)
-        s.add((l+v, v))
+        new_s.add((l+v, v))
+    
+    # 업데이트된 위치를 바탕으로 그룹 형성
+    grouped_positions = SortedSet()
+    
+    i = 0
+    
+    while i < len(new_s):
+        group_start = new_s[i][0]  # 현재 그룹의 시작 위치
+        while i < len(new_s) - 1 and new_s[i][0] == new_s[i + 1][0]:
+            i += 1
+        grouped_positions.add((group_start, new_s[i][1]))  # 그룹의 대표만 추가
+        i += 1
+
+    # positions을 새롭게 형성된 grouped_positions으로 업데이트
+    s = grouped_positions
+
 print(len(s))
