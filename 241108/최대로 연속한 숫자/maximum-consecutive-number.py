@@ -9,7 +9,9 @@ li = list(map(int, input().split()))
 def cal():
     if not s:  # SortedSet이 비어 있는 경우
         return 0
-    
+    if len(s) == 1:
+        return 1
+
     max_len = 0
     current_len = 1
 
