@@ -39,4 +39,4 @@ for i in range(k):
         #가장 높은 번호, 문제 번호 작은거
         if int(ops[1]) == 1:
             tl = s[-1][0]
-            print(max(dic[tl]))
+            print(min(dic[tl]))
