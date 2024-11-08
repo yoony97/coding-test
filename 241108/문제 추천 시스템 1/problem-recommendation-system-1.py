@@ -8,9 +8,10 @@ for i in range(n):
     s.add((l,p))
 
 k = int(data[n+1])
+inputs_op = data[n+2:]
 
-for i in range(1,k+1):
-    ops = data[n+1+i].split()
+for i in range(k):
+    ops = inputs_op[i].split()
     if ops[0] == 'ad':
         s.add((int(ops[2]), int(ops[1])))
     
