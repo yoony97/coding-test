@@ -1,53 +1,21 @@
-import heapq
-from sortedcontainers import SortedList
-
 N = int(input())
 li = list(map(int, input().split()))
 
-# 두 힙과 SortedList 선언
-idx_h = []
-value_h = []
-sorted_values = SortedList()
-answer = 0 
+max_average = float('-inf')  # 최대 평균값 초기화
 
-# 힙과 SortedList에 초기값 삽입
-for idx, i in enumerate(li):
-    heapq.heappush(idx_h, (idx, i))
-    heapq.heappush(value_h, (i, idx))
-    sorted_values.add(i)
-
-def pop_by_value():
-    while value_h:
-        value, idx = heapq.heappop(value_h)
-        if (idx, value) in idx_h:
-            sorted_values.remove(value)
-            return idx, value
-    return None, None
-
-def pop_by_idx():
-    while idx_h:
-        idx, value = heapq.heappop(idx_h)
-        if (value, idx) in value_h:
-            sorted_values.remove(value)
-            return idx, value
-    return None, None
-
-# 최솟값을 제거하면서 평균 계산
-while len(idx_h) > 1:
-    _, _ = pop_by_idx() # idx 기준으로 최솟값 제거
-    idx, value = pop_by_value() # value 기준으로 최솟값 제거
+# K를 1부터 N-2까지 순회
+for K in range(1, N - 1):
+    remaining_list = li[K:]  # 앞에서 K개를 삭제한 리스트
+    min_value = min(remaining_list)  # 남은 리스트에서 최솟값 찾기
     
-    if idx is None or value is None:
-        break
+    # 최솟값을 제외한 리스트 만들기
+    remaining_list.remove(min_value)
+    total = sum(remaining_list)
+    count = len(remaining_list)
     
-    # 평균 계산
-    if len(sorted_values) > 0:
-        current_avg = sum(sorted_values) / len(sorted_values)
-        answer = max(answer, current_avg)
-    
-    # 최솟값 복원
-    heapq.heappush(value_h, (value, idx))
-    sorted_values.add(value)
+    # 평균 계산 및 최대 평균값 갱신
+    average = total / count
+    max_average = max(max_average, average)
 
 # 결과 출력
-print('%.2f' % answer)
+print(f"{max_average:.2f}")
