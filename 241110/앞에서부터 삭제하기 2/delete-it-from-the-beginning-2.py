@@ -1,3 +1,5 @@
+from sortedcontainers import SortedList
+
 N = int(input())
 li = list(map(int, input().split()))
 
@@ -5,11 +7,11 @@ max_average = float('-inf')  # 최대 평균값 초기화
 
 # K를 1부터 N-2까지 순회
 for K in range(1, N - 1):
-    remaining_list = li[K:]  # 앞에서 K개를 삭제한 리스트
-    min_value = min(remaining_list)  # 남은 리스트에서 최솟값 찾기
+    # SortedList로 앞에서 K개 제거한 나머지 리스트 관리
+    remaining_list = SortedList(li[K:])  # 앞에서 K개를 제거한 리스트
     
-    # 최솟값을 제외한 리스트 만들기
-    remaining_list.remove(min_value)
+    # 최솟값을 제거하고 평균 계산
+    min_value = remaining_list.pop(0)  # 최솟값 제거
     total = sum(remaining_list)
     count = len(remaining_list)
     
