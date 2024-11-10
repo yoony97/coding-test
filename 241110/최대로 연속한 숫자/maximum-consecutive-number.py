@@ -1,35 +1,33 @@
 from sortedcontainers import SortedSet
 
 def find_longest_consecutive(n, m, removes):
-    active_intervals = SortedSet([(0, n)])  # 초기 구간: (0, n)
+    # 초기 상태에서 모든 숫자를 포함한 집합 생성
+    active_numbers = SortedSet(range(n + 1))
+    max_length = n + 1
     results = []
-    
+
     for remove in removes:
-        # 구간 내에서 삭제할 위치 찾기
-        idx = active_intervals.bisect_right((remove,)) - 1
-        if idx < 0:
-            continue  # 유효한 구간이 없으면 건너뜀
-        
-        start, end = active_intervals[idx]
-        
-        # 삭제된 숫자가 포함된 구간이 맞는지 확인
-        if not (start <= remove <= end):
-            results.append(end - start + 1)
-            continue
-        
-        # 기존 구간을 분할하여 제거
-        active_intervals.pop(idx)
-        
-        # 좌우로 새로운 구간 추가
-        if start < remove:
-            active_intervals.add((start, remove - 1))
-        if remove < end:
-            active_intervals.add((remove + 1, end))
-        
-        # 현재 가장 긴 구간 찾기
-        max_length = max(e - s + 1 for s, e in active_intervals)
+        # 제거할 숫자를 집합에서 제거
+        active_numbers.discard(remove)
+
+        # 제거한 숫자의 좌우 이웃 숫자를 가져옴
+        left_neighbor = active_numbers[active_numbers.bisect_left(remove) - 1] if active_numbers.bisect_left(remove) > 0 else None
+        right_neighbor = active_numbers[active_numbers.bisect_right(remove)] if active_numbers.bisect_right(remove) < len(active_numbers) else None
+
+        # 연속 구간의 길이 계산
+        if left_neighbor is not None and right_neighbor is not None:
+            current_length = right_neighbor - left_neighbor - 1
+        elif left_neighbor is not None:
+            current_length = remove - left_neighbor
+        elif right_neighbor is not None:
+            current_length = right_neighbor - remove
+        else:
+            current_length = 0
+
+        # 최장 길이 업데이트
+        max_length = max(max_length, current_length)
         results.append(max_length)
-    
+
     return results
 
 # 입력
