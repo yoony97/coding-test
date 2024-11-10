@@ -39,8 +39,10 @@ while starts:
     else:
         num, idx = heapq.heappop(starts)
 
-    answers[idx]= current_time - num   # 대기 시간
-    current_time += times[idx] # 
+    answers[idx] = current_time - num   # 대기 시간
+    if current_time < num:
+        current_time = num    
+    current_time += times[idx]
 
 #전부다 도착하면 waiting queue만 따로 처리 해줘야함
 while waiting:
