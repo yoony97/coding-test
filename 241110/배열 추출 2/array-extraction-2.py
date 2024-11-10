@@ -17,14 +17,16 @@ for i in range(N):
     else:
         #둘다 원소가 존재할 때
         if left and right:
-            l = -heapq.heappop(left)
+            #print(left, right)
+            l = heapq.heappop(left)
             r = heapq.heappop(right)
             if r < l:
                 print(r)
-                heapq.heappush(left, -l)
+                heapq.heappush(left, l)
             else:
-                print(l)
+                print(-l)
                 heapq.heappush(right, r)
+
         #l 에만 원소가 존재할 때
         elif left:
             l = -heapq.heappop(left)
