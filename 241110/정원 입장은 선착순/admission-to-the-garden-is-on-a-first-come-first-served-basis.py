@@ -28,8 +28,8 @@ while starts:
     #print('아직 도착하지 않은 인원:', starts)
     #print('현재 시간:', current_time)
     #print('기다린 시간:',answers)
-    #대기 인원 큐 저장(현재 시간이 도착시간보다 클 떄 )
-    while starts[0][0] <= current_time:
+    #대기 인원 큐 저장(현재 시간이 도착시간보다 클 떄)
+    while starts and starts[0][0] <= current_time:
         num, idx = heapq.heappop(starts)
         #print(f"{idx} 님은 {num} 시간에 도착하여 대기합니다.")
         heapq.heappush(waiting,(idx, num)) # 번호표 우선
