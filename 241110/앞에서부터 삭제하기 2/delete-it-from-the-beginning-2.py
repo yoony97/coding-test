@@ -32,10 +32,10 @@ while len(idx_h) > 1:
     idx, value = pop_by_value() #최솟값 제거
     for v, i in value_h:
         if (i, v) not in removed_items:
-            print(v, end=' ')
+            #print(v, end=' ')
             total += v
             cnt += 1
-    print("")
+    #print("")
     heapq.heappush(value_h,(value, idx))
     if cnt != 0:
         answer = max(answer, total/cnt)
