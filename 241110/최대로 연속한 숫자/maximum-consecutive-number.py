@@ -1,7 +1,7 @@
-from sortedcontainers import SortedList
+from sortedcontainers import SortedSet
 
 def find_longest_consecutive(n, m, removes):
-    active_intervals = SortedList([(0, n)])  # 초기 구간: (0, n)
+    active_intervals = SortedSet([(0, n)])  # 초기 구간: (0, n)
     results = []
     
     for remove in removes:
