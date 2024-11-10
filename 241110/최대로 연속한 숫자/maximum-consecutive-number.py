@@ -1,28 +1,25 @@
-from sortedcontainers import SortedSet
-
 def max_consecutive_length(n, m, removals):
-    nums = SortedSet(range(n + 1))
+    left = {i: i - 1 for i in range(n + 1)}
+    right = {i: i + 1 for i in range(n + 1)}
     results = []
     
-    # Use a dictionary to keep track of the start and end of each sequence
-    segments = {0: (0, n)}
-    
-    for removal in removals:
-        # Find the segment that contains the removal
-        for start, (seg_start, seg_end) in segments.items():
-            if seg_start <= removal <= seg_end:
-                # Remove the segment and split it
-                del segments[start]
-                if seg_start <= removal - 1:
-                    segments[seg_start] = (seg_start, removal - 1)
-                if removal + 1 <= seg_end:
-                    segments[removal + 1] = (removal + 1, seg_end)
-                break
+    # Initial maximum length is the whole sequence
+    max_length = n + 1
+    segment_lengths = {0: max_length}
 
-        # Calculate the max segment length
-        max_length = 0
-        for seg_start, seg_end in segments.values():
-            max_length = max(max_length, seg_end - seg_start + 1)
+    for removal in removals:
+        l, r = left[removal], right[removal]
+        left[r] = l
+        right[l] = r
+
+        # Update segment lengths
+        current_length = r - l - 1
+        if l in segment_lengths:
+            del segment_lengths[l]
+        if current_length > 0:
+            segment_lengths[l] = current_length
+
+        max_length = max(segment_lengths.values())
         results.append(max_length)
 
     return results
