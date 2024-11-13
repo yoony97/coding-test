@@ -21,4 +21,4 @@ for i in range(len(numbers)//2):
     min_value = min(min_value, numbers[i] + numbers[offset])
     offset = offset -1
 
-print(min(min_value))
+print(min_value)
