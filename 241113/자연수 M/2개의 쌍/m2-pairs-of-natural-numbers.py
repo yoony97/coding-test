@@ -21,4 +21,4 @@ for i in range(len(numbers)//2):
     li.append(numbers[i] + numbers[offset])
     offset = offset -1
 
-print(min(answer))
+print(min(li))
