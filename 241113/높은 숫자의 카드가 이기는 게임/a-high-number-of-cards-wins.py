@@ -22,10 +22,12 @@ for i in B_cards:
             break
     if fail:
         break
-    
     else:
         answer+=1
-
+        if idx+1 < n:    
+            idx+=1
+        else:
+            break
 print(answer)
 
 
