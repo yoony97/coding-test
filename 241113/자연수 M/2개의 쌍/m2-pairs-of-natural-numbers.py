@@ -14,11 +14,11 @@ for i in range(n):
 numbers.sort()
 
 offset = len(numbers)-1
-li = []
+min_value = float('inf')
 
 for i in range(len(numbers)//2):
     #print(numbers[i],numbers[offset])
-    li.append(numbers[i] + numbers[offset])
+    min_value = min(min_value, numbers[i] + numbers[offset])
     offset = offset -1
 
-print(min(li))
+print(min(min_value))
