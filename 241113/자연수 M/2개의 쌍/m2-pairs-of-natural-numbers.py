@@ -17,7 +17,7 @@ offset = len(numbers)-1
 li = []
 
 for i in range(len(numbers)//2):
-    print(numbers[i],numbers[offset])
+    #print(numbers[i],numbers[offset])
     li.append(numbers[i] + numbers[offset])
     offset = offset -1
 
