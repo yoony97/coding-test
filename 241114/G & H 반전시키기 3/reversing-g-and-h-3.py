@@ -7,7 +7,7 @@ groups = []
 temp = []
 for i in range(N):
     if current[i] != target[i]:
-        temp.append(i)
+        temp.append(current[i])
         if len(temp) == 4:
             groups.append(temp)
             temp = []
@@ -15,5 +15,9 @@ for i in range(N):
         if temp:
             groups.append(temp)
             temp = []
+
+if temp:
+    groups.append(temp)
+    
 
 print(len(groups))
