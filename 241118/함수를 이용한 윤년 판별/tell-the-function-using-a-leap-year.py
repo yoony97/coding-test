@@ -7,9 +7,9 @@ def is_magic(year):
     else:
         if year >=400:
             if year%400 != 0:
-                return True
+                return False
             else:
-                return False                
+                return True
         else:
             return False
 
