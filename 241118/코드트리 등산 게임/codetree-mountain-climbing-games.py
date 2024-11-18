@@ -40,35 +40,44 @@ def find_lis(li):
     return lis[::-1]  # LIS 출력
 
 
-def find_arr(max_value, li):
-    h = []
-    max_len = 0
-    max_h = []
-    for i in li:
-        if i < max_value:
-            if not h or h[-1] < i:
-                h.append(i)  # 증가 조건에 따라 추가
-            else:
-                # 기존 수열 길이 비교 후, 필요하면 max_h 갱신
-                if len(h) > max_len:
-                    max_h = h[:]  # 깊은 복사
-                    max_len = len(h)
-                h = [i]  # 수열 초기화
+import bisect
 
-    # 마지막 수열도 비교
-    if len(h) > max_len:
-        max_h = h
+def find_lis_with_target(li, target_index):
+    # LIS를 저장할 배열과 관련 정보
+    sub = []  # LIS를 점진적으로 유지
+    indices = []  # 각 원소의 LIS 위치를 저장
+    parent = [-1] * len(li)  # 각 원소의 이전 위치를 저장
+    target_index 
+    
+    for i, num in enumerate(li):
+        pos = bisect.bisect_left(sub, num)  # num이 들어갈 위치
+        if pos == len(sub):
+            sub.append(num)
+        else:
+            sub[pos] = num  # LIS 유지하기 위해 대체
+        
+        indices.append(pos)  # 현재 위치 저장
+        
+        # 이전 위치를 parent에 저장
+        if pos > 0:
+            parent[i] = indices.index(pos - 1)
+        
 
-    return max_h
+    # target 값에서부터 LIS 복원
+    lis = []
+    current = target_index
+    while current != -1:
+        lis.append(li[current])
+        current = parent[current]
+    
+    return lis[::-1]  # LIS 출력
+
 
 def simulation(m, m_index):
     answer = 0
     cable = m_index - 1
     root = m[cable]
-    pre_cable = find_arr(root, m[:cable])
-    pre_cable.append(root)
-    post_cable = find_arr(max(m)+1, m[:cable])
-    
+    pre_cable = find_lis_with_target(m[:cable+1], cable)
     test = pre_cable + find_lis(m)
     answer += (len(test)-1)*1000000
     answer += max(test)
