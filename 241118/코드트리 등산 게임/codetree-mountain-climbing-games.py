@@ -78,9 +78,10 @@ def simulation(m, m_index):
     cable = m_index - 1
     root = m[cable]
     pre_cable = find_lis_with_target(m[:cable+1], cable)
-    test = pre_cable + find_lis(m)
+    post_cable = find_lis(m)
+    test = pre_cable + post_cable
     answer += (len(test)-1)*1000000
-    answer += max(test)
+    answer += post_cable[-1]
     return answer
 
 import sys
