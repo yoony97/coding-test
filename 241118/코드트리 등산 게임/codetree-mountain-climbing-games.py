@@ -1,9 +1,6 @@
 import bisect
-from functools import lru_cache
 
-# LIS를 구하는 함수 (캐싱 활용)
-@lru_cache(None)
-def find_lis_cached(li):
+def find_lis_length(li):
     sub = []
     for num in li:
         pos = bisect.bisect_left(sub, num)
@@ -11,44 +8,22 @@ def find_lis_cached(li):
             sub.append(num)
         else:
             sub[pos] = num
-    return sub
+    return len(sub), sub[-1]  # LIS 길이와 마지막 값만 반환
 
-# 특정 위치에서 타겟을 포함한 LIS를 구하는 함수
-def find_lis_with_target(li, target_index):
-    sub = []
-    parent = [-1] * len(li)
-    target = li[target_index]
-    lis_end_index = -1
-
-    for i, num in enumerate(li):
-        if num > target:
-            continue  # 타겟 이후의 LIS는 제외
-        pos = bisect.bisect_left(sub, num)
-        if pos == len(sub):
-            sub.append(num)
-            lis_end_index = i
-        else:
-            sub[pos] = num
-        if pos > 0:
-            parent[i] = lis_end_index
-
-    # LIS 복원
-    lis = []
-    current = lis_end_index
-    while current != -1:
-        lis.append(li[current])
-        current = parent[current]
-    return lis[::-1]
-
-# 시뮬레이션 수행
 def simulation(m, m_index):
-    answer = 0
     cable = m_index - 1  # 케이블카 위치
-    pre_cable = find_lis_with_target(tuple(m[:cable + 1]), cable)  # 타겟 포함 LIS
-    post_cable = find_lis_cached(tuple(m[cable:]))  # 이후 LIS
-    test = pre_cable[:-1] + post_cable  # 타겟 제외
-    answer += (len(test) - 1) * 1000000
-    answer += post_cable[-1]
+    pre_cable = m[:cable + 1]  # 케이블카 전 구간
+    post_cable = m[cable:]  # 케이블카 후 구간
+
+    # 케이블카 이전 LIS 계산
+    pre_len, pre_last = find_lis_length(pre_cable)
+
+    # 케이블카 이후 LIS 계산
+    post_len, post_last = find_lis_length(post_cable)
+
+    # 점수 계산
+    answer = (pre_len + post_len - 1) * 1_000_000  # 중복된 케이블카 위치 제외
+    answer += post_last  # 마지막 산의 높이 추가
     return answer
 
 # 메인 로직
