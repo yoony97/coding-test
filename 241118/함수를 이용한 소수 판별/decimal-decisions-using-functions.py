@@ -3,7 +3,9 @@ a, b = map(int, input().split())
 
 def is_prime(num):
     if num == 2:
-        return True
+        True
+    if num == 1:
+        return False
 
     for i in range(2, num):
         if num%i == 0:
