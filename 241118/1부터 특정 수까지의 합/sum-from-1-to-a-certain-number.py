@@ -1,6 +1,6 @@
 answer = 0
 n = int(input())
-for i in range(1,11):
-    answer += n//i
+for i in range(1,n+1):
+    answer += i
 
-print(answer)
+print(answer//10)
