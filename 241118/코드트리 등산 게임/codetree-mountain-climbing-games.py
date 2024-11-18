@@ -1,104 +1,70 @@
-#시뮬레이션마다 이동 가능
-#등산가 - 현재 위치보다 (높은)오른쪽 산에 이동 가능
-#케이블카 - 특정 산에서만 가능
-#       - 현재 위치를 포함한 임의의 산으로 이동할 수 있음 (산의 높낮이 상관)
-
-#시뮬레이션
-#1. 시작할 산 선택 가능
-#2. 등산 성공 시 1,000,000 점 얻음
-# 케이블 카 이용 가능시 무조건 이용(이용 성공 시, 1,000,000점)
-#또한 최종적으로 도착한 산의 높이만큼 점수를 얻음
 import bisect
-import bisect
+from functools import lru_cache
 
-def find_lis(li):
-    # LIS 추적용 리스트와 위치 정보
-    sub = []  # LIS를 저장 (길이만 관리)
-    indices = []  # LIS 원소가 어디에서 왔는지 저장
-    parent = [-1] * len(li)  # 각 원소의 이전 위치를 저장
-    
-    for i, num in enumerate(li):
-        pos = bisect.bisect_left(sub, num)  # 삽입 위치 탐색
+# LIS를 구하는 함수 (캐싱 활용)
+@lru_cache(None)
+def find_lis_cached(li):
+    sub = []
+    for num in li:
+        pos = bisect.bisect_left(sub, num)
         if pos == len(sub):
             sub.append(num)
         else:
-            sub[pos] = num  # 대체하여 LIS 유지
-        
-        indices.append(pos)  # 현재 위치를 저장
-        
+            sub[pos] = num
+    return sub
+
+# 특정 위치에서 타겟을 포함한 LIS를 구하는 함수
+def find_lis_with_target(li, target_index):
+    sub = []
+    parent = [-1] * len(li)
+    target = li[target_index]
+    lis_end_index = -1
+
+    for i, num in enumerate(li):
+        if num > target:
+            continue  # 타겟 이후의 LIS는 제외
+        pos = bisect.bisect_left(sub, num)
+        if pos == len(sub):
+            sub.append(num)
+            lis_end_index = i
+        else:
+            sub[pos] = num
         if pos > 0:
-            parent[i] = indices.index(pos - 1)  # 이전 위치를 parent에 저장
+            parent[i] = lis_end_index
 
     # LIS 복원
-    lis_length = len(sub)
     lis = []
-    current = indices.index(lis_length - 1)
+    current = lis_end_index
     while current != -1:
         lis.append(li[current])
         current = parent[current]
-    
-    return lis[::-1]  # LIS 출력
+    return lis[::-1]
 
-
-import bisect
-
-def find_lis_with_target(li, target_index):
-    # LIS를 저장할 배열과 관련 정보
-    sub = []  # LIS를 점진적으로 유지
-    indices = []  # 각 원소의 LIS 위치를 저장
-    parent = [-1] * len(li)  # 각 원소의 이전 위치를 저장
-    target_index 
-    
-    for i, num in enumerate(li):
-        pos = bisect.bisect_left(sub, num)  # num이 들어갈 위치
-        if pos == len(sub):
-            sub.append(num)
-        else:
-            sub[pos] = num  # LIS 유지하기 위해 대체
-        
-        indices.append(pos)  # 현재 위치 저장
-        
-        # 이전 위치를 parent에 저장
-        if pos > 0:
-            parent[i] = indices.index(pos - 1)
-        
-
-    # target 값에서부터 LIS 복원
-    lis = []
-    current = target_index
-    while current != -1:
-        lis.append(li[current])
-        current = parent[current]
-    
-    return lis[::-1]  # LIS 출력
-
-
+# 시뮬레이션 수행
 def simulation(m, m_index):
     answer = 0
-    cable = m_index - 1
-    root = m[cable]
-    pre_cable = find_lis_with_target(m[:cable+1], cable)
-    post_cable = find_lis(m)
-    test = pre_cable + post_cable
-    answer += (len(test)-1)*1000000
+    cable = m_index - 1  # 케이블카 위치
+    pre_cable = find_lis_with_target(tuple(m[:cable + 1]), cable)  # 타겟 포함 LIS
+    post_cable = find_lis_cached(tuple(m[cable:]))  # 이후 LIS
+    test = pre_cable[:-1] + post_cable  # 타겟 제외
+    answer += (len(test) - 1) * 1000000
     answer += post_cable[-1]
     return answer
 
+# 메인 로직
 import sys
-from collections import deque
 inputs = sys.stdin.read().strip().split("\n")
-m = None
+m = []
 n = int(inputs[0])
+
 for i in range(n):
-    ops = list(map(int, inputs[i+1].split()))
-    if ops[0] == 100:
+    ops = list(map(int, inputs[i + 1].split()))
+    if ops[0] == 100:  # 초기화
         m = ops[2:]
-    if ops[0] == 200:
-        #우공이산
+    elif ops[0] == 200:  # 우공이산
         m.append(ops[1])
-    if ops[0] == 300:
+    elif ops[0] == 300:  # 지진
         m.pop()
-        #지진
-    if ops[0] == 400:
+    elif ops[0] == 400:  # 시뮬레이션
         answer = simulation(m, ops[1])
         print(answer)
