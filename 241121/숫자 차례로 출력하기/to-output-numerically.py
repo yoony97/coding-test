@@ -1,8 +1,8 @@
-def solve1(c, n):
-    if c == n+1:
+def solve1(n):
+    if n == 0:
         return
-    print(c, end=' ')
-    solve1(c+1, n)
+    solve1(n-1)
+    print(n, end=' ')
     
 
 
@@ -14,6 +14,6 @@ def solve2(n):
 
 n = int(input())
 
-solve1(1, n)
+solve1(n)
 print()
 solve2(n)
