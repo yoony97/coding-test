@@ -9,11 +9,11 @@ inputs = sys.stdin.read().strip().split("\n")
 ps = []
 for inp in inputs:
     na, sc = inp.split()
-    ps.append(people(na,sc))
+    ps.append(people(na,int(sc)))
 
 min_idx = 0
 for i in range(len(ps)):
-    if ps[min_idx] > ps[i].s:
+    if ps[min_idx].s > ps[i].s:
         min_idx = i
 
 print(ps[min_idx].n, ps[min_idx].s)
