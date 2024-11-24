@@ -1,6 +1,9 @@
 n = int(input())
 li = []
 
+if n == 0:
+    li.append(n)
+
 while n > 0:
     li.append(n%2)
     n = n//2
