@@ -5,6 +5,16 @@ cm = 11
 count = 0
 
 while True:
+    if cd > a:
+        count = -1
+        break
+    if cd == a and ch > b:
+        count = -1
+        break
+    if cd == a and ch == b and cm > c:
+        count = -1
+        break
+
     if cd == a and ch == b and cm == c:
         break
 
