@@ -6,15 +6,17 @@ days = 0
 if m1 <= m2:
     for i in range(m1, m2):
         days += num_of_days[i]
-
     days = days - d1
     days = days + d2
+
 else:
     for i in range(m2, m1):
         days += num_of_days[i]
     days = days - d2
     days = days + d1
+    days = -days
 
+#print(days)
 print(nod[days%7])
 
 
