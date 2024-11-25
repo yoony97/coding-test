@@ -19,11 +19,15 @@ for x, direct in li:
     if direct == 'R':
         for i in range(current, current+x+1):
             ans[i] += 1
+        current = current+x
     else:
         for i in range(current, current-x-1, -1):
+            
             ans[i] += 1
+        current = current - x
 cnt = 0
 for i in ans:
-    if i >=2:
+    if i > 2:
         cnt += 1
+
 print(cnt)
