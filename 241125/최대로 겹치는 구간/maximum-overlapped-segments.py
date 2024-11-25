@@ -14,7 +14,7 @@ ans = [0]*(maxi-mini+1)
 
 #print(ans, mini, maxi)
 for A,B in li:
-    for i in range(A,B+1):
+    for i in range(A,B):
         ans[i - mini] += 1
 
 
