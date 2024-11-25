@@ -20,7 +20,7 @@ ux, uy = MAX_R, MAX_R
 for i in range(MAX_R):
     for j in range(MAX_R):
         if li[i][j] == 1:
-            print(i,j)
+            #print(i,j)#
             mx, my = max(i, mx), max(j, my)
             ux, uy = min(i, ux), min(j, uy)
 
