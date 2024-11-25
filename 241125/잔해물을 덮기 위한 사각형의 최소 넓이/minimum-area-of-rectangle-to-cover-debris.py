@@ -26,15 +26,19 @@ if ix1 < ix2 and iy1 < iy2:
         if rx1 < rx2 and ry1 < ry2
     ]
 
-    # Step 4: Calculate the bounding rectangle of remaining parts
-    min_x = min(rx1 for rx1, _, _, _ in valid_coords)
-    min_y = min(ry1 for _, ry1, _, _ in valid_coords)
-    max_x = max(rx2 for _, _, rx2, _ in valid_coords)
-    max_y = max(ry2 for _, _, _, ry2 in valid_coords)
+    # Handle the case where no valid regions remain
+    if not valid_coords:
+        print(0)
+    else:
+        # Step 4: Calculate the bounding rectangle of remaining parts
+        min_x = min(rx1 for rx1, _, _, _ in valid_coords)
+        min_y = min(ry1 for _, ry1, _, _ in valid_coords)
+        max_x = max(rx2 for _, _, rx2, _ in valid_coords)
+        max_y = max(ry2 for _, _, _, ry2 in valid_coords)
 
-    # Step 5: Calculate the area of the bounding rectangle
-    result = (max_x - min_x) * (max_y - min_y)
-    print(result)
+        # Step 5: Calculate the area of the bounding rectangle
+        result = (max_x - min_x) * (max_y - min_y)
+        print(result)
 else:
     # No overlap, A is the remaining rectangle
     print((ax2 - ax1) * (ay2 - ay1))
