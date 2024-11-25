@@ -1,44 +1,37 @@
-# Input: A and B rectangles
-ax1, ay1, ax2, ay2 = map(int, input().split())
-bx1, by1, bx2, by2 = map(int, input().split())
+MAX_R = 2000
+OFFSET = 1000
+li = [[0]*(MAX_R+1) for i in range(MAX_R+1)]
 
-# Step 1: Calculate intersection coordinates
-ix1 = max(ax1, bx1)
-iy1 = max(ay1, by1)
-ix2 = min(ax2, bx2)
-iy2 = min(ay2, by2)
+rects = [
+    tuple(map(int, input().split()))
+    for _ in range(n)
+]
 
-# Step 2: Check if there is an intersection
-if ix1 < ix2 and iy1 < iy2:
-    # Step 3: Remaining area after removing overlap
-    # Remaining rectangles
-    remaining_coords = [
-        (ax1, ay1, ax2, iy1),  # Bottom part
-        (ax1, iy2, ax2, ay2),  # Top part
-        (ax1, iy1, ix1, iy2),  # Left part
-        (ix2, iy1, ax2, iy2)   # Right part
-    ]
+for i, (x1, y1, x2, y2) in enumerate(rects, start=1):
+    # OFFSET을 더해줍니다.
+    x1, y1 = x1 + OFFSET, y1 + OFFSET
+    x2, y2 = x2 + OFFSET, y2 + OFFSET
+    
+    # 직사각형에 주어진 순으로 1, 2 번호를 붙여줍니다.
+    # 격자 단위로 진행하는 문제이므로
+    # x2, y2에 등호가 들어가지 않음에 유의합니다.
+    for x in range(x1, x2):
+        for y in range(y1, y2):
+            li[x][y] = i
 
-    # Filter out invalid rectangles (zero or negative area)
-    valid_coords = [
-        (rx1, ry1, rx2, ry2)
-        for rx1, ry1, rx2, ry2 in remaining_coords
-        if rx1 < rx2 and ry1 < ry2
-    ]
 
-    # Handle the case where no valid regions remain
-    if not valid_coords:
-        print(0)
-    else:
-        # Step 4: Calculate the bounding rectangle of remaining parts
-        min_x = min(rx1 for rx1, _, _, _ in valid_coords)
-        min_y = min(ry1 for _, ry1, _, _ in valid_coords)
-        max_x = max(rx2 for _, _, rx2, _ in valid_coords)
-        max_y = max(ry2 for _, _, _, ry2 in valid_coords)
+min_x, max_x, min_y, max_y = MAX_R, 0, MAX_R, 0
+first_rect_exist = False
 
-        # Step 5: Calculate the area of the bounding rectangle
-        result = (max_x - min_x) * (max_y - min_y)
-        print(result)
+for i in range(MAX_R+1):
+    for j in range(MAX_R+1):
+        if li[i][j] == 1:
+            found = True
+            mx, my = max(i, mx), max(j, my)
+            ux, uy = min(i, ux), min(j, uy)
+
+if found:
+    print((mx-ux+1)*(my-uy+1))
 else:
-    # No overlap, A is the remaining rectangle
-    print((ax2 - ax1) * (ay2 - ay1))
+    print(0)
+
