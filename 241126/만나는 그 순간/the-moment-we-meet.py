@@ -1,49 +1,36 @@
-#각각 시뮬레이션 해주고, 사람이 매초마다 어느 위치에 있는지 기록해주면, 이 문제를 해결할 수 있다.
-MAX_T = 1000*1000
-A = [0]*(MAX_T+1)
-B = [0]*(MAX_T+1)
-
 n, m = map(int, input().split())
-current_t = 0
-current_p = 0
-for i in range(n):
-    d, t = input().split()
-    t = int(t)
-    if d == 'R':
-        for j in range(current_t, current_t+t+1):
-            current_p += 1
-            A[j] = current_p
-        current_t += t
-    else:
-        for j in range(current_t, current_t+t+1):
-            current_p -= 1
-            A[j] = current_p
-        current_t += t
 
-current_t = 0
-current_p = 0
+# 두 사람의 이동을 기록하는 함수
+def move(commands):
+    current_t = 0
+    current_p = 0
+    positions = []
+    for cmd in commands:
+        d, t = cmd.split()
+        t = int(t)
+        if d == 'R':
+            for _ in range(t):
+                current_p += 1
+                positions.append(current_p)
+        else:
+            for _ in range(t):
+                current_p -= 1
+                positions.append(current_p)
+    return positions
 
-for i in range(m):
-    d, t = input().split()
-    t = int(t)
-    if d == 'R':
-        for j in range(current_t, current_t+t+1):
-            current_p += 1
-            B[j] = current_p
-        current_t += t
-    else:
-        for j in range(current_t, current_t+t+1):
-            current_p -= 1
-            B[j] = current_p
-        current_t += t
-ans = 0
-ismeet = False
-for i in range(MAX_T):
+# 입력 받기
+commands_a = [input() for _ in range(n)]
+commands_b = [input() for _ in range(m)]
+
+# 두 사람의 이동 경로
+A = move(commands_a)
+B = move(commands_b)
+
+# 두 사람이 만나는 시간 찾기
+meet_time = -1
+for i in range(min(len(A), len(B))):
     if A[i] == B[i]:
-        ismeet = True
-        ans = i
+        meet_time = i
         break
-if ismeet:
-    print(ans+1)
-else:
-    print(-1)
+
+print(meet_time)
