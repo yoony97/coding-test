@@ -1,48 +1,41 @@
 N, M = map(int, input().split())
-MAX_LEN = 5000*20
+
+MAX_LEN = 70#1000000
 OFFSET = MAX_LEN//2
-A = [0]*(MAX_LEN+1)
-B = [0]*(MAX_LEN+1)
-
-Aisited = [False]*(MAX_LEN+1)
-Bisited = [False]*(MAX_LEN+1)
-
-
-A_t = 0
-B_t = 0
+A = [(0,0)]
+B = [(0,0)]
 
 for i in range(N):
     t, d = input().split()
     t = int(t)
     for _ in range(t):
-        A_t += 1
+        A_t, position = A[-1]        
         if d == 'R':
-            A[A_t] = A[A_t-1] + 1
+            A.append((A_t+1, position+1))    
         else:
-            A[A_t] = A[A_t-1] - 1
-        Aisited[A_t] = True
-        
-
+            A.append((A_t+1, position-1))
 
 for i in range(M):
     t, d = input().split()
     t = int(t)
     for _ in range(t):
-        B_t += 1
+        B_t, position = B[-1]        
         if d == 'R':
-            B[B_t] = B[B_t-1] + 1
+            B.append((B_t+1, position+1))    
         else:
-            B[B_t] = B[B_t-1] - 1
-        
-        Bisited[B_t] = True
+            B.append((B_t+1, position-1))
 
-cnt = 1
-#print(A,B)
-for i in range(MAX_LEN):
-    if A[i-1] != B[i-1] and A[i] == B[i] and (Bisited[i] and Aisited[i]):
-        cnt += 1
-
-print(cnt)
-
+cnt = 0
+while True:
+    if (not A) and (not B):
+        break
+    if A:
+        A_t, A_p = A.pop(0)
     
+    if B:
+        B_t, B_p = B.pop(0)
 
+    if A_p == B_p:
+        cnt+=1
+
+print(cnt-1)
