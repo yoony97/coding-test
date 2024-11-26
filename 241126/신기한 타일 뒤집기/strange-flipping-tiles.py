@@ -9,20 +9,23 @@ current = OFFSET
 for _ in range(n):
     x, d = input().split()
     x = int(x)
+
     if d == 'L':
-        right = current
-        left = current - x
-        current -= x
+        left_section = current - x + 1
+        right_section = current
+        current = current - x + 1
         value = 1
+
     else:
-        right = current + x
-        left = current
+        left_section = current
+        right_section = current + x - 1
         value = 2
-        current += x
+        current = current + x - 1
+
     li.append((left, right, value))
 
 for (left, right, value) in li:
-    for i in range(left, right):
+    for i in range(left, right+1):
         maps[i] = value
     
 white, black = 0, 0
