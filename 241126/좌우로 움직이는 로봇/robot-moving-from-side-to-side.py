@@ -1,5 +1,5 @@
 N, M = map(int, input().split())
-MAX_LEN = 5000*20
+MAX_LEN = 50000*20
 OFFSET = MAX_LEN//2
 A = [0]*(MAX_LEN+1)
 B = [0]*(MAX_LEN+1)
