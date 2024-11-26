@@ -30,7 +30,7 @@ B = move(commands_b)
 meet_time = -1
 for i in range(min(len(A), len(B))):
     if A[i] == B[i]:
-        meet_time = i
+        meet_time = i+1
         break
 
-print(meet_time+1)
+print(meet_time)
