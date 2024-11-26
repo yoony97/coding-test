@@ -36,11 +36,27 @@ for i in range(M):
         
         Bisited[B_t] = True
 
-cnt = 1
+cnt = 0
+prev_A = 0
+prev_B = 0
 #print(A,B)
-for i in range(MAX_LEN):
-    if A[i-1] != B[i-1] and A[i] == B[i] and (Bisited[i] and Aisited[i]):
+for i in range(1,MAX_LEN):
+    if (not Bisited[i]) and (not Aisited[i]):
+        break
+    
+    if Bisited[i]:
+        current_B = B[i]
+    
+    if Aisited[i]:
+        current_A = A[i]
+    
+    if current_A == current_B and prev_A != prev_B:
         cnt += 1
+    
+    prev_A = current_A
+    prev_B = current_B
+
+
 
 print(cnt)
 
