@@ -3,9 +3,9 @@
 #흰색 + 검은색 = 회색
 
 n = int(input())
-OFFSET = 4#100001
+OFFSET = 100001
 current = OFFSET
-MAX_LEN = 15#200000
+MAX_LEN = 200000
 li = []
 maps = [0]*(MAX_LEN+1)
 counts = [[0,0] for _ in range((MAX_LEN+1))]
