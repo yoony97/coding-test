@@ -3,7 +3,7 @@
 #흰색 + 검은색 = 회색
 
 n = int(input())
-OFFSET = 100000
+OFFSET = 100001
 current = OFFSET
 MAX_LEN = 200000
 li = []
@@ -48,3 +48,4 @@ for i in range(MAX_LEN+1):
             
 
 print(white, black, gray)
+#print(maps, counts)
