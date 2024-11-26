@@ -16,14 +16,18 @@ for i in inputs:
     for m in range(current_t, t):
         li[m] = li[current_t]
 
-    if li[t][x] == 1 and counts[x] > 0:
-        li[t][y] = 1
+    if li[t][x] == 1 and li[t][y] == 1:
         counts[x] -= 1
-    
-    if li[t][y] == 1 and counts[y] > 0:
-        li[t][x] = 1
         counts[y] -= 1
 
+    elif li[t][x] == 1 and counts[x] > 0:
+        li[t][y] = 1
+        counts[x] -= 1
+        
+    elif li[t][y] == 1 and counts[y] > 0:
+        li[t][x] = 1
+        counts[y] -= 1
+        
     #print(t, counts, li[t])
 
 print(''.join([str(i) for i in li[t][1:]]))
