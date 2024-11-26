@@ -10,12 +10,12 @@ for i in range(n):
     d, t = input().split()
     t = int(t)
     if d == 'R':
-        for j in range(current_t, t):
+        for j in range(current_t, current_t+t+1):
             current_p += 1
             A[j] = current_p
         current_t += t
     else:
-        for j in range(current_t, t):
+        for j in range(current_t, current_t+t+1):
             current_p -= 1
             A[j] = current_p
         current_t += t
@@ -27,12 +27,12 @@ for i in range(m):
     d, t = input().split()
     t = int(t)
     if d == 'R':
-        for j in range(current_t, t):
+        for j in range(current_t, current_t+t+1):
             current_p += 1
             B[j] = current_p
         current_t += t
     else:
-        for j in range(current_t, t):
+        for j in range(current_t, current_t+t+1):
             current_p -= 1
             B[j] = current_p
         current_t += t
@@ -44,6 +44,6 @@ for i in range(MAX_T):
         ans = i
         break
 if ismeet:
-    print(ans)
+    print(ans+1)
 else:
     print(-1)
