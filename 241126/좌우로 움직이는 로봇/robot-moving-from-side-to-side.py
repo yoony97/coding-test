@@ -26,16 +26,19 @@ for i in range(M):
             B.append((B_t+1, position-1))
 
 cnt = 0
+prev_A = 0
+prev_B = 0
 while True:
     if (not A) and (not B):
         break
     if A:
         A_t, A_p = A.pop(0)
-    
+        prev_A = A_p
     if B:
         B_t, B_p = B.pop(0)
-
-    if A_p == B_p:
+        prev_B = B_p
+    
+    if A_p == B_p and (prev_A != A) and (prev_B != B):
         cnt+=1
 
 print(cnt-1)
