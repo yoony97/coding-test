@@ -3,31 +3,35 @@
 #흰색 + 검은색 = 회색
 
 n = int(input())
-OFFSET = 100001
+OFFSET = 4#100001
 current = OFFSET
-MAX_LEN = 200000
+MAX_LEN = 15#200000
 li = []
 maps = [0]*(MAX_LEN+1)
 counts = [[0,0] for _ in range((MAX_LEN+1))]
+
 for i in range(n):
     x, direction = input().split()
     x = int(x)
+
     if direction == 'L':
-        left_section = current - x
-        right_section = current 
-        current = current - x
+        left_section = current - x + 1
+        right_section = current
+        current = current - x + 1
         value = 1
+
+
     else:
         left_section = current
-        right_section = current + x
+        right_section = current + x - 1
         value = 2
-        current = current + x
+        current = current + x - 1
 
     li.append((left_section, right_section, value))
 
 
 for (left, right, value) in li:
-    for i in range(left, right):
+    for i in range(left, right+1):
         maps[i] = value
         if value == 1:
             counts[i][0] += 1
@@ -48,4 +52,3 @@ for i in range(MAX_LEN+1):
             
 
 print(white, black, gray)
-#print(maps, counts)
