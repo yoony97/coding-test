@@ -12,15 +12,15 @@ for _ in range(n):
         right = current
         left = current - x
         current -= x
-        value = -1
+        value = 1
     else:
         right = current + x
         left = current
-        value = 1
+        value = 2
         current += x
-    li.append((right, left, value))
+    li.append((left, right, value))
 
-for (right, left, value) in li:
+for (left, right, value) in li:
     for i in range(left, right):
         maps[i] = value
     
@@ -28,7 +28,7 @@ white, black = 0, 0
 for i in range(2*OFFSET + 1):
     if maps[i] == 1:
         white += 1
-    elif maps[i] == -1:
+    elif maps[i] == 2:
         black += 1 
 
-print(black, white)
+print(white, black)
