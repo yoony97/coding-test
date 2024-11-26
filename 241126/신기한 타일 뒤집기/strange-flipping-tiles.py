@@ -1,6 +1,7 @@
 #L 흰, R 검
-current = 0
+
 OFFSET = 100000
+current = OFFSET
 maps = [0]*(2*OFFSET + 1)
 li = []
 n = int(input())
