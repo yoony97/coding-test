@@ -11,14 +11,14 @@ for _ in range(n):
     x = int(x)
 
     if d == 'L':
-        left_section = current - x + 1
-        right_section = current
+        left = current - x + 1
+        right = current
         current = current - x + 1
         value = 1
 
     else:
-        left_section = current
-        right_section = current + x - 1
+        left = current
+        right = current + x - 1
         value = 2
         current = current + x - 1
 
