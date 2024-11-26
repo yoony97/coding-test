@@ -2,7 +2,7 @@
 #각각 시뮬레이션, 배열로  li[time] = position
 # A[time] - B[time]을 저장 후 에 부호가 바뀌면, 선두가  바뀌는 것
 N, M = map(int, input().split())
-MAX_T = 50
+MAX_T = 1000000
 A = [0]*(MAX_T+1)
 B = [0]*(MAX_T+1)
 current_t = 0
