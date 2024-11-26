@@ -23,7 +23,7 @@ for i in inputs:
     if li[t][y] == 1 and counts[y] > 0:
         li[t][x] = 1
         counts[y] -= 1
-        
-    print(t, counts, li[t])
+
+    #print(t, counts, li[t])
 
 print(''.join([str(i) for i in li[t][1:]]))
