@@ -33,4 +33,4 @@ for i in range(min(len(A), len(B))):
         meet_time = i
         break
 
-print(meet_time)
+print(meet_time+1)
