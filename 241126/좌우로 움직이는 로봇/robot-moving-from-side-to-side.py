@@ -33,13 +33,12 @@ while True:
         break
     if A:
         A_t, A_p = A.pop(0)
-        prev_A = A_p
+        
     if B:
         B_t, B_p = B.pop(0)
-        prev_B = B_p
-    print(f"At={A_t}: {A_p}, Bt={B_t}:{B_p}")
-    if A_p == B_p and ((prev_A != A_p) or (prev_B != B_p)):
-        print("matching!")
+        
+    if A_p == B_p and  prev_A != prev_B:
         cnt+=1
-
-print(cnt-1)
+    prev_A = A_p
+    prev_B = B_p
+print(cnt)
