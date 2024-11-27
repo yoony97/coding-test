@@ -14,16 +14,15 @@ if d == "R":
 if d == "L":
     dn = 2
 
-for i in range(t+1):
-    
+for i in range(t):
     x, y = current
     cx = x + dx[dn]
     cy = y + dy[dn]
     
-    if not (1 <= cx < n and 1 <= cy < n):
+    if not (1 <= cx <= n and 1 <= cy <= n):
         dn = 3 - dn
     else:
         current = (cx, cy)
-    #print(current)
+#    print(current)
 
 print(current[1], current[0])
