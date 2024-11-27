@@ -16,6 +16,7 @@ for y in range(n):
             
             if 0 <= cx < n and 0 <= cy < n and li[cx][cy] == 1:
                 cnt+= 1
-        ans = max(cnt, ans)
+        if cnt >= 3:
+            ans += 1
 
 print(ans)
