@@ -1,4 +1,7 @@
 def calculate(s):
+    if len(s) == 1 and s[0] == '0':
+        return 0
+        
     result = 0
     n = 1
     for i in s[::-1]:
