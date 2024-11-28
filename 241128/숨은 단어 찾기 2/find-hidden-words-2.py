@@ -6,21 +6,25 @@ dys = [0, 1, 1, -1, 0, -1, -1, 1]
 
 for i in range(N):
     strings.append(input())
-#print(strings)
+points = []
 cnt = 0
 
 for i in range(N):
     for j in range(M):
-        for k in range(7):
+        for k in range(len(dxs)):
             string = strings[i][j]
+            
             dx = dxs[k]
             dy = dys[k]
+            cx = i
+            cy = j
             for l in range(2):
-                cx = i + dx
-                cy  = j + dy
+                cx = cx + dx
+                cy  = cy + dy
                 if 0 <= cx < N and 0 <= cy < M:
                     string += strings[cx][cy]
+            
             if string == 'LEE':
                 cnt += 1
 
-print(cnt//2)
+print(cnt )
