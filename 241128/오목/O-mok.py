@@ -20,6 +20,7 @@ def solve():
                         break
                 if iswin:
                     return i, (j+k)//2, current
+                iswin = True    
                 #2. 세로
                 for k in range(i, i+5):
                     if current != maps[k][j]:
@@ -27,13 +28,13 @@ def solve():
                         break
                 if iswin:
                     return (i+k)//2, j, current
-                
-                for k in range(1,6):
+                iswin = True
+                for k in range(1,5):
                     if current != maps[i+k][j+k]:
                         iswin = False
                         break
                 if iswin:
-                    return (i+k)//2, (j+k)//2, current
+                    return (i+i+k)//2, (j+j+k)//2, current
     return 0, 0, 0
 
 i, j, k = solve()
