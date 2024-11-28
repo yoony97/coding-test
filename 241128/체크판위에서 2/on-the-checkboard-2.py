@@ -10,10 +10,10 @@ cnt = 0
 for col in range(1,R-1):
     for row in range(1,C-1):
         #새로운 점프 위치, 점프는 총 2번 밖에 못함
-        if maps[row][col] != maps[0][0]:
+        if maps[col][row] != maps[0][0]:
             for new_col in range(col+1, R-1):
                 for new_row in range(row+1, C-1):
-                    if maps[row][col] != maps[new_col][new_row] and maps[new_col][new_row] != maps[R-1][C-1]:
+                    if maps[col][row] != maps[new_col][new_row] and maps[new_col][new_row] != maps[R-1][C-1]:
                         #print(row+1, col+1, new_row+1, new_col+1)
                         cnt += 1
 
