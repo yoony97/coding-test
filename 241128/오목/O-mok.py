@@ -28,7 +28,7 @@ def solve():
                 if iswin:
                     return (i+k)//2, j, current
                 
-                for k in range(5):
+                for k in range(1,6):
                     if current != maps[i+k][j+k]:
                         iswin = False
                         break
