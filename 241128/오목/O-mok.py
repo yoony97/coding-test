@@ -37,6 +37,19 @@ def solve():
                 if iswin:
                     #print(i+k, j+k)
                     return (i+k+2)//2, (j+k+2)//2, current
+                
+                # / 각선
+                
+                iswin = True
+                for k in range(1, 5):
+                    if not(0 <= i+k < N and 0 <= j-k < N) and current != maps[i+k][j-k]:
+                        #print("!",i+k, j-k, current, maps[i+k][j-k])
+                        iswin = False
+                        break
+                if iswin:
+                    return (i+(i+5))//2, (j+(j-4))//2, current
+                
+
     return 0, 0, 0
 
 i, j, k = solve()
