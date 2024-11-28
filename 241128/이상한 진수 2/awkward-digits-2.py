@@ -17,4 +17,4 @@ for i in range(len(N)):
         CN[i] = '1'
     ans = max(ans, calculate(CN))
 
-print(anx)
+print(ans)
