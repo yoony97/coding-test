@@ -7,13 +7,17 @@ for i in inputs:
 #print(maps)
 
 def solve():
-    for i in range(N-5):
-        for j in range(N-5):
+    for i in range(N):
+        for j in range(N):
             if maps[i][j] != 0:
                 iswin = True
                 current = maps[i][j]
                 for k in range(j, j+5):
-                    if current != maps[i][k]:
+                    if 0 <= i < N and 0 <= k < N:
+                        if current != maps[i][k]:
+                            iswin = False
+                            break
+                    else:
                         iswin = False
                         break
                 
@@ -24,21 +28,28 @@ def solve():
                 iswin = True    
                 #2. 세로
                 for k in range(i, i+5):
-                    if current != maps[k][j]:
+                    if 0 <= k < N and 0 <= j < N:
+                        if current != maps[k][j]:
+                            iswin = False
+                            break
+                    else:
                         iswin = False
                         break
+                    
                 if iswin:
-                    #print("|")
                     return (i+k)//2, j, current
                 
                 iswin = True
                 for k in range(1,5):
-                    if current != maps[i+k][j+k]:
+                    if 0<= i+k < N and 0 <= j+k < N:
+                        if current != maps[i+k][j+k]:
+                            iswin = False
+                            break
+                    else:
                         iswin = False
                         break
+                        
                 if iswin:
-                    #print("\\")
-                    #print(i+k, j+k)
                     return (i+k+2)//2, (j+k+2)//2, current
                 
                 # / 각선
@@ -47,7 +58,7 @@ def solve():
                 for k in range(1, 5):
                     #범위에 벗어나고 current
                     if not(0 <= i+k < N and 0 <= j-k < N) or current != maps[i+k][j-k]:
-                        #print("!",i+k, j-k, current, maps[i+k][j-k])
+                        
                         iswin = False
                         break
 
