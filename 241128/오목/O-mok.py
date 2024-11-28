@@ -12,14 +12,13 @@ def solve():
             if maps[i][j] != 0:
                 iswin = True
                 current = maps[i][j]
-                #검사 해야함
-                #1. 가로
                 for k in range(j, j+5):
                     if current != maps[i][k]:
                         iswin = False
                         break
                 if iswin:
                     return i, (j+k)//2, current
+                
                 iswin = True    
                 #2. 세로
                 for k in range(i, i+5):
@@ -28,13 +27,16 @@ def solve():
                         break
                 if iswin:
                     return (i+k)//2, j, current
+                
                 iswin = True
+                
                 for k in range(1,5):
                     if current != maps[i+k][j+k]:
                         iswin = False
                         break
                 if iswin:
-                    return (i+i+k)//2, (j+j+k)//2, current
+                    #print(i+k, j+k)
+                    return (i+k+2)//2, (j+k+2)//2, current
     return 0, 0, 0
 
 i, j, k = solve()
