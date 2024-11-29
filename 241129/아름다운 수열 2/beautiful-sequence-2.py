@@ -1,15 +1,22 @@
 N, M = map(int, input().split())
 A = list(map(int, input().split()))
 B = list(map(int, input().split()))
-sB = set(B)
+B.sort()
 cnt = 0
 
 for i in range(N-M+1):
-    #isBeautiful = True
+    sub = []
+    for j in range(i, i+M):
+        sub.append(A[j])
+    sub.sort()
     
-    sA = set(A[i:i+M])
-    #print(i, i+M, sA)
-    if sA == sB:
+    isBeautiful = True
+    for a, b in zip(sub, B):
+        if  a != b:
+            isBeautiful = False
+            break
+    
+    if isBeautiful:
         cnt += 1
-    
+
 print(cnt)
