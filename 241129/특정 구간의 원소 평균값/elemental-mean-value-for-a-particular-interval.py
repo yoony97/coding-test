@@ -9,9 +9,12 @@ for start in range(N):
             s += li[i]
         m = s / (end - start + 1)
 
-        if s % (end - start + 1) == 0:  # 정수 여부 확인
-            m = s // (end - start + 1)  # 정수로 변환
-            if m in li:
-                cnt += 1
+        exists = False
+        for k in range(start, end + 1):
+            if li[k] == m:
+                exists = True
 
+        if exists:
+            cnt += 1
+                        
 print(cnt)
