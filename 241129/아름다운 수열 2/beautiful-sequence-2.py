@@ -6,7 +6,7 @@ cnt = 0
 
 for i in range(N-M+1):
     isBeautiful = True
-    for j in range(i, i+M):
+    for j in range(i, i+M+1):
         if A[j] not in B:
             isBeautiful  = False
             break
