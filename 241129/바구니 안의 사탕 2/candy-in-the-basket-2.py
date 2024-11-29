@@ -1,5 +1,5 @@
 N, K = map(int,  input().split())
-MAX_LEN = 200
+MAX_LEN = 1000
 candy = [0]*(MAX_LEN+1)
 
 for _ in range(N):
