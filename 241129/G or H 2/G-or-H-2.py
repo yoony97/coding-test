@@ -27,6 +27,22 @@ for start in range(max_p):
                 if not isfirst:
                     s_idx = i
                     isfirst =True
+        if G_cnt != 0  and  H_cnt == 0:
+            for e_idx in range(end, start, -1 ):
+                if li[e_idx] ==  'G':
+                    break
+            
+            dist = e_idx -  s_idx + 1
+            max_dist = max(max_dist, dist)
+
+        if G_cnt == 0  and  H_cnt != 0:
+            for e_idx in range(end, start, -1 ):
+                if li[e_idx] ==  'H':
+                    break
+            
+            dist = e_idx -  s_idx + 1
+            max_dist = max(max_dist, dist)
+
         if G_cnt != 0 and H_cnt != 0 and G_cnt == H_cnt :
             for e_idx in range(end, start, -1 ):
                 if li[e_idx] !=  0:
