@@ -58,7 +58,7 @@ for start in range(max_p):
                 if li[e_idx] !=  0:
                     break
 
-            dist = e_idx -  s_idx +1
+            dist = e_idx -  s_idx
             max_dist = max(max_dist, dist)
 
 print(max_dist)
