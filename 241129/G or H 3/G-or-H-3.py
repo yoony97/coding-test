@@ -1,5 +1,5 @@
 N, K = map(int, input().split())
-max_len = 10000
+max_len = 20#W10000
 li = [0]*(max_len+1)
 for i in range(N):
     p, flag = input().split()
@@ -9,9 +9,10 @@ for i in range(N):
         li[int(p)] = 2
     
 ans =  0
-for i in range(max_len-K+2):
+#print(li)
+for i in range(max_len-K):
     val = 0
-    for j in range(i, i+K):
+    for j in range(i, i+K+1):
         val += li[j]
     ans =  max(ans, val)
 print(ans)
