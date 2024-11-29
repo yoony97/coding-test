@@ -33,7 +33,7 @@ for start in range(max_p+1):
                 if li[e_idx] ==  'G':
                     break
             
-            dist = e_idx -  s_idx + 1
+            dist = e_idx -  s_idx
             max_dist = max(max_dist, dist)
 
         if G_cnt == 0  and  H_cnt != 0:
@@ -46,7 +46,7 @@ for start in range(max_p+1):
                     break
             
             
-            dist = e_idx -  s_idx + 1
+            dist = e_idx -  s_idx 
             max_dist = max(max_dist, dist)
 
         if G_cnt != 0 and H_cnt != 0 and G_cnt == H_cnt :
