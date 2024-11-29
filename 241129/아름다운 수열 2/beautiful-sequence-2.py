@@ -4,7 +4,7 @@ B = list(map(int, input().split()))
 
 cnt = 0
 
-for i in range(N-M+1):
+for i in range(N-M):
     isBeautiful = True
     for j in range(i, i+M+1):
         if A[j] not in B:
