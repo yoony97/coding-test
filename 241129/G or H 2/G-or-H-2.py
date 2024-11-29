@@ -19,15 +19,15 @@ for start in range(max_p):
         for i in range(start,end):
             if li[i] == "G":
                 G_cnt += 1 
-                if not isfirst:
-                    s_idx = i
-                    isfirst =True
+                
             elif li[i] == "H":
                 H_cnt += 1
-                if not isfirst:
-                    s_idx = i
-                    isfirst =True
+                
         if G_cnt != 0  and  H_cnt == 0:
+            for s_idx in range(start, end):
+                if li[s_idx] ==  'G':
+                    break
+            
             for e_idx in range(end, start, -1 ):
                 if li[e_idx] ==  'G':
                     break
@@ -36,19 +36,29 @@ for start in range(max_p):
             max_dist = max(max_dist, dist)
 
         if G_cnt == 0  and  H_cnt != 0:
+            for s_idx in range(start, end):
+                if li[s_idx] ==  'H':
+                    break
+            
             for e_idx in range(end, start, -1 ):
                 if li[e_idx] ==  'H':
                     break
+            
             
             dist = e_idx -  s_idx + 1
             max_dist = max(max_dist, dist)
 
         if G_cnt != 0 and H_cnt != 0 and G_cnt == H_cnt :
+            for s_idx in range(start, end):
+                if li[s_idx] !=  0:
+                    break
+
+
             for e_idx in range(end, start, -1 ):
                 if li[e_idx] !=  0:
                     break
 
-            dist = e_idx -  s_idx
+            dist = e_idx -  s_idx +1
             max_dist = max(max_dist, dist)
 
 print(max_dist)
