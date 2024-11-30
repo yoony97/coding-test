@@ -6,18 +6,16 @@ ans = float('inf')
 
 for a in range(L):
     for b in range(L):
-        if a != b:
-            for i in range(L):
-                if a != i and b != i:
-                    for j in range(L):
-                        if a != j and b != j and i != j:
-                            A = li[a] + li[b]
-                            B = li[i] + li[j]
-                            C = total - A - B
-                            maxT = max(A, B, C)
-                            minT = min(A, B, C)
-                            
-                            if ans > maxT - minT:
-                                ans = min(maxT-minT, ans)
+        for i in range(L):                
+            for j in range(L):
+                if a != j and b != j and i != j and a != i and b != i and a != b:
+                    A = li[a] + li[b]
+                    B = li[i] + li[j]
+                    C = total - A - B
+                    maxT = max(A, B, C)
+                    minT = min(A, B, C)
+                    
+                    if ans > maxT - minT:
+                        ans = min(maxT-minT, ans)
 
 print(ans)
