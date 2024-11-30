@@ -20,20 +20,15 @@ for i in range(S):
 
 # #후보군 찾기
 coodinate = set()
+# 상한 치즈 후보군은 아픈 사람 sp가 st 이전에 먹은 치즈가 후보군이다.
+# 이 때, 아픈 사람 A가 먹은 치즈 중 아픈 사람 B가 안먹은 치즈가 존재한다면 제외한다.
+
 for i in range(S):
     sp,st = info[i]
-    #st 기분으로 후보군 찾아보기
-    #st 보다 작은
-    eat = set() 
     for j in range(D):
         p, m, t = history[j]
         if sp == p and t+1 <= st:
             coodinate.add(m)
-            eat.add(m)
-    #안먹은 치즈
-    noteat = cheese - eat
-    #안먹은 치즈가 후보군에 포함될 순 없음
-    coodinate = coodinate - noteat
 #i가 상한 치즈일 떄, 몇명이 먹었을까
 ans = 0
 #print(coodinate)
