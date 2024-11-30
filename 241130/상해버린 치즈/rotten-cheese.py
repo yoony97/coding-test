@@ -18,7 +18,7 @@ for i in range(S):
 #     p,m,t = history[i]
 #     print(f"{p}번 사람이 {m}번 치즈를 {t}초에 먹음")
 
-#후보군 찾기
+# #후보군 찾기
 coodinate = set()
 for i in range(S):
     sp,st = info[i]
@@ -27,7 +27,7 @@ for i in range(S):
     eat = set() 
     for j in range(D):
         p, m, t = history[j]
-        if sp == p and t < st:
+        if sp == p and t+1 <= st:
             coodinate.add(m)
             eat.add(m)
     #안먹은 치즈
@@ -36,12 +36,16 @@ for i in range(S):
     coodinate = coodinate - noteat
 #i가 상한 치즈일 떄, 몇명이 먹었을까
 ans = 0
+print(coodinate)
 for coord in list(coodinate):
-    cnt = 0
+    cnt = set()
     for j in range(D):
         p, m, t = history[j]
         if coord == m:
-            cnt += 1
-    ans = max(cnt, ans)
+            cnt.append(p)
+    ans = max(len(cnt), ans)
 
 print(ans)
+
+#1번치즈가 상했을 경우, 1번 사람이 3초에 아프니까 가능
+#1
