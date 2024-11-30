@@ -14,7 +14,7 @@ for i in range(N): # i = 반값 쿠폰을 쓸 선물
     for j in range(N): # 
         if i == j:
             continue
-        if budget - students[j] > 0:
+        if budget - students[j] >= 0:
             cnt +=1
             budget -= students[j]
         else:
