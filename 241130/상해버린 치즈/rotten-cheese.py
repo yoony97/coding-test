@@ -36,13 +36,13 @@ for i in range(S):
     coodinate = coodinate - noteat
 #i가 상한 치즈일 떄, 몇명이 먹었을까
 ans = 0
-print(coodinate)
+#print(coodinate)
 for coord in list(coodinate):
     cnt = set()
     for j in range(D):
         p, m, t = history[j]
         if coord == m:
-            cnt.append(p)
+            cnt.add(p)
     ans = max(len(cnt), ans)
 
 print(ans)
