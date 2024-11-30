@@ -4,8 +4,9 @@ N = int(input())
 a1,b1,c1 = list(map(int, input().split()))
 a2,b2,c2 = list(map(int, input().split()))
 li = set()
+
 def isclosed(i,a):
-    if abs(i - a)>= 8 or 0 <=  abs(i - a) <= 2:
+    if abs(i - a) >= N-2 or 0 <=  abs(i - a) <= 2:
         return True
     return False
     
