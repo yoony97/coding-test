@@ -9,18 +9,20 @@ for i in inputs:
 #가로
 winner = []
 for i in range(3):
-    s = tuple(set(lines[i]))
+    s = list(set(lines[i]))
     if len(s) == 2:
-        winner.append(s)
+        s.sort() 
+        winner.append(tuple(s))
 #세로
 
 for i in range(3):
     vertical = []
     for j in range(3):
         vertical.append(lines[i][j])
-    s = tuple(set(vertical))
+    s = list(set(vertical))
     if len(s) == 2:
-        winner.append(s)
+        s.sort() 
+        winner.append(tuple(s))
 
 #대각선
 type1 = [(0,0), (1,1), (2,2)]
@@ -31,8 +33,9 @@ for ty in [type1, type2]:
         i, j = t
         line.append(lines[i][j])
     
-    s = tuple(set(line))
+    s = list(set(line))
     if len(s) == 2:
-        winner.append(s)
+        s.sort() 
+        winner.append(tuple(s))
 
 print(len(set(winner)))
