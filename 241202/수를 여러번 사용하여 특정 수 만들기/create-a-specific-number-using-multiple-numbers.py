@@ -5,7 +5,7 @@ ans = 0
 for i in range(MAX_ITER):#A를 더한 횟수 i
     for j in range(MAX_ITER): #B를 더한 횟수 j
         s = A*i + B*j
-        if s < C:
+        if s <= C:
             ans = max(s, ans)
 
 print(ans)
