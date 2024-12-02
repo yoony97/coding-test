@@ -18,8 +18,9 @@ for i in range(3):
 for i in range(3):
     vertical = []
     for j in range(3):
-        vertical.append(lines[i][j])
+        vertical.append(lines[j][i])
     s = list(set(vertical))
+    #print(s)
     if len(s) == 2:
         s.sort() 
         winner.append(tuple(s))
