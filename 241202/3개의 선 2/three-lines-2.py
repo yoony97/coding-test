@@ -11,54 +11,65 @@ for i in range(N):
 
 
 def select(X, n):
-    coord  = set()
+    coord  = list()
     if n == 1:    
         for i in range(len(X)):
-            coord.add((X[i]))
+            coord.append([X[i]])
 
     if n == 2:    
         for i in range(len(X)):
             for j in range(i+1, len(X)):
-                coord.add((X[i],X[j]))
+                coord.append([X[i],X[j]])
     if n == 3:
         for i in range(len(X)):
             for j in range(i+1, len(X)):
                 for k in range(j+1, len(X)):
-                    coord.add((X[i],X[j], X[k]))        
+                    coord.append([X[i],X[j], X[k]])        
     return coord
 
+def solve(cxss, cyss):
+    for cxs in cxss:
+        for cys in cyss:
+            if check(cxs, cys):
+                return True
+    return False
+
+
+def check(cx, cy):
+    remains = []
+    for p in points:
+        iscrossed = False
+        for x in cx:
+            if x == p[0]:
+                iscrossed = True
+                break
+        
+        if not iscrossed:
+            remains.append(p)
+
+    for r in remains:
+        iscrossed = False
+        for y in cy:
+            if r[1] == y:
+                iscrossed = True
+                break
+        if not iscrossed:
+            return  False
+    return True
+
+            
 ans = 0
 Xs = list(Xs)
 Ys = list(Ys)
+
 for nx in range(1,4): # nx: x와 평행한 직선 개수
     ny = 3 -  nx      # ny: y와 평행한 직선 개수
-    fail = False
-    cxs = select(Xs, nx)
-    cys = select(Ys, ny)
-
-    remains = []
-    for point in points:
-        ispass = False
-        for cx in cxs:
-            if cx == point[0]:
-                ispass  = True
-        
-        if not ispass:
-            remains.appnd(point)
-    # 선택한 직선을 지나지 않는 남는 점들
-    for point in remains:
-        ispass = False
-        for cy in cys:
-            if cy == point[1]:
-                ispass  = True
-        #남는 점들 중 하나라도 지나지 않으면, False    
-        if not ispass:
-            fail = True
-    
-    if not fail:
-        ans = 1
+    cxss = select(Xs, nx)
+    cyss = select(Ys, ny)
+    if solve(cxss, cyss):
+        ans = 1 
         break
-
+    
 print(ans)
         
     
