@@ -1,31 +1,28 @@
-T, a, b = map(int, input().split())
-MAX_LEN = 0
-li = [0]*(1001)
+T, A, B = map(int, input().split())
+MAX_LEN = 1001
+li = [0]*MAX_LEN
 cnt = 0
 
 for i in range(T):
     c, num = input().split()
     li[int(num)] = c
-    MAX_LEN = max(int(num), MAX_LEN)
-
-li = li[:MAX_LEN+1]
-
+ 
 def find(target, current):
     left = 0
     right = MAX_LEN + 1
-    for i in range(current, 0, -1):
+    for i in range(current, A-1, -1):
         if li[i] == target:
             left = i
             break
     
-    for j in range(current, MAX_LEN+1):
+    for j in range(current, B+1):
         if li[j] == target:
             right = j
             break
 
     return min(current - left, right-current)
 
-for current in range(1,MAX_LEN+1):
+for current in range(A,B+1):
     d1 = find('S', current)
     d2 = find('N', current)
     if d1 <= d2:
