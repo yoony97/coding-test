@@ -2,9 +2,7 @@ from itertools import combinations
 
 N = int(input())
 points = []
-Xs = set()
-Ys = set()
-
+ranges = [i for i in range(0, 11)]
 ans = 0
 
 def check(xs, ys): 
@@ -25,8 +23,8 @@ def check(xs, ys):
     return True
 
 def solve(nx, ny):
-    for xs in combinations(range(11),nx):
-        for ys in combinations(range(11),ny):
+    for xs in combinations(ranges,nx):
+        for ys in combinations(ranges,ny):
             if check(xs,ys):
                 return True
     return False
@@ -37,8 +35,9 @@ for i in range(N):
     points.append((a,b))
 
 
-for nx in range(1, 4):
+for nx in range(0, 4):
     ny = 3 - nx
+    #print(nx, ny)
     if solve(nx, ny):
         ans = 1
         break
