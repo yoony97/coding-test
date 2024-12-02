@@ -5,27 +5,27 @@ cnt = 0
 
 for i in range(T):
     c, num = input().split()
-    li[int(num)-1] = c
+    li[int(num)] = c
     MAX_LEN = max(int(num), MAX_LEN)
 
-li = li[:MAX_LEN]
+li = li[:MAX_LEN+1]
 
 def find(target, current):
     left = 0
-    right = MAX_LEN
+    right = MAX_LEN + 1
     for i in range(current, 0, -1):
         if li[i] == target:
             left = i
             break
     
-    for j in range(current, MAX_LEN):
+    for j in range(current, MAX_LEN+1):
         if li[j] == target:
             right = j
             break
 
     return min(current - left, right-current)
 
-for current in range(MAX_LEN):
+for current in range(1,MAX_LEN+1):
     d1 = find('S', current)
     d2 = find('N', current)
     if d1 <= d2:
