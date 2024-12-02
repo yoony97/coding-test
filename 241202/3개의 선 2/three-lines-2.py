@@ -5,6 +5,8 @@ points = []
 Xs = set()
 Ys = set()
 
+ans = 0
+
 def check(xs, ys): 
     valid = [False]*N
     for x in xs:
