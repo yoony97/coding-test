@@ -2,22 +2,22 @@
 X, Y = map(int, input().split())
 
 def check(num):
-    cnt = 0
     s = list(map(int, str(num)))
     temp = set(s)
-    for i in range(1, len(s)):
-        if s[i-1] != s[i]:
-            cnt += 1
-        if cnt > 2:
-            return False
-    #print(num, cnt, temp)
-    if cnt <=2 and len(temp) == 2:
-        return True
+    for i in temp:
+        cnt = 0
+        for k in s:
+            if k  == i:
+                cnt += 1 
+        
+        if (cnt == 1 or cnt == len(s) - 1) and len(temp) == 2:
+            return True
+    return False
     
-    return False        
             
 ans = 0
 for i in range(X,Y+1):
     if check(i):
+
         ans += 1
 print(ans)
