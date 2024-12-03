@@ -4,13 +4,15 @@ current = 0
 ans = float('inf')
 paths = []
 for i in range(max(rocks), 0, -1):
-    path = []
+    path = [0]
     for idx, rock in enumerate(rocks):
+        if idx == 1:
+            continue
         if rock <= i:
             path.append(idx)
     paths.append(path)
 
-#print(paths)
+
 
 for path in paths:
     ispossible = True
@@ -20,6 +22,7 @@ for path in paths:
                 ispossible = False
                 break
         if ispossible:
+            #print([rocks[k] for k in path])
             #print(max([rocks[k] for k in path]))
             ans = min(max([rocks[k] for k in path]), ans)
 
