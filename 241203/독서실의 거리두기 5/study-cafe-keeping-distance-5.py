@@ -26,7 +26,7 @@ for current in range(N):
     if arr[current] == 1:    
         for nxt in range(current+1, N):
             if arr[nxt] == 1:
-                min_dist = min(nxt-current, min_dist)
+                min_dist = min(nxt-current-1, min_dist)
                 break
 
 print(min_dist)
