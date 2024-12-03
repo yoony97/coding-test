@@ -22,6 +22,9 @@ ans = 0
 for i in cnt:
     if cnt[i] == maximum:
         ans = max(ans, i)
+        maximum = cnt[i]
     elif cnt[i] > maximum:
         ans = i
+        maximum = cnt[i]
+
 print(ans)
