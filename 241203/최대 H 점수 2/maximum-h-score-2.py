@@ -24,9 +24,9 @@ for i in range(L):
     for a in range(N):
         if numbers[a] == mid or visited[a]:
             continue
-        if min_dff > abs(mid - numbers[a]):
+        if min_diff > abs(mid - numbers[a]):
             best_idx = a
-            min_dff = abs(mid - numbers[a])
+            min_diff = abs(mid - numbers[a])
 
     # L이 N이랑 같으면, 미드값도 더할 생각해야함
     if best_idx == -1:
