@@ -10,21 +10,25 @@ for i in range(N):
 
 for i in range(N):
     total = 1
+    isboom = False
     for j in range(i+1, N):
         if boom[i] == boom[j]:
             dist = j-i
             if dist <= K:
                 total += 1
-    cnt[boom[i]] = max(total, cnt[boom[i]])
+                isboom = True
+    if isboom:
+        cnt[boom[i]] = max(total+1, cnt[boom[i]])
+    else:
+        cnt[boom[i]] = max(0, cnt[boom[i]])
 
 maximum = 0
 ans = 0
 for i in cnt:
-    if cnt[i] == maximum:
-        ans = max(ans, i)
+    if maximum < cnt[i]:
         maximum = cnt[i]
-    elif cnt[i] > maximum:
         ans = i
-        maximum = cnt[i]
+    elif maximum == cnt[i] and maximum != 0:
+        ans = max(i, ans)
 
 print(ans)
