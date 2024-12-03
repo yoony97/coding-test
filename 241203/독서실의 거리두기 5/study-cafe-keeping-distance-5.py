@@ -3,6 +3,15 @@ arr = list(map(int, str(input())))
 ans = 0
 idx = 0
 min_dist = float('inf')
+
+if arr[0] == 0 :
+    for nxt in range(N):
+        if arr[nxt] == 1:
+            break
+    if ans < nxt:
+        ans = nxt
+        idx = 0        
+
 for current in range(N):
     if arr[current] == 1:    
         isfind = False 
@@ -24,8 +33,6 @@ for current in range(N):
 
 arr[idx] = 1
 
-#print(arr)  #0101010010000010
-            #0100010010000010
 for current in range(N):
     if arr[current] == 1:    
         for nxt in range(current+1, N):
