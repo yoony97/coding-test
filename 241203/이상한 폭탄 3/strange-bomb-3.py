@@ -17,5 +17,11 @@ for i in range(N):
                 total += 1
     cnt[boom[i]] = max(total, cnt[boom[i]])
 
-
-print(max([cnt[i] for i in cnt]))
+maximum = 0
+ans = 0
+for i in cnt:
+    if cnt[i] == maximum:
+        ans = max(ans, i)
+    elif cnt[i] > maximum:
+        ans = i
+print(ans)
