@@ -9,10 +9,12 @@ for current in range(N):
         for nxt in range(current+1, N):
             if arr[nxt] == 1:
                 isfind = True
+                #print(current, nxt)
                 break
+
         if isfind:
             if ans < (nxt-current)//2:
-                idx = (nxt-current)//2
+                idx = current + (nxt-current)//2
                 ans = max((nxt-current)//2, ans) 
 
         else:
@@ -21,8 +23,9 @@ for current in range(N):
                 idx = N-1
 
 arr[idx] = 1
-#print(arr)  #1000100100010
 
+#print(arr)  #0101010010000010
+            #0100010010000010
 for current in range(N):
     if arr[current] == 1:    
         for nxt in range(current+1, N):
