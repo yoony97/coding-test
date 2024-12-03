@@ -2,28 +2,25 @@ N, K = map(int, input().split())
 rocks = list(map(int, input().split()))
 current = 0
 ans = float('inf')
-paths = []
-for i in range(max(rocks), 0, -1):
-    path = [0]
-    for idx, rock in enumerate(rocks):
-        if idx == 1:
-            continue
-        if rock <= i:
-            path.append(idx)
-    paths.append(path)
 
+def check(max_val):
+    path = []
+    for i,  rock in enumerate(rocks):
+        if rock <=  max_val:
+            path.append(i)
+    
+    if 0 not in path:
+        return False
 
+    for i in range(1, len(path)):
+        dist = path[i] - path[i-1]
+        if dist > K:
+            return False
 
-for path in paths:
-    ispossible = True
-    if len(path) != 1:
-        for i in range(1, len(path)):
-            if not(path[i] - path[i-1] <= K):
-                ispossible = False
-                break
-        if ispossible:
-            #print([rocks[k] for k in path])
-            #print(max([rocks[k] for k in path]))
-            ans = min(max([rocks[k] for k in path]), ans)
+    return True
+
+for max_val in range(1, max(rocks)+1):
+    if check(max_val):
+        ans = min(max_val, ans)
 
 print(ans)
