@@ -12,7 +12,7 @@ for current in range(N):
                 break
         if isfind:
             if ans < (nxt-current)//2:
-                idx = nxt
+                idx = (nxt-current)//2
                 ans = max((nxt-current)//2, ans) 
 
         else:
@@ -21,12 +21,13 @@ for current in range(N):
                 idx = N-1
 
 arr[idx] = 1
+#print(arr)  #1000100100010
 
 for current in range(N):
     if arr[current] == 1:    
         for nxt in range(current+1, N):
             if arr[nxt] == 1:
-                min_dist = min(nxt-current-1, min_dist)
+                min_dist = min(nxt-current, min_dist)
                 break
 
 print(min_dist)
