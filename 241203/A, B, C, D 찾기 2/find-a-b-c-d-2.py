@@ -1,17 +1,19 @@
 clue = list(map(int, input().split()))
+clue.sort() 
 def solve() :
-    for A in range(1,41):
-        for B in range(1,41):
-            for C in range(1,41):
-                for D in range(1,41):
-                    condition = A in clue and B in clue and C in clue and D in clue
-                    condition2 =  A+B in clue and B + C in clue and C + D in clue and A+D in clue and B+D in clue and A+C in clue
-                    condition3 =  A + B + C in clue and A + B + D in clue and A + C + D in clue and B + C + D in clue
-                    condition4 =  A + B + C + D in clue
-                    if condition and condition2 and condition3 and condition4:
-                        print(A,B,C,D)
+    for A in range(1,11):
+        for B in range(1,11):
+            for C in range(1,11):
+                for D in range(1,11):
+                    find = True
+                    result = [A, B, C, D, A + B, B + C, C + D, D + A, A + C, B + D, A + B + C, A + B + D, A + C + D, B + C + D, A + B + C + D]
+                    result.sort()
+                    for r, c in zip(result, clue):
+                        if r != c:
+                            find = False
+                    if find:
+                        print(A, B, C, D)
                         return
-
 solve()
                         
 
