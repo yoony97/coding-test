@@ -13,6 +13,8 @@ for i in range(N):
         if maximum - minimum <= K:
             start.append(li[j])
         else:
-            ans = max(ans, len(start))
+            #ans = max(ans, len(start))
+            break
+    ans = max(ans, len(start))
 
 print(ans)
