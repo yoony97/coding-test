@@ -11,6 +11,9 @@ def check(max_val):
     
     if 0 not in path:
         return False
+    
+    if N-1 not in  path:
+        return False
 
     for i in range(1, len(path)):
         dist = path[i] - path[i-1]
@@ -21,6 +24,7 @@ def check(max_val):
 
 for max_val in range(1, max(rocks)+1):
     if check(max_val):
+        #print(ans, max_val)
         ans = min(max_val, ans)
 
 print(ans)
