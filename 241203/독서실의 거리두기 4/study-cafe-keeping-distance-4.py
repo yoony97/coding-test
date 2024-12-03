@@ -12,11 +12,17 @@ for p1 in range(N):
         #print(''.join([str(i) for i in li]))
         min_dist = float('inf')
         for i in range(N):
+            isend = True
             for j in range(i+1, N):
                 if li[i] == 1 and li[j] == 1:
                     dist = j - i
                     min_dist = min(min_dist, dist)
+                    isend = False
                     break
+            if li[i] == 1 and isend:
+                dist = N - i
+                min_dist = min(min_dist, dist)
+                
         ans = max(min_dist, ans)
         li[p1] = 0
         li[p2] = 0
