@@ -10,7 +10,7 @@ for i in range(max(rocks), 0, -1):
             path.append(idx)
     paths.append(path)
 
-print(paths)
+#print(paths)
 
 for path in paths:
     ispossible = True
