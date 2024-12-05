@@ -27,7 +27,7 @@ def get_top(current):
     if current[0] == current[1] == current[2]:
         return 6
 
-prev = 2
+prev = 6
 ans = 0
 for i in range(n):
     c, s = input().split()
