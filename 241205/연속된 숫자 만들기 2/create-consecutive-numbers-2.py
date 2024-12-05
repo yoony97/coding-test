@@ -19,25 +19,28 @@ dist2 = dist(B,C)
 
 #항상 큰 값으로 이동하게 만들래
 cnt = 0
-#for i in range(10):
+#for i in range(2):
 while not check(A,B,C):
     if check(A,B,C):
         break
-    li_A = list(range(A,B+1))
-    li_C = list(range(B,C+1))
+    li_A = list(range(A+1,B))
+    li_C = list(range(B+1,C))
     if len(li_A) == 0:
-        C = li_C[len(li_C)//2]
+        A = li_C[len(li_C)//2]
     elif len(li_C) == 0:
-        A = li_A[len(li_A)//2]
-    elif len(li_A) > len(li_C):
-        A = li_A[len(li_A)//2]
+        C = li_A[len(li_A)//2]
+    
+    elif len(li_A) < len(li_C):
+        C = li_A[len(li_A)//2]
     else:
-        C = li_C[len(li_C)//2]
-    #print(A,B,C)
+        A = li_C[len(li_C)//2]
+    # print(li_A, li_C)
+    # print(A,B,C)
     A, B, C = swap(A,B,C)
-    #print(A,B,C)
-    #print('-----')
+    # print(A,B,C)
+    # print('-----')
     cnt += 1
-
 print(cnt)
 
+
+#5,6 / 8
