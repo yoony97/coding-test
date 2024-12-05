@@ -24,7 +24,7 @@ def dist(current, B):
     return abs(current[0] - B[0]) + abs(current[1] - B[1])
 
 
-while True:
+while candidate:
     cx, cy, c= candidate.popleft()
     current_dist = dist((cx,cy), B)
     if (cx, cy) == B:
@@ -36,7 +36,7 @@ while True:
         ny = cy + dy[i]
         if 0 <= nx < 10 and 0 <= ny < 10 and (nx, ny) != R and visited[nx][ny] == False:
             new_dist = dist((nx, ny), B)
-            if new_dist <= current_dist:
+            if new_dist <= current_dist+2:
                 candidate.append((nx,ny, c+1))
                 visited[nx][ny] = True
 
