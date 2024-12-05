@@ -8,11 +8,14 @@ for i in range(M):
     u = int(u)
     messages.append((c, u))
 
+#확실하게 읽은 사람
 for i in range(N):
     if i >= P-1:
         reader.add(messages[i][0])
 
-print(' '.join(people - reader))
+
+if messages[P-1][1] != 0:
+    print(' '.join(people - reader))
 
 
 #읽었다
