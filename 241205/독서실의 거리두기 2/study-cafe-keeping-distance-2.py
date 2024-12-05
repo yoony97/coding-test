@@ -30,10 +30,11 @@ max_dis = 0
 candidate = (0, N)
 for i in range(1,N):
     if st[i] == 1:
-        if max_dis < (i - prev):
+        if max_dis < i - prev:
             candidate = (prev, i)
-            max_dis = i - prev 
+            max_dis = i - prev
         prev = i
+
 
 st[sum(candidate)//2] = 1
 #print(max_dis, candidate, ans)
