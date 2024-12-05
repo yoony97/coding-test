@@ -7,6 +7,7 @@ for i in range(N):
         info[a] = b
     else:
         if info[a] != b:
+            info[a] = b
             ans += 1 
 
 print(ans)
