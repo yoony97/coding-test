@@ -1,7 +1,9 @@
 MAX_POS = 1000000
 pos = list(map(int, input().split()))
-
+pos.sort()
 count = 0
+
+
 while (True):
     a = abs(pos[0] - pos[1])
     b = abs(pos[1] - pos[2])
