@@ -1,24 +1,24 @@
 N = int(input())
-st = list(map(str, input()))
+st = list(map(int, input()))
+
+prev = 0
+candidate = (0, N)
 max_dist = 0
+for i in range(1,N):
+    if st[i] == 1:
+        if max_dist < (i - prev):
+            candidate = (prev, i)
+            max_dist = i - prev 
+        prev = i
 
-def min_dist():
-    min_dis = float('inf')
-    for i in range(N):
-        for j in range(N):
-            if i == j:
-                continue
-            if st[i] == st[j] == '1':
-                dist = abs(j-i)
-                min_dis = min(dist, min_dis)
-    return min_dis
-
-for i in range(N):
-    if st[i] == '0':
-        st[i] = '1' #새로 투입한 인원
-        m = min_dist()
-        #print(''.join(st), m)
-        max_dist = max(m, max_dist)
-        st[i] ='0'
-
+st[(candidate[0]+candidate[1])//2] = 1
+prev = 0
+max_dist = float('inf')
+for i in range(1,N):
+    if st[i] == 1:
+        dist = i - prev
+        max_dist = min(max_dist, dist)
+        prev = i
+#print(st)    
 print(max_dist)
+    
