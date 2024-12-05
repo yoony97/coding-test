@@ -9,15 +9,24 @@ for i in range(M):
     messages.append((c, u))
 
 #확실하게 읽은 사람
-for i in range(N):
+prev_c, prev_u = messages[0]
+if P-1 == 0:
+    reader.add(prev_c)
+for i in range(1,N):
+    c, u = messages[i]
     if i >= P-1:
-        reader.add(messages[i][0])
+        reader.add(c)
+    if prev_u == u:
+        reader.add(prev_c)
+    prev_c, prev_u = c, u
+
+#번호로 비교하기
+
+
+
 
 
 if messages[P-1][1] != 0:
     print(' '.join(people - reader))
 
 
-#읽었다
-# - 읽기만하고, 메세지를 안보낸 경우
-# - 메세지를 보낸 경우,
