@@ -24,7 +24,7 @@ A, B, C = map(int, input().split())
 
 cnt = 0
 #for i in range(2):
-while not check(A,B,C):
+while True:
     if check(A,B,C):
         break
     elif check2(A,B,C): # 두개가 연속이고 1개가 떨어져있을 경우,
@@ -57,17 +57,3 @@ while not check(A,B,C):
     A, B, C = swap(A,B,C)
     cnt+= 1
 print(cnt)
-#case 1: 연속된 수일 경우 패스
-#case 2: 5 6 10 두개가 연속되고 한개가 떨어져있을 때,
-# 연속된 수 중 끝 값을 선택한다.
-# 해당 값을 가운데 넣는다.
-# 6 8 10
-# 8 9 10
-# 이 때, 후보군이 7,8,9 2개 이상일 경우, 2번째로 큰 값을 고른다.
-# 이 때, 후보군이 1개 미만일 경우, 그거 고르면 끝
-
-
-#case 3: 세 숫자 다 떨어져있을 경우,
-#1 8 10
-#C가 올 수 있는 곳 2, 3, 4, 5, 6, 7
-#A가 올 수 있는 곳 9
