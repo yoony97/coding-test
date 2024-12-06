@@ -24,8 +24,11 @@ for i in results:
     else:
         LIS = max(LIS, cnt)
         cnt = 0
-
-print(N-LIS+1)
+LIS = max(LIS, cnt)
+if LIS == N:
+    print(0)
+else:
+    print(N-LIS+1)
     
 
 # 선택한 숫자보다 바로 이전 작은 숫자 옆으로 붙이자.
