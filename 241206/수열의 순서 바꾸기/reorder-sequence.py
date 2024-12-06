@@ -1,16 +1,16 @@
 N =  int(input())
 li = list(map(int,  input().split())) # 숫자가 겹치지 않게 구성된, N개의 수열
     
-cnt = 1  # 현재 증가 부분 수열 길이
-LIS = 1  # 최대 LIS 길이 저장
+max_length = 1  
+current_length = 1 
 
-for i in range(1, N):
-    if li[i] > li[i-1]:
-        cnt += 1
+for i in range(1, len(li)):
+    if li[i] - li[i-1] == 1:
+        current_length += 1
     else:
-        LIS = max(LIS, cnt)
-        cnt = 1  
+        max_length = max(max_length, current_length) 
+        current_length = 1
 
-LIS = max(LIS, cnt)  
 
-print(N-LIS )
+max_length = max(max_length, current_length)
+print(N-max_length)
