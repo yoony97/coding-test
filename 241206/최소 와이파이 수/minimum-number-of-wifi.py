@@ -23,7 +23,7 @@ else:
     if dist > 0:
         ans += 1
 
-print(ans)
+    print(ans)
 
 
 #[2m+1] 마다확인해야함
