@@ -10,7 +10,6 @@ inputs.remove(s2)
 inputs.sort()
 
 B = inputs[0]
-C = inputs[1]
-print(A,B,C)
-
+C = total - A - B
+print(A, B, C)
 #B, C, A+B, C+A
