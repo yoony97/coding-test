@@ -16,7 +16,6 @@ for i in range(N):# i가 반값일 때,
             cnt += 1
         else:
             ans = max(ans, cnt)
-            break 
     li[i] = (li[i][0]*2, li[i][1])
 
 print(ans)
