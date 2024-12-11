@@ -30,8 +30,10 @@ def merge(arr, low, mid, height):
         merge_arr.append(arr[j])
         j+=1
     
-    for i in range(len(merge_arr)):
-        arr[i] = merge_arr[i]
+    k = 0
+    for i in range(low, height+1):
+        arr[i] = merge_arr[k]
+        k+=1
 
 merge_sort(arr, 0, n-1)
-print(arr)
+print(' '.join([str(k) for k in arr]))
