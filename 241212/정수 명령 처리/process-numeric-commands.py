@@ -38,3 +38,5 @@ for i in range(n):
             print(0)
     if ops[0] == 'pop':
         print(s.pop())
+    if ops[0] == 'top':
+        print(s.top())
