@@ -1,14 +1,15 @@
 import heapq
+from collections import defaultdict
 
 n, m = map(int, input().split())
 k = int(input())
-graphs = [[0]*n for _ in range(n)]
 
-# 그래프 초기화
+# 그래프 초기화 (인접 리스트)
+graphs = defaultdict(list)
 for i in range(m):
     s, e, w = map(int, input().split())
-    graphs[s-1][e-1] = w  # 노드 번호가 1부터 시작하므로 -1 보정
-    graphs[e-1][s-1] = w
+    graphs[s-1].append((e-1, w))  # 간선 정보 저장
+    graphs[e-1].append((s-1, w))  # 무방향 그래프이므로 양방향 추가
 
 def dijkstra(start):
     dist = [float('inf')] * n
@@ -18,13 +19,15 @@ def dijkstra(start):
     
     while q:
         cd, current = heapq.heappop(q)
-        # 현재 노드에서 모든 다른 노드로의 거리 갱신
-        for i in range(n):
-            if graphs[current][i] != 0:  # 간선이 있는 경우
-                new_dist = cd + graphs[current][i]
-                if new_dist < dist[i]:
-                    dist[i] = new_dist
-                    heapq.heappush(q, (new_dist, i))
+        if cd > dist[current]:
+            continue
+        
+        # 현재 노드에서 모든 인접 노드 확인
+        for neighbor, weight in graphs[current]:
+            new_dist = cd + weight
+            if new_dist < dist[neighbor]:
+                dist[neighbor] = new_dist
+                heapq.heappush(q, (new_dist, neighbor))
     
     return dist
 
