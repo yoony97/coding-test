@@ -12,7 +12,6 @@ def count(cx,cy,k):
                 cnt += maps[i][j]
     return cnt
     
-answer = 0
 ans = 0
 for k in range(n//2+1):
     gold = 0
@@ -23,9 +22,8 @@ for k in range(n//2+1):
             gold = max(cnt, gold)
     
     total = gold*m - cost
-    if total > answer:
-        answer = total
-        ans = gold
+    if total >= 0:
+        ans = max(ans, gold)
 
 print(ans)
 
