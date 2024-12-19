@@ -13,7 +13,7 @@ def count(cx,cy,k):
     return cnt
     
 ans = 0
-for k in range(n//2+1):
+for k in range(n):
     gold = 0
     cost = k*k + (k+1)*(k+1)
     for cx in range(n):
