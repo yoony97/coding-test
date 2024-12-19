@@ -12,7 +12,7 @@ def check(x1,y1, x2, y2):
                 return False
     return True
 
-ans = 0
+ans = -1
 for sy in range(n):
     for sx in range(m):
         for ey in range(sy, n):
