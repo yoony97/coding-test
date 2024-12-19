@@ -5,9 +5,9 @@ for _ in range(n):
     maps.append(list(map(int, input().split())))
 
 
-def check(x1,y1, x2, y2):
-    for i in range(y1, y2+1):
-        for j in range(x1, x2+1):
+def check(x1, y1, x2, y2):
+    for i in range(y1, y2 + 1):  # 행(y)
+        for j in range(x1, x2 + 1):  # 열(x)
             if maps[i][j] < 0:
                 return False
     return True
