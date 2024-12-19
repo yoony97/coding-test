@@ -13,10 +13,14 @@ for sy in range(N):
             cx = sx
             cy = sy
             cnt = 0 #arr[cx][cy]
+            fail = False
+            
             for curd in range(4):
                 dx = dxs[curd]
                 dy = dys[curd]
-                for k in range(it):    
+                for k in range(it):
+                    if fail:
+                        break
                     nx = cx + dx
                     ny = cy + dy
                     if 0 <= nx < N and 0<= ny < N:
@@ -25,7 +29,7 @@ for sy in range(N):
                         cy = ny
                     else:
                         if k == 0:
-                            cnt = 0
+                            fail = True 
                         break
             if cx == sx and cy == sy:
                 ans = max(cnt, ans)
