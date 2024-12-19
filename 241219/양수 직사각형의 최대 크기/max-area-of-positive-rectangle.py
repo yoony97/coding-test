@@ -18,6 +18,8 @@ for sy in range(n):
         for ey in range(sy, n):
             for ex in range(sx, m):
                 if check(sx, sy, ex, ey):
-                    ans = max((ex-sx+1)*(ey-sy+1), ans)
+                    size = (ex-sx+1)*(ey-sy+1)
+                    if size > 0:
+                        ans = max(size, ans)
 
 print(ans)
