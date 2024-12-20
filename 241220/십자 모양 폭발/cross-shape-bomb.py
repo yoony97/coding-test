@@ -16,14 +16,21 @@ def boom(i,j, arr):
     return arr
 
 def drop(arr):
-    for i in range(1,n):
+    for i in range(n):
+        temp =  []
+        cnt = 0
         for j in range(n):
-            if arr[i][j] == 0:
-                arr[i][j] = arr[i-1][j]
-                arr[i-1][j] = 0 
-        
-
+            if arr[j][i] != 0:
+                temp.append(arr[j][i])
+                arr[j][i] = 0
+            else:
+                cnt += 1
+        idx = 0
+        for k in range(cnt,n):
+            arr[k][i] = temp[idx]
+            idx += 1
     return arr
+
 arr = boom(row-1, col-1, arr)
 arr = drop(arr)
 
