@@ -43,10 +43,10 @@ def upshift(op, value):
 
 
 def rotate(op):
-    value = rshift(ops[0])
-    value = downshift(ops[0], value)
-    value = lshift(ops[0], value)
-    upshift(ops[0], value)
+    value = rshift(op)
+    value = downshift(op, value)
+    value = lshift(op, value)
+    upshift(op, value)
 
 def means(op): 
     copyed = [[arr[i][j] for j in range(M)] for i in range(N)]
@@ -75,6 +75,7 @@ def pprint(arr):
             print(arr[i][j], end =' ')
         print()
     print()
+
 for op in ops:
     rotate(op)
     arr = means(op)
