@@ -1,7 +1,7 @@
 s = list(map(str, input()))
 n = len(s)
 ans = float('inf')
-answer = ''
+
 def rshift(s):
     temp = s[-1]
     for i in range(n-1, -1, -1):
@@ -22,13 +22,14 @@ def cal(s):
     encoded += f"{char}{cnt}"
     return encoded
 
-for i in range(n-1):
+for i in range(n):
     rshift(s)
-    if ans > len(cal(s)):
-        answer = s
-        ans = len(cal(s))
-    
+    ans = min(ans, len(cal(s)))
+
 print(ans)
+# print(''.join(answer))
+# print(cal(s))
+# print(ans)
 
 
 
