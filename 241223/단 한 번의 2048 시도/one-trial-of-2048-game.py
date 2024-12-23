@@ -25,7 +25,8 @@ def left(li):
             temp[-1] = 0
         else:
             answer.append(temp[-1])
-
+    else:
+        answer.append(temp[-1])
 
     while 0 in answer:
         idx = answer.index(0)
@@ -55,6 +56,8 @@ def right(li):
             temp[i-1] = 0
         else:
             answer.insert(0, temp[0])
+    else:
+        answer.insert(0, temp[0])        
 
     while 0 in answer:
         idx = answer.index(0)
