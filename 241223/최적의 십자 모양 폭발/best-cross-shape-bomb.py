@@ -41,7 +41,7 @@ def check(arr):
                 nx = i + dx[d]
                 ny = j + dy[d]
                 if 0 <= nx < len(arr) and 0 <= ny < len(arr):
-                    if arr[i][j] == arr[nx][ny]:
+                    if arr[i][j] == arr[nx][ny] and arr[i][j] != 0:
                         if [(i, j), (nx, ny)] not in result and [(nx, ny), (i,j)] not in result:
                             result.append([(i, j), (nx, ny)])
     
@@ -57,5 +57,12 @@ for i in range(n):
         result = check(copy)
         answer = max(len(result), answer)
         
+        # if answer < len(result):
+        #     for i in range(n):
+        #         for j in range(n):
+        #             print(copy[i][j], end =' ')
+        #         print()
+        #     print(result)
         
-print(answer//2)
+        
+print(answer)
