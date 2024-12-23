@@ -19,12 +19,12 @@ def left(li):
             temp[i] = 0
         else:
             answer.append(temp[i-1])
-     
-    if temp[-1] == temp[-2]:
-        answer.append(temp[-2]*2)
-        temp[-1] = 0
-    else:
-        answer.append(temp[-1])
+    if len(temp) > 1:
+        if temp[-1] == temp[-2]:
+            answer.append(temp[-2]*2)
+            temp[-1] = 0
+        else:
+            answer.append(temp[-1])
 
 
     while 0 in answer:
@@ -49,12 +49,12 @@ def right(li):
             temp[i-1] = 0
         else:
             answer.insert(0, temp[i])
-    
-    if temp[0] == temp[1]:
-        answer.insert(0, temp[0]*2)
-        temp[i-1] = 0
-    else:
-        answer.insert(0, temp[0])
+    if len(temp) > 1:
+        if temp[0] == temp[1]:
+            answer.insert(0, temp[0]*2)
+            temp[i-1] = 0
+        else:
+            answer.insert(0, temp[0])
 
     while 0 in answer:
         idx = answer.index(0)
@@ -109,9 +109,5 @@ for i in range(4):
         print(arr[i][j], end= ' ')
     print()
     
-
-
-# if op == 'D':
-
 
 
