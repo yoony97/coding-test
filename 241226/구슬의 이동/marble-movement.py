@@ -8,9 +8,9 @@ direct  = {
 
 n, m, t, k = map(int, input().split())
 ball = []
-for _ in range(m):
+for pr in range(m):
     r, c, d, v = input().split()
-    ball.append((int(r)-1, int(c)-1, d, int(v)))
+    ball.append((int(r)-1, int(c)-1, d, int(v), pr+1))
 
 
 def move_ball(ball, n):
@@ -23,7 +23,7 @@ def move_ball(ball, n):
         next_cnt.append(temp)
 
     for i in ball:
-        r, c, d, v = i
+        r, c, d, v, pr = i
         dx, dy = direct[d]
         nr = r + dx*v
         nc = c + dy*v
@@ -36,10 +36,10 @@ def move_ball(ball, n):
             nc = -1*nc    
             ischrush = True
         if nr >= n:
-            nr = n - nr%n - 1
+            nr = n - nr%n - 2
             ischrush = True
         if nc >= n:
-            nc = n - nc%n - 1
+            nc = n - nc%n - 2
             ischrush = True
         
         if ischrush:
@@ -51,7 +51,7 @@ def move_ball(ball, n):
                 d = 'R'
             else:
                 d = 'L'
-        next_cnt[nr][nc].append((d, v))
+        next_cnt[nr][nc].append((d, v, pr))
     
 
     for i in range(n):
@@ -59,17 +59,19 @@ def move_ball(ball, n):
             length = len(next_cnt[i][j])
             if 0 < length <= k:
                 for p in range(length):
-                    d, v= next_cnt[i][j][p]
-                    result.append((i,j,d,v))
+                    d, v, pr = next_cnt[i][j][p]
+                    result.append((i,j,d,v, pr))
             elif length > k:
-                s = sorted(next_cnt[i][j], key=lambda x: (-x[1]))
+                s = sorted(next_cnt[i][j], key=lambda x: (-x[1], -x[2]))
                 for p in range(k):
-                    d, v = s[p]
-                    result.append((i, j, d, v))
+                    d, v, pr = s[p]
+                    result.append((i, j, d, v, pr))
     return result
 
 for _ in range(t):
+    #print(ball)
     ball = move_ball(ball, n)
-
 print(len(ball))
+
+
 
