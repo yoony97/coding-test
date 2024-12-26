@@ -30,18 +30,27 @@ def move_ball(ball, n):
         ischrush = False
         
         if nr < 0:
-            nr = -1*nr
+            nr = abs(nr) % (2 * n)
+            if nr >= n:
+                nr = 2 * n - nr - 1
             ischrush = True
         if nc < 0:
-            nc = -1*nc    
+            nc = abs(nc) % (2 * n)
+            if nc >= n:
+                nc = 2 * n - nc - 1
             ischrush = True
         if nr >= n:
-            nr = n - nr%n - 2
+            nr = nr % (2 * n)
+            if nr >= n:
+                nr = 2 * n - nr - 1
             ischrush = True
         if nc >= n:
-            nc = n - nc%n - 2
-            ischrush = True
-        
+            nc = nc % (2 * n)
+            if nc >= n:
+                nc = 2 * n - nc - 1
+            ischrush = True        
+
+
         if ischrush:
             if d == 'U':
                 d = 'D'
