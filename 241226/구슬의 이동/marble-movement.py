@@ -25,41 +25,27 @@ def move_ball(ball, n):
     for i in ball:
         r, c, d, v, pr = i
         dx, dy = direct[d]
-        nr = r + dx*v
-        nc = c + dy*v
-        ischrush = False
-        
-        if nr < 0:
-            nr = abs(nr) % (2 * n)
-            if nr >= n:
-                nr = 2 * n - nr - 1
-            ischrush = True
-        if nc < 0:
-            nc = abs(nc) % (2 * n)
-            if nc >= n:
-                nc = 2 * n - nc - 1
-            ischrush = True
-        if nr >= n:
-            nr = nr % (2 * n)
-            if nr >= n:
-                nr = 2 * n - nr - 1
-            ischrush = True
-        if nc >= n:
-            nc = nc % (2 * n)
-            if nc >= n:
-                nc = 2 * n - nc - 1
-            ischrush = True        
+        remain_v = v
+        while remain_v > 0:
+            nr = r + dx
+            nc = c + dy
 
-
-        if ischrush:
-            if d == 'U':
-                d = 'D'
-            elif d == 'D':
-                d = 'U'
-            elif d == 'L':
-                d = 'R'
+            if 0 <= nr < n and 0 <= nc < n:
+                remain_v -= 1
+                r = nr
+                c = nc
+            
             else:
-                d = 'L'
+                if nr < 0:
+                    d = 'D'    
+                elif nr >= n:
+                    d = 'U'
+                elif nc < 0:
+                    d = 'R'
+                elif nc >= n:
+                    d = 'L'
+                dx, dy = direct[d]
+
         next_cnt[nr][nc].append((d, v, pr))
     
 
@@ -71,15 +57,17 @@ def move_ball(ball, n):
                     d, v, pr = next_cnt[i][j][p]
                     result.append((i,j,d,v, pr))
             elif length > k:
-                s = sorted(next_cnt[i][j], key=lambda x: (-x[1], -x[2]))
+                next_cnt[i][j].sort(key=lambda x: (-x[1], -x[2]))  # 속도 우선, 번호 우선
                 for p in range(k):
-                    d, v, pr = s[p]
+                    d, v, pr = next_cnt[i][j][p]
                     result.append((i, j, d, v, pr))
+    
     return result
 
 for _ in range(t):
     #print(ball)
     ball = move_ball(ball, n)
+#print(ball)
 print(len(ball))
 
 
