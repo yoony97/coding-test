@@ -5,7 +5,8 @@ for _ in range(n):
     arr.append(list(map(int,  input().split())))
 
 for _ in range(m):
-    start.append(tuple(map(int,  input().split())))
+    x, y = map(int,  input().split())
+    start.append((x-1, y-1))
 
 dx = [1, -1, 0, 0]
 dy = [0, 0, -1, 1]
@@ -15,8 +16,8 @@ for _ in range(t):
     
     while start:
         x, y = start.pop(0)
-        max_value = 0 #arr[x][y]
-        rx, ry = 0, 0
+        max_value = 0# arr[x][y]
+        rx, ry = -1, -1
         for i in range(4):
             nx = x + dx[i]
             ny = y + dy[i]
@@ -24,7 +25,8 @@ for _ in range(t):
                 if max_value < arr[nx][ny]:
                     max_value = arr[nx][ny]
                     rx, ry = nx, ny
-        next_cont[rx][ry] += 1
+        if rx >= 0 and ry >= 0:
+            next_cont[rx][ry] += 1
 
     for i in range(n):
         for j in range(n):
