@@ -37,11 +37,8 @@ def drop(arr):
     return arr
 
 for _ in range(K):
-    while True:
-        arr, exploded = boom(arr)
-        arr = drop(arr)
-        if not exploded:
-            break
+    arr, exploded = boom(arr)
+    arr = drop(arr)
     arr = rotate(arr)
 
 while True:
