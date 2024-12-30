@@ -1,7 +1,7 @@
 boom_coordinate = {
-    1:[(1,0), (2,0), (-1,0), (-2,0)],
-    2:[(1,0), (-1,0), (0,1), (0,-1)],
-    3:[(1,1), (-1,1), (1,-1), (-1,-1)],
+    1:[(1,0), (2,0), (-1,0), (-2,0), (0, 0)],
+    2:[(1,0), (-1,0), (0,1), (0,-1), (0, 0)],
+    3:[(1,1), (-1,1), (1,-1), (-1,-1), (0, 0)],
 }
 
 N = int(input())
@@ -25,20 +25,22 @@ def check(arr):
     return result
 
 def boom(arr, coords, locate):
+    new_arr = [[arr[i][j] for j in range(N)] for i in range(N)]
     cx, cy = locate
     for (dx, dy) in coords:
         nx = cx + dx
         ny = cy + dy
         if 0 <= nx < N and 0 <= nx < N:
-            arr[nx][ny] = -1
-    return arr
+            new_arr[nx][ny] = -1
+    return new_arr
 
     
 
 def solve(arr,cur):
     global answer
-    if cur == num_boom-1:
+    if cur == num_boom:
         answer = max(answer, check(arr))
+        #print(arr)
         return 
     
     for i in range(1, 4):
@@ -51,3 +53,5 @@ if N == 1:
 else:
     solve(maps, 0)
     print(answer)
+
+
