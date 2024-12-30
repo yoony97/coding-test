@@ -30,7 +30,7 @@ def boom(arr, coords, locate):
     for (dx, dy) in coords:
         nx = cx + dx
         ny = cy + dy
-        if 0 <= nx < N and 0 <= nx < N:
+        if 0 <= nx < N and 0 <= ny < N:
             new_arr[nx][ny] = -1
     return new_arr
 
