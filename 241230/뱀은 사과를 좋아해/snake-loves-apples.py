@@ -40,6 +40,7 @@ for (d, p) in movement:
     dx, dy = get_d(d)
     if not isFail:
         for _ in range(int(p)):
+            #print(current, history, current_length)
             cx, cy = current
             nx, ny = cx + dx, cy + dy
             if 0 <= nx < N and 0 <= ny < N and (nx, ny) not in history:
@@ -52,7 +53,8 @@ for (d, p) in movement:
                 else:
                     if current_length > 1:
                         current_length -= 1
-                        history.popleft()
+                        while len(history) != current_length:
+                            history.popleft()                        
             else:
                 answer += 1
                 isFail = True
