@@ -23,7 +23,7 @@ def get_d(d):
     return dx, dy
 
 def check_apple(nx, ny, apples):
-    for i in range(M):
+    for i in range(len(apples)):
         ax, ay = apples[i]
         if ax == nx and ny == ay:
             last_apples = apples[:i] + apples[i+1:]
@@ -40,10 +40,10 @@ for (d, p) in movement:
     dx, dy = get_d(d)
     if not isFail:
         for _ in range(int(p)):
-            answer += 1
             cx, cy = current
             nx, ny = cx + dx, cy + dy
             if 0 <= nx < N and 0 <= ny < N and (nx, ny) not in history:
+                answer += 1
                 current = (nx, ny)
                 history.append(current)
                 temp, apples = check_apple(nx, ny, apples)
@@ -54,7 +54,9 @@ for (d, p) in movement:
                         current_length -= 1
                         history.popleft()
             else:
+                answer += 1
                 isFail = True
+                break
     else:
         break
 
