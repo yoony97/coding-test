@@ -46,5 +46,8 @@ def solve(arr,cur):
         new_arr = boom(arr, coords, loc[cur])
         solve(new_arr, cur+1)
 
-solve(maps, 0)
-print(answer)
+if N == 1:
+    print(1)
+else:
+    solve(maps, 0)
+    print(answer)
