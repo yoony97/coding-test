@@ -41,11 +41,32 @@ def boom(arr):
                         arr[i][col] = 0
     return arr
 
+def drop(arr):
+    for col in range(N):
+        temp = []
+        # 0이 아닌 값을 수집
+        for row in range(N):
+            if arr[row][col] != 0:
+                temp.append(arr[row][col])
+        
+        # 0으로 초기화 후, 수집된 값을 아래부터 채우기
+        for row in range(N):
+            if row < N - len(temp):
+                arr[row][col] = 0
+            else:
+                arr[row][col] = temp[row - (N - len(temp))]
+    return arr
+            
+
+
 for _ in range(K):
     arr = boom(arr)
+    arr = drop(arr)
     arr = rotate(arr)
 
 arr = boom(arr)
+arr = drop(arr)
+aarr = boom(arr)
 answer = 0
 
 for i in range(N):
@@ -54,4 +75,6 @@ for i in range(N):
             answer += 1 
 
 print(answer)
+
+
 
