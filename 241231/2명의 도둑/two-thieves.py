@@ -15,7 +15,7 @@ def continuous(p1, p2):
     if r1 == r2:
         min_c = min(c1, c2)
         max_c = max(c1, c2)
-        if (min_c + M >= max_c):
+        if (min_c + M > max_c):
             return False
     return True
 
@@ -58,13 +58,19 @@ def solve(cur_num, target, coordinates):
         coord1, coord2 = target[0], target[1]
         if continuous(coord1, coord2):
             temp = 0
-            for i in get_weight(coord1):
+            result1 = get_weight(coord1)
+            result2 = get_weight(coord2)
+            for i in result1:
                 temp += i * i
 
-            for i in get_weight(coord2):
+            for i in result2:
                 temp += i * i
-
-            answer = max(answer, temp)
+            
+            if answer < temp:
+                # print(temp, coord1, coord2)
+                # print(result1)
+                # print(result2)
+                answer = max(answer, temp)
         return
 
     if cur_num >= len(coordinates):
