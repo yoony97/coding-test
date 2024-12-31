@@ -3,9 +3,6 @@ target = []
 answer = None
 
 def check(target):
-    #완전 탐색 어떻게 해야할까?
-    #1. 1 ~ M 글자까지 선택
-    #2. 해당 글자의 길이만큼 중복이 있는지 확인
     length = len(target)
     target = ''.join([str(i) for i in target])
     for start in range(length):
@@ -31,7 +28,7 @@ def solve(cnt):
         return
 
     for i in range(4,7):
-        if answer is None:
+        if check(target):
             target.append(i)
             solve(cnt+1)
             target.pop()
