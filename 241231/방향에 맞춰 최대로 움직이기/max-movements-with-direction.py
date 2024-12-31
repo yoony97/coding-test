@@ -23,41 +23,44 @@ for _ in range(N):
 r, c = map(int, input().split())
 start = (r-1,c-1)
 
-def ispossible(point):
+def ispossible(point, visited):
     cr, cc = point
     current = maps[cr][cc]
     dx, dy = d2d[directs[cr][cc]]
-    for i in range(N):
-        nr = cr + dx
-        nc = cc + dy
-        if 0 <= nr < N  and 0 <= nc < N:
-            if current <= maps[nr][nc]:
+    for step in range(1, 2 * N + 1):
+        nr = cr + dx * step
+        nc = cc + dy * step
+        if 0 <= nr < N and 0 <= nc < N:
+            if current < maps[nr][nc] and not visited[nr][nc]:
                 return True
+        else:
+            break 
     return False
 
 def solve(cnt, point, visited):
     global answer
-    if not ispossible(point):
-        answer = max(answer, cnt)
+    answer = max(answer, cnt)
+    if not ispossible(point, visited):
         return
     
     cr, cc = point
     current = maps[cr][cc]
     dx, dy = d2d[directs[cr][cc]]
     
-    for i in range(N):
-        nr = cr + dx
-        nc = cc + dy
-        if 0 <= nr < N and 0 <= nc < N and current < maps[nc][nr]:
-            visited[nr][nc] = True
-            solve(cnt+1, (nr, nc), visited)
-            visited[nr][nc] = False
-    
+    for step in range(1, 2 * N + 1):
+        nr = cr + dx * step
+        nc = cc + dy * step
+        if 0 <= nr < N and 0 <= nc < N:
+            if maps[cr][cc] < maps[nr][nc] and not visited[nr][nc]:
+                visited[nr][nc] = True
+                solve(cnt + 1, (nr, nc), visited)
+                visited[nr][nc] = False
+        else:
+            break  
                 
 
 
 visited = [[False]*N for _ in range(N)]
 visited[start[0]][start[1]] = True
 solve(0, start, visited)
-
 print(answer)
