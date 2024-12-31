@@ -28,10 +28,12 @@ def solve(cnt):
         return
 
     for i in range(4,7):
-        if check(target):
+        if check(target) and answer is None:
             target.append(i)
             solve(cnt+1)
             target.pop()
+        if answer is not None:
+            return
 
 solve(0)
 print(answer)
