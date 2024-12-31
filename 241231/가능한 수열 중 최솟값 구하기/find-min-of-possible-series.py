@@ -1,3 +1,5 @@
+import sys
+
 N = int(input())
 target = []
 answer = None
@@ -22,18 +24,17 @@ def solve(cnt):
             #print(answer) 
             if answer == None:
                 answer = ''.join([str(i) for i in target])
+                print(answer)
+                sys.exit(0)
             return
     
     if cnt == N:
         return
 
     for i in range(4,7):
-        if check(target) and answer is None:
+        if check(target):
             target.append(i)
             solve(cnt+1)
             target.pop()
-        if answer is not None:
-            return
 
 solve(0)
-print(answer)
