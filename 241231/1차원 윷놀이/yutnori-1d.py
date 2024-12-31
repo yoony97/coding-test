@@ -1,33 +1,30 @@
 N, M, K = map(int, input().split())
 paths = list(map(int, input().split()))
 answer = 0
-coordinate = []
+coordinate = [0]*K
 
-def get_score(coordinate):
-    current_point = [0]*K
-    scores = 0
-    for i in range(N):
-        current_point[coordinate[i]] += paths[i]
-
+def get_score():
+    score = 0
     for i in range(K):
-        if current_point[i] >= M-1:
-            scores += 1
-
-    return scores
-
-#리스트에 후보군을 넣는 걸로 하자.
+        if coordinate[i] >= M:
+            score += 1
+    return score 
 
 def choose(cur_num):
     global answer
-
+    
+    answer = max(answer, get_score())
+    
     if cur_num == N:
-        answer = max(answer, get_score(coordinate))
         return 
     
     for i in range(K):
-        coordinate.append(i)
+        if coordinate[i] >= M:
+            continue
+        
+        coordinate[i] += paths[cur_num]
         choose(cur_num+1)
-        coordinate.pop()
+        coordinate[i] -= paths[cur_num]
 
 choose(0)
 
