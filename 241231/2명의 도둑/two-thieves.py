@@ -13,7 +13,7 @@ def continuous(p1, p2):
     if r1 == r2:
         min_c = min(c1, c2)
         max_c = max(c1, c2)
-        if (min_c + M > max_c):
+        if (min_c + M >= max_c):
             return False
     return True
 
