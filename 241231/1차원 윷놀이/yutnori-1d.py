@@ -6,8 +6,9 @@ coordinate = [0]*K
 def get_score():
     score = 0
     for i in range(K):
-        if coordinate[i] >= M:
+        if coordinate[i] >= M-1:
             score += 1
+
     return score 
 
 def choose(cur_num):
@@ -19,7 +20,7 @@ def choose(cur_num):
         return 
     
     for i in range(K):
-        if coordinate[i] >= M:
+        if coordinate[i] >= M-1:
             continue
         
         coordinate[i] += paths[cur_num]
@@ -27,5 +28,4 @@ def choose(cur_num):
         coordinate[i] -= paths[cur_num]
 
 choose(0)
-
 print(answer)
