@@ -20,6 +20,9 @@ for _ in range(N):
 for _ in range(N):
     directs.append(list(map(int, input().split())))
 
+r, c = map(int, input().split())
+start = (r-1,c-1)
+
 def ispossible(point):
     cr, cc = point
     current = maps[cr][cc]
@@ -52,14 +55,9 @@ def solve(cnt, point, visited):
     
                 
 
-def simulate():
-    visited = [[False]*N for _ in range(N)]
-    for i in range(N):
-        for j in range(N):
-            visited[i][j] = True
-            solve(1, (i,j), visited)
-            visited[i][j] = False
 
-simulate()
+visited = [[False]*N for _ in range(N)]
+visited[start[0]][start[1]] = True
+solve(0, start, visited)
 
 print(answer)
