@@ -1,3 +1,6 @@
+from itertools import combinations
+
+
 N, M, C = map(int, input().split())
 maps = []
 coordinates = []
@@ -7,7 +10,6 @@ for _ in range(N):
     maps.append(list(map(int, input().split())))
 
 def continuous(p1, p2):
-    #같은 행을 골랐을 때에는 선택한 M개의 열이 서로 겹쳐서는 안됩니다.
     r1, c1 = p1
     r2, c2 = p2
     if r1 == r2:
@@ -16,6 +18,22 @@ def continuous(p1, p2):
         if (min_c + M >= max_c):
             return False
     return True
+
+def get_max_sum_under_C(weights, C):
+    max_sum = []
+    n = len(weights)
+    
+    for i in range(1, n+1):
+        for subset in combinations(weights, i):
+            current_sum = sum(subset)
+            if current_sum > C:
+                continue
+            if current_sum > sum(max_sum):
+                max_sum = subset
+            
+            if sum(max_sum) == C:
+                return max_sum
+    return max_sum
 
 def get_weight(p):
     r, c = p
@@ -27,10 +45,7 @@ def get_weight(p):
         result.append(maps[r][c+i])
     
     if sum(result) > C:
-        result.sort()
-        while sum(result) > C:
-            result.pop(0)
-
+        return get_max_sum_under_C(result, C)
     return result
 
 for i in range(N):
