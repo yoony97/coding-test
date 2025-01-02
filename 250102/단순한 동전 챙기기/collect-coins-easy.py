@@ -49,4 +49,7 @@ def solve(current_point, distance):
                 #solve((coins[i][1],coins[i][2]), distance + get_distance(current_point, (coins[i][1],coins[i][2])))
 
 solve(start, 0)
-print(ans)
+if ans == float('inf'):
+    print(-1)
+else:
+    print(ans)
