@@ -5,16 +5,19 @@ answer = 0
 
 def choose(cur_num, start):
     global answer
-    if cur_num == M:
+    if len(coord) == M:
         temp = coord[0]
         for i in range(1, len(coord)):
             temp ^= coord[i]
-        answer = max(answer, temp)
+        #print(temp, coord)
+        answer = max(answer, temp)    
     
     for i in range(start, N):
-        coord.append(i)
+        coord.append(numbers[i])
         choose(cur_num+1, i+1)
         coord.pop()
+        choose(cur_num+1, i+1)
+
 
 choose(0, 0)
 print(answer)
