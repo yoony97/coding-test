@@ -11,12 +11,13 @@ def choose(cur_num, start):
             temp ^= coord[i]
         #print(temp, coord)
         answer = max(answer, temp)    
-    
+        return
+
     for i in range(start, N):
         coord.append(numbers[i])
         choose(cur_num+1, i+1)
         coord.pop()
-        choose(cur_num+1, i+1)
+        #choose(cur_num+1, i+1)
 
 
 choose(0, 0)
