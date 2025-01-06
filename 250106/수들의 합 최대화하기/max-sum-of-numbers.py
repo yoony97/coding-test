@@ -1,30 +1,24 @@
-n = int(input())
-grid = [list(map(int, input().split())) for _ in range(n)]
-rows = [False]*n
-cols = [False]*n
+
+import sys
+
+n = int(sys.stdin.readline().strip())
+grid = [list(map(int, sys.stdin.readline().split())) for _ in range(n)]
+
 answer = 0
-ele = []
-def solve(cnt):
+max_vals = [max(row) for row in grid]  # 각 행의 최댓값 (가지치기 용도)
+
+def solve(cnt, curr_sum, col_mask):
     global answer
-    if cnt == n:
-        #print(ele)
-        answer = max(answer, sum(ele))
+    if curr_sum + sum(max_vals[cnt:]) <= answer:  # 앞으로 가능한 최댓값보다 answer가 크면 중단
         return
     
-    for i in range(n):
-        for j in range(n):
-            if not rows[i] and not cols[j]:
-                ele.append(grid[i][j])
-                rows[i] = True
-                cols[j] = True
-                solve(cnt+1)
-                rows[i] = False
-                cols[j] = False
-                ele.pop()
+    if cnt == n:
+        answer = max(answer, curr_sum)
+        return
 
-solve(0)
-# if n  == 1:
-#     print(grid[0][0])
-# else:
+    for j in range(n):
+        if not (col_mask & (1 << j)):  # 비트마스크를 이용하여 열 중복 체크
+            solve(cnt + 1, curr_sum + grid[cnt][j], col_mask | (1 << j))  # 해당 열 사용 처리
+
+solve(0, 0, 0)
 print(answer)
-# Write your code here!
