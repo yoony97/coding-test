@@ -1,5 +1,5 @@
 expression = input()
-answer = 0
+answer = -1*(float('inf'))
 
 # Write your code here!
 
