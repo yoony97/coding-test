@@ -6,7 +6,7 @@ answer = 0
 ele = []
 def solve(cnt):
     global answer
-    if cnt == 3:
+    if cnt == n:
         answer = max(answer, sum(ele))
         return
     
@@ -22,5 +22,8 @@ def solve(cnt):
                 ele.pop()
 
 solve(1)
-print(answer)
+if n  == 1:
+    print(grid[0][0])
+else:
+    print(answer)
 # Write your code here!
