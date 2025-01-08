@@ -15,8 +15,10 @@ def dfs(x, y):
     for i in range(2):
         nx = x + dx[i]
         ny = y + dy[i]
-        if 0 <= nx < n and 0 <= ny < m and grid[nx][ny] == 1:
+        if 0 <= nx < n and 0 <= ny < m and not visited[nx][ny] and grid[nx][ny] == 1:
+            visited[nx][ny] = True
             dfs(nx,ny)
 
+visited[0][0] = True
 dfs(0,0)
 print(answer)
