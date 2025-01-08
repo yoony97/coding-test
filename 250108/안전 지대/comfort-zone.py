@@ -14,7 +14,7 @@ def dfs(x, y, k, visited):
             dfs(nx, ny, k, visited)
 
 answer = 0
-answer_k = 0
+answer_k = 1
 for k in range(1,max_height+1):
     safty = 0
     visited = [[False]*m for i in range(n)]
