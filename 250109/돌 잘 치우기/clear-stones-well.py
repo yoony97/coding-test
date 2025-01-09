@@ -32,10 +32,10 @@ def bfs():
     visited = [[False]*n for i in range(n)]
     cnt = 0
     for i in range(k):
-        cx, cy = r[i]-1, c[i]-1
+        cx, cy = r[i], c[i]
+        queue = deque([(cx,cy)])
         if not visited[cx][cy]:
             visited[cx][cy] =  True
-            queue = deque([(cx,cy)])
             cnt += 1
         while queue:
             cx, cy = queue.popleft()
@@ -49,4 +49,4 @@ def bfs():
     answer = max(cnt, answer)
 
 backtrack(0, m)
-print(answer-1)
+print(answer)
