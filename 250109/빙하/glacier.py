@@ -33,7 +33,7 @@ def effect(iseffect):
                 for k in range(4):
                     nx = i + dx[k]
                     ny = j + dy[k]
-                    if 0 <= nx < n and 0 <= ny < n and new_a[nx][ny] == 1:
+                    if 0 <= nx < n and 0 <= ny < m and new_a[nx][ny] == 1:
                         new_a[nx][ny] = 0
                         cnt += 1
     return new_a, cnt
@@ -43,7 +43,7 @@ def simulate(a):
     visited = [[False]*m for i in range(n)]
     queue = deque()
     iseffect = [[True]*m for i in range(n)]
-    # 1️⃣ 테두리에 있는 0을 찾아 BFS 탐색 시작
+    
     for i in range(n):
         for j in range(m):
             if (i == 0 or j == 0 or i == n - 1 or j == m - 1) and a[i][j] == 0:
@@ -63,12 +63,21 @@ def simulate(a):
         for j in range(m):
             if not visited[i][j]:
                 iseffect[i][j] = False
-    #print(iseffect)
+
+    # for i in range(n):
+    #     for j in range(m):
+    #         print(iseffect[i][j], end=' ')
+    #     print()
+    # print()
     return effect(iseffect)
 
 time = 0
+#for i in range(4):
 while not check(a):    
     time += 1
     a, cnt = simulate(a)
+#print(a)
     
+
+
 print(time, cnt)
