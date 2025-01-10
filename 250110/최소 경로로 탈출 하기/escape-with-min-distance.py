@@ -6,11 +6,12 @@ visited = [[False]*m for i in range(n)]
 visited[0][0] = True
 dxs = [1,-1,0,0]
 dys = [0,0,-1,1]
-
+answer = -1
 while q:
     x, y, dist = q.popleft()
     if x == n-1 and y == m-1:
-        print(dist)
+        isfind = True
+        answer = dist
         break
     for i in range(4):
         nx = x + dxs[i]
@@ -19,5 +20,6 @@ while q:
             visited[nx][ny] = True
             q.append((nx,ny,dist+1))
 
+print(answer)
 
 # Write your code here!
