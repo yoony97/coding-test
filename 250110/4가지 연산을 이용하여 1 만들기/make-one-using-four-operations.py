@@ -12,11 +12,12 @@ while q:
     if num%3 == 0:
         q.append((num//3, cnt+1))
         target.append(num//3)
-    if num%2 == 0:
+    elif num%2 == 0:
         target.append(num//2)
         q.append((num//2, cnt+1))
-    q.append((num-1, cnt+1))
-    q.append((num+1, cnt+1))
+    else:
+        q.append((num-1, cnt+1))
+        q.append((num+1, cnt+1))
     
     if 1 in target:
         print(cnt+1)
