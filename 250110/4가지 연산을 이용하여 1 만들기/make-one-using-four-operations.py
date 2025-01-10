@@ -4,6 +4,8 @@ q = deque([(N, 0)])
 
 while q:
     num, cnt = q.popleft()
+    list(q).sort()
+    q = deque(q)
     if num  == 1:
         print(cnt)
         break
