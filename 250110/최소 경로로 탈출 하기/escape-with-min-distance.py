@@ -10,13 +10,12 @@ answer = -1
 while q:
     x, y, dist = q.popleft()
     if x == n-1 and y == m-1:
-        isfind = True
         answer = dist
         break
     for i in range(4):
         nx = x + dxs[i]
         ny = y + dys[i]
-        if 0 <= nx < n and 0 <= ny < n and a[nx][ny] == 1 and not visited[nx][ny]:
+        if 0 <= nx < n and 0 <= ny < m and a[nx][ny] == 1 and not visited[nx][ny]:
             visited[nx][ny] = True
             q.append((nx,ny,dist+1))
 
