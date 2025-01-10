@@ -17,12 +17,8 @@ while q:
         q.append((num//2, cnt+1))
     else:
         q.append((num-1, cnt+1))
-        q.append((num+1, cnt+1))
-    
-    if 1 in target:
-        print(cnt+1)
-        break
-    
+    q.append((num+1, cnt+1))
+
 
 
 # Write your code here!
