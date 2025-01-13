@@ -7,7 +7,9 @@ dp[4] = 71
 dp[5] = 228
 cnt = 0
 for i in range(6, n+1):
-    dp[i] = dp[i-1]*2 + dp[i-2] - dp[i-3]
+    dp[i] = dp[i-1]*2 + 3*dp[i-2] + 2
+    for j in range(i-3, -1, -1):
+        dp[i] += 2*dp[j]
 
 
 # Write your code here!
