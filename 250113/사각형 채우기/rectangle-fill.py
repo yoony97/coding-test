@@ -15,6 +15,6 @@ n = 4 5
 n = 5 8
 n = 6 13
 """
-print(dp[n])
+print(dp[n]%10007)
 
 
