@@ -1,12 +1,12 @@
 n = int(input())
 dp = [0]*(20)
-dp[1] = 0
+dp[1] = 1
 dp[2] = 2
 dp[3] = 5
 dp[4] = 14
 for i in range(5, n+1):
     temp = 0
-    for j in range(i):
+    for j in range(2, i):
         dp[i] += dp[j]*2
     dp[i] += n
 # Write your code here!
