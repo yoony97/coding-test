@@ -4,7 +4,10 @@ dp[1] = 1
 dp[2] = 2
 dp[3] = 5
 for i in range(4, n+1):
-    dp[i] = dp[i-1] + dp[i-2] + i-1 + i
+    temp = 0
+    for j in range(i):
+        temp += dp[j]
+    dp[i] = temp + j*2
 # Write your code here!
 
 print(dp[n])
