@@ -1,57 +1,38 @@
 import sys
 
-n = int(input())
-grid = [list(map(int, input().split())) for _ in range(n)]
+def check():
+    d = [[1e9]*n for _ in range(n)]
+    d[0][0] = board[0][0]
 
-def min_difference_path(grid):
-    n = len(grid)
-
-    # DP 테이블 초기화
-    dp = [[sys.maxsize] * n for _ in range(n)]
-    max_value = [[0] * n for _ in range(n)]
-    min_value = [[0] * n for _ in range(n)]
-
-    # 시작점 초기화
-    dp[0][0] = 0
-    max_value[0][0] = grid[0][0]
-    min_value[0][0] = grid[0][0]
-
-    # 첫 번째 행 초기화 (오른쪽 방향 이동)
     for j in range(1, n):
-        max_value[0][j] = max(max_value[0][j-1], grid[0][j])
-        min_value[0][j] = min(min_value[0][j-1], grid[0][j])
-        dp[0][j] = max_value[0][j] - min_value[0][j]
-
-    # 첫 번째 열 초기화 (아래쪽 방향 이동)
+        d[0][j] = max(d[0][j-1], board[0][j])
+    
     for i in range(1, n):
-        max_value[i][0] = max(max_value[i-1][0], grid[i][0])
-        min_value[i][0] = min(min_value[i-1][0], grid[i][0])
-        dp[i][0] = max_value[i][0] - min_value[i][0]
+        d[i][0] = max(d[i-1][0], board[i][0])
 
-    # DP 테이블 채우기
     for i in range(1, n):
         for j in range(1, n):
-            # 왼쪽에서 오는 경우
-            left_max = max(max_value[i][j-1], grid[i][j])
-            left_min = min(min_value[i][j-1], grid[i][j])
-            left_diff = left_max - left_min
-
-            # 위쪽에서 오는 경우
-            up_max = max(max_value[i-1][j], grid[i][j])
-            up_min = min(min_value[i-1][j], grid[i][j])
-            up_diff = up_max - up_min
-
-            # 최적 경로 선택
-            if left_diff < up_diff:
-                max_value[i][j] = left_max
-                min_value[i][j] = left_min
-                dp[i][j] = left_diff
-            else:
-                max_value[i][j] = up_max
-                min_value[i][j] = up_min
-                dp[i][j] = up_diff
-
-    return dp[n-1][n-1]
+            d[i][j] = max(min(d[i-1][j], d[i][j-1]), board[i][j])
+    
+    return d[n-1][n-1]  # 1e9면 경로 없음!
 
 
-print(min_difference_path(grid))
+if __name__=="__main__":
+
+    n = int(input())
+    board = [list(map(int, input().split())) for _ in range(n)]
+
+    INT_MAX=sys.maxsize
+
+    res = INT_MAX  # |최대-최소|의 최소!
+    for low in range(1, 101):
+        for i in range(n):
+            for j in range(n):
+                if board[i][j] < low:
+                    board[i][j] = INT_MAX
+
+        ans = check()
+        if ans < INT_MAX:
+            res = min(res, abs(ans-low))
+
+    print(res)
