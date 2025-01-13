@@ -16,13 +16,13 @@ def min_difference_path(grid):
     max_value[0][0] = grid[0][0]
     min_value[0][0] = grid[0][0]
 
-
+    # 첫 번째 행 초기화 (오른쪽 방향 이동)
     for j in range(1, n):
         max_value[0][j] = max(max_value[0][j-1], grid[0][j])
         min_value[0][j] = min(min_value[0][j-1], grid[0][j])
         dp[0][j] = max_value[0][j] - min_value[0][j]
 
-
+    # 첫 번째 열 초기화 (아래쪽 방향 이동)
     for i in range(1, n):
         max_value[i][0] = max(max_value[i-1][0], grid[i][0])
         min_value[i][0] = min(min_value[i-1][0], grid[i][0])
