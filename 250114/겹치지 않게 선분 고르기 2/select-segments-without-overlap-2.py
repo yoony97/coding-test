@@ -4,7 +4,7 @@ for _ in range(n):
     a, b = map(int, input().split())
     segments.append((a,b))
     
-#segments.sort(key = lambda x : x[1])
+segments.sort(key = lambda x : x[1])
 
 dp = [0]*n
 
