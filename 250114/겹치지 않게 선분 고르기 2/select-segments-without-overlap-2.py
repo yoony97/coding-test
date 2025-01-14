@@ -5,7 +5,7 @@ for _ in range(n):
     start.append(a)
     end.append(b)
 
-dp = [0]*n
+dp = [1]*n
 
 
 def iscross(i, j):
@@ -23,7 +23,7 @@ for i in range(n):
         if i == j:
             continue
         if not iscross(i,j):
-            dp[i] = max(dp[i], dp[j]+1)
+            dp[i] = max(dp[i-1], dp[j]+1)
         
         
 print(max(dp))
