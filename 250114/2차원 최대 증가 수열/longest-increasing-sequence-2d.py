@@ -16,5 +16,5 @@ answer = 0
 for i in range(n):
     answer = max(max(dp[i]), answer)
 
-print(dp)
+#print(dp)
 print(answer)
