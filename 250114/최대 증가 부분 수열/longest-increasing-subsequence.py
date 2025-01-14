@@ -1,8 +1,8 @@
 n = int(input())
 m = list(map(int, input().split()))
 
-dp = [-1]*n
-dp[0] = 1
+dp = [1]*n
+
 
 #dp[i] = dp[j] + 1
 #if a[i] > a[j]
