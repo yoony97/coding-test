@@ -1,6 +1,6 @@
 n = int(input())
 A = [1,2,5]
-dp = [0]*(n+1)
+dp = [0]*(1001)
 dp[1] = 1
 dp[2] = 2
 dp[3] = 3
@@ -16,7 +16,7 @@ for i in range(6,n+1):
 
 
 
-print(dp[-1])
+print(dp[n])
 
 """
 i= 1 : 1 
