@@ -7,8 +7,8 @@ dp[0] = 0
 for i in range(n):
     for j in range(m, -1, -1):
         if j >= A[i]:
-            if dp[j - A[i]] == float('inf'):
-                continue
+            # if dp[j - A[i]] == float('inf'):
+            #     continue
             dp[j] = min(dp[j-A[i]]+1, dp[j])
 if dp[m] == float('inf'):
     print(-1)
