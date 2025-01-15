@@ -3,7 +3,7 @@ A = list(map(int, input().split()))
 dp = [float('inf')]*(m+1)
 dp[0] = 0
 # Write your code here!
-A.sort()
+#A.sort()
 for i in range(n):
     for j in range(m, -1, -1):
         if j >= A[i]:
