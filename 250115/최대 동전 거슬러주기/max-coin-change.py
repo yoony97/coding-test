@@ -6,7 +6,7 @@ dp[0] = 0
 
 for i in range(M+1):
     for j in range(N):
-        if i >= coin[j]:
+        if i > coin[j]:
             dp[i] = max(dp[i-coin[j]]+1, dp[i])
 
 if dp[M] == 0:
