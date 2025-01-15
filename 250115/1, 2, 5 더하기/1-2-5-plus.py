@@ -16,7 +16,7 @@ for i in range(6,n+1):
 
 
 
-print(dp[n])
+print(dp[n]%10007)
 
 """
 i= 1 : 1 
