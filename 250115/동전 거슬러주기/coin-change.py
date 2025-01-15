@@ -1,6 +1,6 @@
 N, M = map(int, input().split())
 coin = list(map(int, input().split()))
-dp = [float('inf')]*(M+1)
+dp = [float('inf')]*(10001)
 for i in coin:
     dp[i] = 1
 
@@ -10,4 +10,7 @@ for i in range(M+1):
         if i - coin[j] > 0:
             dp[i] = min(dp[i-coin[j]]+1, dp[i])
 
-print(dp[-1])
+if dp[M] == float('inf'):
+    print(-1)
+else:
+    print(dp[M])
