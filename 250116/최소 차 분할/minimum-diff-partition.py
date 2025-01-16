@@ -5,6 +5,7 @@ TOTAL = sum(arr)
 dp = [0]*(TOTAL+1)
 
 def backtrack(cur_n, A, hist):
+    global dp
     if cur_n == n:
         if not A:
             dp[0] = TOTAL
