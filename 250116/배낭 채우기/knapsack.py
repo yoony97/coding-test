@@ -9,5 +9,5 @@ for j in range(N):
         nw, nv = dia[j]
         if i - nw >= 0:   
             dp[i] = max(dp[i-nw] + nv, dp[i])
-3print([i for i in range(M+1)])
+#print([i for i in range(M+1)])
 print(dp[M])
