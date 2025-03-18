@@ -7,118 +7,66 @@ maps = []
 for _ in range(N):
     inputs = list(map(int, input().split()))
     maps.append(inputs)
-
-def up(arr):
-    n = len(arr)
-    new_arr = [[ i for i in arr[j]] for j in range(N)]
-    for _ in range(n):
-        for col in range(n):
-            for row in range(n-1):
-                if new_arr[row][col] == 0:
-                    new_arr[row][col] = new_arr[row+1][col]
-                    new_arr[row+1][col] = 0 
-    
-    return new_arr
-
-def down(arr):
-    n = len(arr)
-    new_arr = [[ i for i in arr[j]] for j in range(N)]
-    for _ in range(n):
-        for col in range(n):
-            for row in range(n-1, 0, -1):
-                if new_arr[row][col] == 0:
-                    new_arr[row][col] = new_arr[row-1][col]
-                    new_arr[row-1][col] = 0 
-
-    return new_arr
-
-def left(arr):
-    n = len(arr)
-    new_arr = [[ i for i in arr[j]] for j in range(N)]
-    for _ in range(n):
-        for row in range(n):
-            for col in range(0, n-1):
-                if new_arr[row][col] == 0:
-                    new_arr[row][col] = new_arr[row][col+1]
-                    new_arr[row][col+1] = 0 
-
-    return new_arr
-
-def right(arr):
-    n = len(arr)
-    new_arr = [[ i for i in arr[j]] for j in range(N)]
-    for _ in range(n):
-        for row in range(n):
-            for col in range(n-1, 0, -1):
-                if new_arr[row][col] == 0:
-                    new_arr[row][col] = new_arr[row][col-1]
-                    new_arr[row][col-1] = 0 
-
-    return new_arr
-
-def check_up(arr):
-    n = len(arr)
-    new_arr = [[ i for i in arr[j]] for j in range(N)]
-    for col in range(n):
-        for row in range(n-1):
-            if new_arr[row][col] == new_arr[row+1][col]:
-                new_arr[row][col] = new_arr[row][col]*2
-                new_arr[row+1][col] = 0
-    return new_arr
-
-def check_down(arr):
-    n = len(arr)
-    new_arr = [[ i for i in arr[j]] for j in range(N)]
-    for col in range(n):
-        for row in range(n-1, 0, -1):
-            if new_arr[row][col] == new_arr[row-1][col]:
-                new_arr[row][col] = new_arr[row][col]*2
-                new_arr[row-1][col] = 0
-    return new_arr
+#합친 후에 빈칸을 0으로 채움
 
 
-def check_right(arr):
-    n = len(arr)
-    new_arr = [[ i for i in arr[j]] for j in range(N)]
-    for row in range(n):
-        for col in range(n-1, 0, -1):
-            if new_arr[row][col] == new_arr[row][col-1]:
-                new_arr[row][col] = new_arr[row][col]*2
-                new_arr[row][col-1] = 0
-    return new_arr
+def move_line(line): #얘는 무조건 왼쪽으로 합치는 함수임
+  #num이  0이 아닌 것들 추출
+	filtered = [num for num in line if num != 0]
+	merged = []
+	skip = False
+	for i in range(len(filtered)):
+		if skip:
+			skip = False
+			continue
+		if i + 1 < len(filtered) and filtered[i] == filtered[i+1]: # 동일한 숫자가 연속으로 나올 때,
+			#합친거에 넣고, 그 다음은 스킵하도록함
+			merged.append(filtered[i]*2)
+			skip = True
+		else:
+			merged.append(filtered[i])
+	#나머지 빈칸은 0으로 넣음
+	merged.extend([0]*(len(line) - len(merged)))
+	return merged
 
-def check_left(arr):
-    n = len(arr)
-    new_arr = [[ i for i in arr[j]] for j in range(N)]
-    for row in range(n):
-        for col in range(n-1):
-            if new_arr[row][col] == new_arr[row][col+1]:
-                new_arr[row][col] = new_arr[row][col]*2
-                new_arr[row][col+1] = 0
-    return new_arr
+
+#전치를 활용하여 move_up move_down을 구하는 데 나에게 좀 이해가 안된다.
+def transpose(board):
+	return [list(row) for row in zip(*board)]
+
+def move_left(board):
+	return [move_line(row) for row in board]
+
+def move_right(board):
+#	오른쪽으로 합칠려면, line을 리버스하면 되는 거 아닐까?
+# 뒤집어서 오른쪽으로 합침
+# 그리고 다시 뒤집으면 오른쪽 정렬 될듯
+	return [list(reversed(move_line(list(reversed(row))))) for row in board]
+
+def move_up(board):
+	transposed = transpose(board)
+	moved = [move_line(row) for row in transposed]
+	return transpose(moved)
+	
+def move_down(board): #전치하고 오른쪽으로 합쳐야하니까 move_right 처럼 시행해야함
+	transposed = transpose(board)
+	moved = [list(reversed(move_line(list(reversed(row))))) for row in  transposed]
+	return transpose(moved)
 
 
 def simulation(arr, direct):
     if direct == 0:
-        new_arr = up(arr)
-        new_arr = check_up(new_arr)
-        new_arr = up(new_arr)
-
+        new_arr = move_up(arr)
+        
     if direct == 1:
-        new_arr = down(arr)
-        new_arr = check_down(new_arr)
-        new_arr = down(new_arr)
-    
+        new_arr = move_down(arr)
+        
     if direct == 2:
-        new_arr = left(arr)
-        new_arr = check_left(new_arr)
-        new_arr = left(new_arr)
+        new_arr = move_left(arr)
     
     if direct == 3:
-        new_arr = right(arr)
-        new_arr = check_right(new_arr)
-        new_arr = right(new_arr)
-    
+        new_arr = move_right(arr)
+        
     return new_arr
     
 #백트래킹 해야할듯?
