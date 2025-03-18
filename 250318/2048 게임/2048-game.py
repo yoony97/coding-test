@@ -69,30 +69,21 @@ def simulation(arr, direct):
         
     return new_arr
     
-#백트래킹 해야할듯?
-#백트레킹 어떻게 할래?
-#백트레킹 할려면, 아래처럼 결국 넣었다가 진행하고, 빼고
-# up up up up up -> up up up up left 
-#그럴려면 어떤 방법이 적합할까?
-#4^5 * O(n^3)가 시간 복잡도네? 
-#1024만큼 재귀 돌려야하긴해
 answer = 0
 
-def backtracking(hist):
-    global answer 
-    global maps
-    if len(hist) == 5:
-        new_arr = [[ i for i in maps[j]] for j in range(N)]
-        for i in hist:
-            new_arr = simulation(new_arr, i)
-        answer = max(answer, max([max(i) for i in new_arr]))
+def backtrack(board, moves=0):
+    global answer
+    # 5번의 이동을 모두 수행한 경우, 현재 보드에서 최대 값을 갱신합니다.
+    if moves == 5:
+        answer = max(answer, max(max(row) for row in board))
         return
-    else:
-        for i in range(4):
-            hist.append(i)
-            backtracking(hist)
-            hist.pop()
+    
+    # 각 방향(0~3)에 대해 시뮬레이션을 진행합니다.
+    for direction in range(4):
+        next_board = simulation(board, direction)
+        backtrack(next_board, moves + 1)
 
+# 초기 보드인 maps를 시작점으로 호출합니다.
+backtrack(maps, 0)
 
-backtracking([])
 print(answer)
