@@ -70,23 +70,21 @@ def solve():
     visited = [(red[0], red[1], blue[0], blue[1])] 
     while queue:
         cr, cb, cnt = queue.popleft()
-        for i in range(4):
-            nr, nb, flag = move(cr, cb, i)
-            
-            if flag == 1:
-                return cnt+1
-            
-            elif flag == 0:
-                if (nr[0], nr[1], nb[0], nb[1]) not in visited:
-                    visited.append((nr[0], nr[1], nb[0], nb[1]))
-                    queue.append([nr, nb, cnt+1])
+        if cnt < 10:
+            for i in range(4):
+                nr, nb, flag = move(cr, cb, i)
+                
+                if flag == 1:
+                    return cnt+1
+                
+                elif flag == 0:
+                    if (nr[0], nr[1], nb[0], nb[1]) not in visited:
+                        visited.append((nr[0], nr[1], nb[0], nb[1]))
+                        queue.append([nr, nb, cnt+1])
     return -1
 
     
     
 if __name__ == '__main__':
     answer= solve()
-    if answer > 10:
-        print(-1)
-    else:
-        print(answer)
+    print(answer)
