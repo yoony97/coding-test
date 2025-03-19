@@ -21,6 +21,7 @@ for i in range(1, N+1):
 
 for query in queries:
     s, e = query
-    for i in range(3):
-        print(prefix_sum[i][e] - prefix_sum[i][s-1], end=" ")
+    print(prefix_sum[0][e] - prefix_sum[0][s-1], end=" ")
+    print(prefix_sum[1][e] - prefix_sum[1][s-1], end=" ")
+    print(prefix_sum[2][e] - prefix_sum[2][s-1], end=" ")
     print('')
