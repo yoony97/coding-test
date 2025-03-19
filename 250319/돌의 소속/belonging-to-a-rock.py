@@ -6,17 +6,17 @@ prefix_sum = [[0]*(N+1) for i in range(3)]
 for i in range(1, N+1):
     if arr[i-1] == 1:
         prefix_sum[arr[i-1]-1][i] = max(prefix_sum[arr[i-1]-1]) + 1
-        prefix_sum[1][i] = max(prefix_sum[1]) 
-        prefix_sum[2][i] = max(prefix_sum[2])
+        prefix_sum[1][i] = prefix_sum[1][i-1]
+        prefix_sum[2][i] = prefix_sum[2][i-1]
     elif arr[i-1] == 2:
         prefix_sum[arr[i-1]-1][i] = max(prefix_sum[arr[i-1]-1]) + 1
-        prefix_sum[0][i] = max(prefix_sum[0]) 
-        prefix_sum[2][i] = max(prefix_sum[2]) 
+        prefix_sum[0][i] = prefix_sum[0][i-1]
+        prefix_sum[2][i] = prefix_sum[2][i-1]
     
     else:
         prefix_sum[arr[i-1]-1][i] = max(prefix_sum[arr[i-1]-1]) + 1
-        prefix_sum[1][i] = max(prefix_sum[1]) 
-        prefix_sum[0][i] = max(prefix_sum[0]) 
+        prefix_sum[0][i] = prefix_sum[0][i-1]
+        prefix_sum[1][i] = prefix_sum[1][i-1]
 
 
 for query in queries:
