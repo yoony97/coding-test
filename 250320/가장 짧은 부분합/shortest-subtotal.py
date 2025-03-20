@@ -6,7 +6,7 @@ answer = float('inf')
 for i in range(n):
     j = i+1
     temp = arr[i]
-    while j < n and temp <= s:
+    while j < n and temp + arr[j] <= s:
         temp += arr[j]
         j += 1
 
