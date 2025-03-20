@@ -33,7 +33,7 @@ def find_max(x):
     right = len(new)- 1
     while left <= right:
         mid = (left+right)//2
-        if x <= new[mid]:
+        if x < new[mid]:
             right = mid - 1
         else:
             left = mid + 1 
