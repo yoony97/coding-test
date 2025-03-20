@@ -14,6 +14,10 @@ for i in range(1, n+1):
     if sum_val >= s: 
         answer= min(j-i, answer)
     sum_val -= arr[i]
-print(answer)    
+
+if answer == float('inf'):
+    print(-1)
+else:
+    print(answer)
 
 # Please write your code here.
