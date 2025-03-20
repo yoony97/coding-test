@@ -13,13 +13,9 @@ for idx, i in enumerate(arr[::-1]):
 R = list(reversed(R))
 
 
-
-
-
-
 for a,b in queries:
 
-    left = a-2
+    left = a-1
     right = b
 
     print(max(L[left], R[right]))
