@@ -19,7 +19,7 @@ for i in new:
 def find_min(x):
     left = 0
     right = len(new) - 1
-    while left < right:
+    while left <= right:
         mid = (left+right)//2
         if x <= new[mid]:
             right = mid - 1
@@ -31,13 +31,12 @@ def find_min(x):
 def find_max(x):
     left = 0
     right = len(new)- 1
-    while left < right:
+    while left <= right:
         mid = (left+right)//2
         if x <= new[mid]:
             right = mid - 1
         else:
             left = mid + 1 
-    
     return right
 
 
