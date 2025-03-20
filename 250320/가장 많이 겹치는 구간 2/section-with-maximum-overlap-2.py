@@ -12,7 +12,7 @@ max_count = 0
 current = 0
 for s, v in points:
     current += v
-    if max_count > current:
+    if max_count < current:
         max_count = current
 
 print(max_count) 
