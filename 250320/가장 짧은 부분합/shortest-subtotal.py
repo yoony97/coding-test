@@ -1,12 +1,12 @@
 n, s = map(int, input().split())
 arr = list(map(int, input().split()))
 answer = float('inf')
-
+j = 0 
 
 for i in range(n):
-    j = i
+
     temp = arr[i]
-    while j < n and temp <= s:
+    while j < n and temp < s:
         temp += arr[j]
         j += 1
 
