@@ -4,9 +4,9 @@ answer = float('inf')
 
 
 for i in range(n):
-    j = i+1
+    j = i
     temp = arr[i]
-    while j < n and temp + arr[j] <= s:
+    while j < n and temp <= s:
         temp += arr[j]
         j += 1
 
