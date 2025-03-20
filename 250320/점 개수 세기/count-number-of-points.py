@@ -20,16 +20,21 @@ def find_min(x):
     for i in range(len(new)):
         if x <= new[i]:
             return i
-    #return 0
+    return -1
 
 def find_max(x):
     for i in range(len(new)-1, -1, -1):
         if new[i] <= x :
             return i         
-    return len(new)-1
+    return -1
 
 
 
 
 for x1,x2 in queries:
-    print(find_max(x2) - find_min(x1) +1)
+    left = find_min(x1)
+    right = find_max(x2)
+    if left == -1 or right == -1:
+        print(0) 
+    else:
+        print(right-left + 1)
