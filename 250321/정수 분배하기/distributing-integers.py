@@ -3,6 +3,8 @@ arr = [int(input()) for _ in range(n)]
 
 def get_count(mid, arr):
     count = 0
+    if mid == 0:
+        return 0
     for num in arr:
         count += num//mid
 
