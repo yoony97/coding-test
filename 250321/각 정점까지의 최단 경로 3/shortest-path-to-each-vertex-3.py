@@ -30,11 +30,15 @@ def dijkstra(graph, source):
             if graph[min_index][j] == 0:
                 continue
             dist[j] = min(dist[j], dist[min_index]+ graph[min_index][j])
-    
+        
+
     return dist
 
 start = 0
 dist = dijkstra(graph, start)
 for i in range(n):
     if i != start:
-        print(dist[i])
+        if dist[i] == float('inf'):
+            print(-1)
+        else:
+            print(dist[i])
