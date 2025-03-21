@@ -1,35 +1,33 @@
+import heapq
+
 n, m = map(int, input().split())
 k = int(input())
 edges = [tuple(map(int, input().split())) for _ in range(m)]
-graph = [[0]*n for _ in range(n)]
+graph = [[] for _ in range(n + 1)]
 
 for i in range(m):
     s, e, v = edges[i]
-    graph[s-1][e-1] = v
-    graph[e-1][s-1] = v
+    graph[s-1].append((e-1, v))
+    graph[e-1].append((s-1, v))
 
 def dijkstar(graph, source):
+    pq = []
+    heapq.heappush(pq, (0, source))
     dist = [float('inf')]*n
-    visited = [False]*n
     dist[source] = 0
     
-    for _ in range(n):
+    while pq:
+        min_dist, min_idx = heapq.heappop(pq)
+        if min_dist != dist[min_idx]:
+            continue
         
-        min_idx = -1
-        for j in range(n):
-            if visited[j]:
-                continue
-            
-            if min_idx == -1 or dist[min_idx] > dist[j]:
-                min_idx = j
-        
-        visited[min_idx] = True
+        for target_index, target_dist in graph[min_idx]:
+            new_dist = dist[min_idx] + target_dist
+            if dist[target_index] > new_dist:
+                # 값을 갱신해주고, 우선순위 큐에 해당 정보를 넣어줍니다.
+                dist[target_index] = new_dist
+                heapq.heappush(pq, (new_dist, target_index))
 
-        #거리 업데이트
-        for j in range(n):
-            if graph[min_idx][j] != 0: #인접하다면
-                dist[j] = min(dist[j], dist[min_idx] + graph[min_idx][j])
-        
 
     return dist
 
