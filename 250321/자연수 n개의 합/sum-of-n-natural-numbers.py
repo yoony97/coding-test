@@ -1,9 +1,8 @@
 s = int(input())
-psum = [0]*s
+psum = [0]
 answer = 0 
 for i in range(1, s):
-    
-    psum[i] = psum[i-1] + i
+    psum.append(psum[i-1] + i)
     if psum[i] > s:
         answer = i-1
         break
