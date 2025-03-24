@@ -9,7 +9,6 @@ dp = [0]*(n+5)
 #dp[i] = max(dp[i-t-1]+p, p)
 for i in range(n-1, -1, -1):
     t, p = job[i]
-    dp[i]  = max(dp[i+t]+p, dp[i+1])
+    dp[i] = max(p + dp[i+t], dp[i+1])
     
-
-print(max(dp[:n]))
+print(dp[0])
