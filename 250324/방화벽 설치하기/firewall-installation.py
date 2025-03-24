@@ -34,18 +34,18 @@ def spread(new_arr):
     return result
 
 answer = 0
-
-def back(cur_num):
+def back(count, start):
     global answer
-    if cur_num == 3:
+    if count == 3:
         answer = max(answer, spread(arr))
         return
-    for i in range(n):
-        for j in range(m):
-            if arr[i][j] == 0:
-                arr[i][j] = 1
-                back(cur_num+1)
-                arr[i][j] = 0
+    for idx in range(start, n * m):
+        i = idx // m
+        j = idx % m
+        if arr[i][j] == 0:
+            arr[i][j] = 1
+            back(count + 1, idx + 1)
+            arr[i][j] = 0
 
-back(0)
+back(0, 0)
 print(answer)
