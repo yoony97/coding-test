@@ -13,44 +13,28 @@ for i in range(n):
 
 
 
-def combination(arr, k):
-    result =  []
-    def _back(start,temp):
-        if len(temp) == k:
-            result.append(tuple(temp))
-        
-        for i in range(start, len(arr)):
-            temp.append(arr[i])
-            _back(i+1,temp)
-            temp.pop()
-    _back(0, [])
-    return result
+def calc_score(team):
+    score = 0
+    length = len(team)
+    for i in range(length):
+        for j in range(i+1, length):
+            score += arr[team[i]][team[j]] + arr[team[j]][team[i]]
+    return score
 
-
-
-def back(idx, morning):
-    global answer, job_list
-
-    if len(morning) == n//2:
-        mscore = 0
-        ascore = 0
-        afternoon = list(set(job_list) - set(morning))
-        for x, y in combination(morning,2):
-            mscore += arr[x][y]
-            mscore += arr[y][x]
-        
-        for x, y in combination(afternoon,2):
-            ascore += arr[x][y]
-            ascore += arr[y][x]
-        
-        answer = min(answer, abs(mscore-ascore))
+def back(start, morning):
+    global answer
+    if len(morning) == n // 2:
+        # 나머지 작업은 저녁(또는 다른 팀)
+        afternoon = [i for i in range(n) if i not in morning]
+        m_score = calc_score(morning)
+        a_score = calc_score(afternoon)
+        answer = min(answer, abs(m_score - a_score))
         return
-    
-    for i in range(idx+1, n):
-        #if i not in morning:
+    for i in range(start, n):
         morning.append(i)
-        back(i, morning)
+        back(i+1, morning)
         morning.pop()
+
 
 # #print(list(combinations([1,2,3],2)))
 back(0, [])
