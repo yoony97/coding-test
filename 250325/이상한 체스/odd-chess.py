@@ -74,7 +74,13 @@ answer = float('inf')
 def btk(idx):
     global answer
     if idx == len(man):
-        cnt = sum(row.count(0) for i, row in enumerate(visited) for j in range(m) if arr[i][j] != 6)
+        cnt = 0
+        for i in range(n):
+            for j in range(m):
+                if visited[i][j] == 0 and arr[i][j] != 6:
+                    cnt += 1    
+        
+
         answer = min(answer, cnt)
         return
 
