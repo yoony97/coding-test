@@ -18,7 +18,6 @@ def back(cur_num, count, value, start):
         return 
     
     for i in range(start+1, len(numbers)):
-        
         if count[0] > 0:
             count[0]-=1
             back(cur_num+1, count, value + numbers[i], i)  
@@ -36,10 +35,6 @@ def back(cur_num, count, value, start):
         
 
 
-
-for i in range(len(numbers)):
-    used = [False]*len(numbers)
-    used[i] = True
-    back(1, count, numbers[i], i)
+back(1, count, numbers[0], 0)
 
 print(minimum, maximum)
