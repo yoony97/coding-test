@@ -44,8 +44,6 @@ directs = [
 
 
 
-
-
 for i in range(n):
     row = list(map(int, input().split()))
     for j in range(m):
@@ -54,62 +52,40 @@ for i in range(n):
             man.append((row[j], i, j))
             visited[i][j] = 1
 
-#백트레킹 어떻게 할래?
-#방향별로 다 돌아보긴 할꺼잖아.
-#
 
-def move(ma, d, visited):
-    new_visited = [[ visited[i][j] for j in range(m)] for i in range(n)]
+def move_inplace(ma, d, visited, trace):
     c, x, y = ma
     for direct in directs[c-1][d]:
-        cx = x
-        cy = y
+        cx, cy = x, y
         while True:
             nx = cx + direct[0]
             ny = cy + direct[1]
             if 0 <= nx < n and 0 <= ny < m:
-                if 0 <= arr[nx][ny] <= 5:
-                    new_visited[nx][ny] = 1
-                    cx = nx
-                    cy = ny
-                else:
-                    new_visited[nx][ny] = 1
+                if arr[nx][ny] == 6:
                     break
+                if visited[nx][ny] == 0:
+                    visited[nx][ny] = 1
+                    trace.append((nx, ny))
+                cx, cy = nx, ny
             else:
                 break
-    return new_visited
-
-
 
 answer = float('inf')
-
-def btk(idx, visited):
+def btk(idx):
     global answer
     if idx == len(man):
-        temp = 0
-        for i in range(n):
-            for j in range(m):
-                if visited[i][j] == 0 and arr[i][j] != 6:
-                    temp += 1
-        if answer > temp:
-            #print(visited)
-            answer = min(answer, temp)
+        cnt = sum(row.count(0) for i, row in enumerate(visited) for j in range(m) if arr[i][j] != 6)
+        answer = min(answer, cnt)
         return
-    
-    for d in range(4):
-        new_visited = move(man[idx], d, visited)
-        btk(idx+1, new_visited)
 
-btk(0, visited)
+    for d in range(4):
+        trace = []
+        move_inplace(man[idx], d, visited, trace)
+        btk(idx + 1)
+        for x, y in trace:  # 원복
+            visited[x][y] = 0
+btk(0)
 print(answer)
 
 
-
-[0, 0, 0, 1, 0], 
-[0, 0, 1, 1, 1], 
-[0, 1, 1, 1, 1], 
-[1, 1, 1, 0, 0], 
-[1, 0, 1, 0, 0], 
-[1, 0, 1, 0, 0], 
-[1, 1, 1, 0, 0]
 
