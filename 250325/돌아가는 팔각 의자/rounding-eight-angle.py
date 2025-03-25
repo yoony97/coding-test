@@ -51,6 +51,6 @@ for original, direct in op:
 
 answer = 0
 for i in range(4):
-    answer += (i+1)*arr[i][0]
+    answer += (2**i)*arr[i][0]
 
 print(answer)
