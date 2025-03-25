@@ -4,7 +4,7 @@
 
 
 minimum = float('inf')
-maximum = 0
+maximum = float('-inf')
 
 n = int(input())
 numbers = list(map(int, input().split()))
