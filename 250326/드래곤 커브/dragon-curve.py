@@ -34,8 +34,7 @@ curve = []
 for x,y,d,g in graph:
     curve.extend(make_dragon(x,y,d,g))
 
-curves = list(set(curve))
-curves.sort(key = lambda x:(x[0], x[1]))
+curves = set(curve)
 box = []
 for c in curves:
     x, y = c
