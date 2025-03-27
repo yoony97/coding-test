@@ -16,15 +16,16 @@
 #init
 n, m, k = map(int, input().split())
 food = [[5]*n for _ in range(n)]
+new_food = []
 virus = []
 dx = [1,0,-1,0,-1,1,-1,1]
 dy = [0,1,0,-1,-1,1,1,-1]
 
 
+
 for i in range(n):
     row =list(map(int, input().split()))
-    for j in range(n):
-        food[i][j] += row[j]
+    new_food.append(row)
 
 for _ in range(m):
     r, c, age = map(int, input().split())
@@ -62,11 +63,20 @@ def divide(virus):
     
     return new_virus
 
+def injection():
+    for i in range(n):
+        for j in range(n):
+            food[i][j] += new_food[i][j]
+
 for _ in range(k):
-    virus, dead_virus = eat(virus)
-    die(dead_virus)
-    virus = divide(virus)
-    # print(virus)
-    # print(food)
+    virus, dead_virus = eat(virus) # 1번
+    die(dead_virus) #2번
+    virus = divide(virus) #3번
+    injection() #4번
+    #print(food)
+    #print(virus)
+    #print(food)
 
 print(len(virus))
+
+
