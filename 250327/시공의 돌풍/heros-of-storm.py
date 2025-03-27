@@ -55,10 +55,10 @@ def rotated_up():
     for i in range(m-1, up_y, -1):
         arr[up_x][i] = arr[up_x][i-1]
     
-    #2. up_x, m-1 부터 0, m-1 까지 위로 밀어야함
+    #2. up_x-1, m-1 부터 0, m-1 까지 위로 밀어야함
     # arr[i][m-1] = arr[i+1][m-1]
     up_temp2 = arr[0][m-1]
-    for i in range(up_x-2, -1, -1):
+    for i in range(0, up_x-1):
         arr[i][m-1] = arr[i+1][m-1]
     arr[up_x-1][m-1] = up_temp    
 
@@ -68,7 +68,6 @@ def rotated_up():
         arr[0][i] = arr[0][i+1]
     arr[0][m-2] = up_temp2
     #4. 1,0 부터 up_x, 0 까지 밑으로 밀어야함
-    
     for i in range(up_x, 0, -1):
         arr[i][0] = arr[i-1][0]
     
@@ -122,14 +121,21 @@ def clean():
 
 
 
-for _ in range(t):
+for i in range(t):
     spread()
+    #rotated_up()
     clean()
+    # if i == 0:
+    #     for j in range(n):
+    #         print(arr[j])
 
-answer = 2 #기존 로봇청소기값 보상
+up_x, up_y = wind
+down_x, down_y = wind[0]+1, wind[1]
+arr[up_x][up_y] = 0
+arr[down_x][down_y] = 0
+
+answer = 0
 for i in range(n):
     answer += sum(arr[i])
 
 print(answer)
-
-
