@@ -10,8 +10,13 @@
 #번식
 5의 배수의 나이를 가진 바이러스는 번식함
 8개의 칸에 나이가 1인 바이러스가 생김
-"""
 
+#풀기 쉬웠음
+#나오는 설명 그대로 구현하면됨
+#여기서 sort 하는 방식이 좀 더 괜찮은 게 없을까?
+
+"""
+import heapq
 
 #init
 n, m, k = map(int, input().split())
@@ -29,21 +34,19 @@ for i in range(n):
 
 for _ in range(m):
     r, c, age = map(int, input().split())
-    virus.append((age, r-1, c-1)) #0-based index
-
-def age_sort(arr):
-    return sorted(arr, key = lambda x: x[0])
+    heapq.heappush(virus,(age, r-1, c-1))
 
 def eat(virus):
-    virus = age_sort(virus)
     dead_virus = []
     new_virus = []
-    for age, r, c in virus:
+    while virus:
+        age, r, c = heapq.heappop(virus)
         if food[r][c] >= age:
             food[r][c] -= age
-            new_virus.append((age+1, r, c))
+            heapq.heappush(new_virus, (age+1, r, c))
         else:
             dead_virus.append((age, r, c))
+    
     return new_virus, dead_virus
 
 def die(dead_virus):
@@ -52,15 +55,16 @@ def die(dead_virus):
     
 
 def divide(virus):
-    new_virus = [i for i in virus]
+    new_virus = []
+    for i in virus:
+        heapq.heappush(new_virus, i)
     for age, r, c in virus:
         if age%5 == 0:
             for i in range(8):
                 nr = r + dx[i]
                 nc = c + dy[i]
                 if 0 <= nr < n and 0 <= nc < n:
-                    new_virus.append((1, nr, nc))
-    
+                    heapq.heappush(new_virus, (1, nr, nc))
     return new_virus
 
 def injection():
