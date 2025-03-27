@@ -1,141 +1,137 @@
-"""
-시작 시간 14:05
-nxn 에 먼지가 존재
-청소기는 1번 열에 설치 크기는 2칸
-1초동안
- 1. 먼지가 인접한 4방향의 상하좌우로 해당 칸의 먼지량//5 확산됨(청소기가 있으면 x)
-    - 원래 칸의 먼지는 확산된 량 만큼 제거
-    - 확산 뒤, 확산된 만큼 해당칸에 먼지량 더해짐
- 2. 청소기 운행
-    1. 윗칸에서는 반시계 방향, 아래칸에서는 시계 방향
-    2. 먼지가 바람의 방향대로 한칸씩 이동
-    3. 돌풍으로 들어간 먼지는 삭제
+WINDBLAST = -1
+
+# 변수 선언 및 입력:
+n, m, t = tuple(map(int, input().split()))
+
+dust = [
+    list(map(int, input().split()))
+    for _ in range(n)
+]
+next_dust = [
+    [0 for _ in range(m)]
+    for _ in range(n)
+]
 
 
-"""
+def in_range(x, y):
+    return 0 <= x and x < n and 0 <= y and y < m
 
-n, m, t = map(int, input().split())
-arr = [[0]*m for _ in range(n)]
-wind = [-1, -1]
-dx = [0, -1, 0, 1]
-dy = [1, 0, -1, 0]
-for i in range(n):
-    row = list(map(int, input().split()))
-    for j in range(m):
-        arr[i][j] = row[j]
-        if row[j] == -1  and wind[0] == -1:
-            wind[0], wind[1] = i, j
+
+def can_spread(x, y):
+    return in_range(x, y) and dust[x][y] != WINDBLAST
+
+
+# (x, y)에서 인접한 4방향으로 확산이 일어납니다.
+def spread(x, y):
+    dxs, dys = [-1, 1, 0, 0], [0, 0, -1, 1]
+    curr_dust = dust[x][y]
     
-        
-def spread():
-    spread_arr = [[0]*m for _ in range(n)]
-    for x in range(n):
-        for y in range(m):
-            if arr[x][y] != -1:
-                temp = arr[x][y]//5
-                for d in range(4):
-                    nx = x + dx[d]
-                    ny = y + dy[d]
-                    if 0 <= nx < n and 0 <= ny < m and arr[nx][ny] != -1:
-                        spread_arr[nx][ny] += temp
-                        arr[x][y] -= temp
+    # 인접한 4방향으로 확산이 일어납니다.
+    for dx, dy in zip(dxs, dys):
+        nx, ny = x + dx, y + dy
+        # 격자 안이면서, 시공의 돌풍이 없는 곳으로만 확산이 가능합니다.
+        if can_spread(nx, ny):
+            next_dust[nx][ny] += curr_dust // 5
+            dust[x][y] -= curr_dust // 5
 
-    for x in range(n):
-        for y in range(m):
-            arr[x][y] += spread_arr[x][y]
-def rotated_up():    
-    up_x, up_y = wind
-    down_x, down_y = wind[0]+1, wind[1]
-    arr[up_x][up_y] = 0
-    arr[down_x][down_y] = 0
-    #반시계 방향
-    #1. up_x, up_y -> up_x, m 까지 한칸식 밀기
-    #즉, arr[up_x][i] = arr[up_x][i-1]
-    up_temp = arr[up_x][-1]
-    for i in range(m-1, up_y, -1):
-        arr[up_x][i] = arr[up_x][i-1]
+            
+def diffusion():
+    # next_dust 값을 0으로 초기화합니다.
+    for i in range(n):
+        for j in range(m):
+            next_dust[i][j] = 0
     
-    #2. up_x-1, m-1 부터 0, m-1 까지 위로 밀어야함
-    # arr[i][m-1] = arr[i+1][m-1]
-    up_temp2 = arr[0][m-1]
-    for i in range(0, up_x-1):
-        arr[i][m-1] = arr[i+1][m-1]
-    arr[up_x-1][m-1] = up_temp    
-
-    #3. 0, m-2부터  0, 0까지 좌측으로 밀어야함
-    up_temp3 = arr[0][0]
-    for i in range(m-1):
-        arr[0][i] = arr[0][i+1]
-    arr[0][m-2] = up_temp2
-    #4. 1,0 부터 up_x, 0 까지 밑으로 밀어야함
-    for i in range(up_x, 0, -1):
-        arr[i][0] = arr[i-1][0]
+    # 시공의 돌풍을 제외한 위치에서만 확산이 일어납니다.
+    for i in range(n):
+        for j in range(m):
+            if dust[i][j] != WINDBLAST:
+                spread(i, j)
     
-    arr[1][0] = up_temp3
-    arr[up_x][up_y] = 0
+    # next_dust값을 확산 후 남은 dust에 더해줍니다.
+    for i in range(n):
+        for j in range(m):
+            dust[i][j] += next_dust[i][j]
+
+
+def counter_clockwise_roration(start_row, start_col, end_row, end_col):
+    # Step1-1. 직사각형 가장 왼쪽 위 모서리 값을 temp에 저장합니다.
+    temp = dust[start_row][start_col]
+
+    # Step1-2. 직사각형 가장 위 행을 왼쪽으로 한 칸씩 shift 합니다.
+    for col in range(start_col, end_col):
+        dust[start_row][col] = dust[start_row][col + 1]
     
-def rotated_down():
-    up_x, up_y = wind
-    down_x, down_y = wind[0]+1, wind[1]
-    arr[up_x][up_y] = 0
-    arr[down_x][down_y] = 0
-    #시계 방향
-    #1. down_x, down_y -> down_x, m 까지 한칸식 밀기
-    #즉, arr[down_x][i] = arr[down_x][i-1]
-    down_temp = arr[down_x][-1]
-    for i in range(m-1, down_y, -1):
-        arr[down_x][i] = arr[down_x][i-1]
-
-    #2. down_x, m-1 부터 n-1, m-1 까지 아래로 밀어야함
-    # arr[i][m-1] = arr[i+1][m-1]
-    down_temp2 = arr[n-1][m-1]
-    for i in range(n-1, down_x+1, -1):
-        arr[i][m-1] = arr[i-1][m-1]
+    # Step1-3. 직사각형 가장 오른쪽 열을 위로 한 칸씩 shift 합니다.
+    for row in range(start_row, end_row):
+        dust[row][end_col] = dust[row + 1][end_col]
     
-    arr[down_x+1][m-1] = down_temp    
-
-
-    #3. n, m-2부터  0, 0까지 좌측으로 밀어야함
-    down_temp3 = arr[n-1][0]
-    for i in range(m-1):
-        arr[n-1][i] = arr[n-1][i+1]
-    arr[n-1][m-2] = down_temp2
-
-    ##4. n-2,0 부터 down_x, 0 까지 밑으로 밀어야함
-    for i in range(down_x, n-2):
-        arr[i][0] = arr[i+1][0]
+    # Step1-4. 직사각형 가장 아래 행을 오른쪽으로 한 칸씩 shift 합니다.
+    for col in range(end_col, start_col, -1):
+        dust[end_row][col] = dust[end_row][col - 1]
     
-    arr[n-2][0] = down_temp3
+    # Step1-5. 직사각형 가장 왼쪽 열을 아래로 한 칸씩 shift 합니다.
+    for row in range(end_row, start_row, -1):
+        dust[row][start_col] = dust[row - 1][start_col]
 
-    arr[down_x][down_y] = 0
-
-def clean():    
-    rotated_up()
-    rotated_down()    
-    up_x, up_y = wind
-    down_x, down_y = wind[0]+1, wind[1]
-    arr[up_x][up_y] = -1
-    arr[down_x][down_y] = -1
-
-        
+    # Step1-6. temp를 가장 왼쪽 위 모서리를 기준으로 바로 아래 칸에 넣습니다. 
+    dust[start_row + 1][start_col] = temp
 
 
+def clockwise_rotation(start_row, start_col, end_row, end_col):
+    # Step1-1. 직사각형 가장 왼쪽 위 모서리 값을 temp에 저장합니다.
+    temp = dust[start_row][start_col]
 
-for i in range(t):
-    spread()
-    #rotated_up()
-    clean()
-    # if i == 0:
-    #     for j in range(n):
-    #         print(arr[j])
+    # Step1-2. 직사각형 가장 왼쪽 열을 위로 한 칸씩 shift 합니다.
+    for row in range(start_row, end_row):
+        dust[row][start_col] = dust[row + 1][start_col]
+    
+    # Step1-3. 직사각형 가장 아래 행을 왼쪽으로 한 칸씩 shift 합니다.
+    for col in range(start_col, end_col):
+        dust[end_row][col] = dust[end_row][col + 1]
 
-up_x, up_y = wind
-down_x, down_y = wind[0]+1, wind[1]
-arr[up_x][up_y] = 0
-arr[down_x][down_y] = 0
+    # Step1-4. 직사각형 가장 오른쪽 열을 아래로 한 칸씩 shift 합니다.
+    for row in range(end_row, start_row, -1):
+        dust[row][end_col] = dust[row - 1][end_col]
+    
+    # Step1-5. 직사각형 가장 위 행을 오른쪽으로 한 칸씩 shift 합니다.
+    for col in range(end_col, start_col, -1):
+        dust[start_row][col] = dust[start_row][col - 1]
 
-answer = 0
-for i in range(n):
-    answer += sum(arr[i])
+    # Step1-6. temp를 가장 왼쪽 위 모서리를 기준으로 바로 오른쪽 칸에 넣습니다. 
+    dust[start_row][start_col + 1] = temp
 
-print(answer)
+
+def cleaning():
+    windblast_rows = [
+        i for i in range(n)
+        if dust[i][0] == WINDBLAST
+    ]
+    
+    counter_clockwise_roration(0, 0, windblast_rows[0], m - 1)
+    clockwise_rotation(windblast_rows[1], 0, n - 1, m - 1)
+    
+    # 돌풍 보정
+    dust[windblast_rows[0]][0] = dust[windblast_rows[1]][0] = -1
+    dust[windblast_rows[0]][1] = dust[windblast_rows[1]][1] = 0
+
+
+def simulate():
+    # 확산이 일어납니다.
+    diffusion()
+    
+    # 시공의 돌풍이 청소를 진행합니다.
+    cleaning()
+
+
+# 총 t번 시뮬레이션을 진행합니다.
+for _ in range(t):
+    simulate()
+
+ans = sum([
+    dust[i][j]
+    for i in range(n)
+    for j in range(m)
+    if dust[i][j] != WINDBLAST
+])
+
+print(ans)
