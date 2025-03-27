@@ -14,6 +14,7 @@
 #풀기 쉬웠음
 #나오는 설명 그대로 구현하면됨
 #여기서 sort 하는 방식이 좀 더 괜찮은 게 없을까?
+   -> 자료구조를 적극 활용하자. 우선순위 큐를 고려해야한다.
 
 """
 import heapq
@@ -56,10 +57,10 @@ def die(dead_virus):
 
 def divide(virus):
     new_virus = []
-    for i in virus:
-        heapq.heappush(new_virus, i)
-    for age, r, c in virus:
-        if age%5 == 0:
+    while virus:
+        age, r, c = heapq.heappop(virus)  # heap에서 하나씩 꺼냄
+        heapq.heappush(new_virus, (age, r, c))  # 다시 heap에 넣음 (heap 유지)
+        if age % 5 == 0:
             for i in range(8):
                 nr = r + dx[i]
                 nc = c + dy[i]
