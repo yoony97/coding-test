@@ -6,7 +6,17 @@ dy = [1, 0, -1, 0]
 
 def simulate(hist):
     doctors = deque([h for h in hist])
-    traced =[]
+    new_arr = [[0]*N for _ in range(N)]
+    for i in hist:
+        x, y, _ = i
+        new_arr[x][y] = 2
+    
+    for i in range(N): 
+        for j in range(N):
+            if arr[i][j] == 1:
+                new_arr[i][j] = 1
+
+    
     visited = [[False]*N for _ in range(N)]
     max_time = 0
     while doctors:
@@ -17,42 +27,38 @@ def simulate(hist):
             nx = x + dx[i]
             ny = y + dy[i]
             if 0 <= nx < N and 0 <= ny < N and not visited[nx][ny]:
-                if arr[nx][ny] == 0: #
+                
+                if new_arr[nx][ny] == 0:
                     doctors.append((nx,ny, t+1))
-                    arr[nx][ny] = -1
-                    traced.append((nx,ny))
+                    new_arr[nx][ny] = -1
+                
+    
     #다 진행 후에, 0이 남아있나 확인해야함
     for i in range(N):
         for j in range(N):
-            if arr[i][j] == 0:
+            if new_arr[i][j] == 0:
                 #불가능 하다.
-                return float('inf'), traced
-
-
-
-    return max_time, traced
-
-def recovery(traced):
-    for nx, ny in traced:
-        arr[nx][ny] = 0
+                return float('inf')
+    return max_time
     
 answer = float('inf')
 def btk(cur_num, start, hist):
     global answer
     if cur_num == M:
-        max_time, traced = simulate(hist)
+        max_time = simulate(hist)
+        print(hist, max_time)
         answer= min(max_time, answer)
-        recovery(traced)
         return
 
     for i in range(start, len(total)):
         hist.append(total[i])
-        btk(cur_num+1, i, hist)
+        btk(cur_num+1, i+1, hist)
         hist.pop()
 
 N, M = map(int, input().split())
 arr = [ ]
 total = []
+
 for i in range(N):
     row = list(map(int, input().split()))
     for j in range(N):
