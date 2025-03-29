@@ -40,7 +40,7 @@ def simulate(hist):
                     doctor.append((nx, ny, t+1))
                     new_arr[nx][ny] = -1
                 elif new_arr[nx][ny] == 2:
-                    doctor.append((nx, ny, t))
+                    doctor.append((nx, ny, t+1))
                 
     
 
