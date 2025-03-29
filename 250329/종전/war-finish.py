@@ -17,7 +17,7 @@ for x in range(N):
                 
                 board = [[0] * N for _ in range(N)]
 
-                # 1. 경계선 그리기 (1로 표시)
+                # 1. 경계선 그리기 (5로 표시)
                 for i in range(d1 + 1):
                     board[x + i][y - i] = 5
                     board[x + d2 + i][y + d2 - i] = 5
@@ -39,21 +39,25 @@ for x in range(N):
                         for c in range(start + 1, end):
                             board[r][c] = 5
 
-                # 3. 1~4번 구역 채우기
+                # 3. 각 부족 조건에 맞춰 나누기
                 for r in range(N):
                     for c in range(N):
                         if board[r][c] != 0:
                             continue
+                        # 1번 부족: (0 <= r < x + d1), (0 <= c <= y)
                         if 0 <= r < x + d1 and 0 <= c <= y:
                             board[r][c] = 1
+                        # 2번 부족: (0 <= r <= x + d2), (y < c < N)
                         elif 0 <= r <= x + d2 and y < c < N:
                             board[r][c] = 2
+                        # 3번 부족: (x + d1 <= r < N), (0 <= c < y - d1 + d2)
                         elif x + d1 <= r < N and 0 <= c < y - d1 + d2:
                             board[r][c] = 3
+                        # 4번 부족: (x + d2 < r < N), (y - d1 + d2 <= c < N)
                         elif x + d2 < r < N and y - d1 + d2 <= c < N:
                             board[r][c] = 4
                         else:
-                            board[r][c] = 5
+                            board[r][c] = 5  # 경계나 내부는 이미 5번으로 처리됨
 
                 # 4. 인구수 계산
                 count = [0] * 5
