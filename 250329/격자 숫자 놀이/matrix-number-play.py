@@ -62,20 +62,23 @@ def simulation(arr):
 
     return arr
 
-
-answer = 0
-#arr = simulation(arr)
-while True:
-    answer += 1
-    if answer >= 100:
-        print(-1)
-        break
-
-    arr = simulation(arr)
+def solve(arr):
+    answer = 0
     if 0 <= r-1 < len(arr) and 0 <= c-1 < len(arr[0]):
         if arr[r-1][c-1] == k:
-            print(answer)
-            break
+            return answer
+            
+    while True:
+        answer += 1
+        if answer >= 100:
+            return -1
+
+        arr = simulation(arr)
+        if 0 <= r-1 < len(arr) and 0 <= c-1 < len(arr[0]):
+            if arr[r-1][c-1] == k:
+                return answer
+
     
 
 
+print(solve(arr))
