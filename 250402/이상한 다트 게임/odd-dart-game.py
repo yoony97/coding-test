@@ -62,19 +62,19 @@ def check():
     for r in range(N):
         for m in range(M):
             #up은 신경 안써도 되네
-            if maps[r][m] != 0 and visited[r][m]:
+            if maps[r][m] != 0 and not visited[r][m]:
                 candiate = [(r,m)]
                 target_num = maps[r][m]
                 left = (m-1+M)%M
                 right = (m+1+M)%M
                 
                 if 0 <= r+1 < N:
-                    visited[r+1][m] = True
                     if maps[r+1][m] == target_num:
+                        visited[r+1][m] = True
                         candiate.append((r+1,m))
                 if 0 <= r-1 < N:
-                    visited[r-1][m] = True
                     if maps[r-1][m] == target_num:
+                        visited[r-1][m] = True
                         candiate.append((r-1,m))            
                 if maps[r][left] == target_num:
                     visited[r][left] = True
@@ -119,7 +119,6 @@ def normalize():
 def simulate(x, d, k):
     rotate(x, d, k)
     ismerge = check()
-    #print(maps)
     if not ismerge:
         normalize()
 #    print(maps)
