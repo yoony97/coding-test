@@ -1,132 +1,131 @@
-BLANK = 0
-CW = 0
-CCW = 1
+#반지름이 r이면 r번째 원판
+#각 원판 m개의 정수
+#r번째 원판에 적힌 m번째 정수를 (r,m)
+#12시부터 m개의 정수가 시계방향 순서대로 주어짐
+#독립적으로 원판은 회전함(요청: 종류(x), 방향(d), 칸(k)) #d는 시계 방향 반시계 방향
+# x는 원판의 번호가 x의 배수 일 경우 회전
+# 인접하고 같은 수면 지움
+    # 인접 조건
+    # r,1은 r,2와 r,m 과 인접하다 (같은원 좌우 옆에 있는 숫자를 뜻함)
+    # r,j는 r-1,j과 r+1,j와 인접하다 (바로 위의 원판과 인접하다)
+    # 모듈러로 처리해야할 것 같다.
+#원판 숫자가 안지워지는 경우, 숫자가 존재하는 경우
+    # 원판 전체에 적힌 수의 평균 구해서 정규화
+          # 평균보다 큰 수  N = N-1
+          # 평균보다 작은 N = N + 1
 
-# 변수 선언 및 입력:
-n, m, q = tuple(map(int, input().split()))
-plate = [
-    list(map(int, input().split()))
-    for _ in range(n)
-]
-temp = [BLANK for _ in range(m)]
-removed = [
-    [False for _ in range(m)]
-    for _ in range(n)
-]
-
-
-def shift(row, d, k):
-    # Step1. temp 배열을 초기화합니다.
-    for col in range(m):
-        temp[col] = BLANK
+from collections import deque
+N, M, Q = map(int, input().split())
+maps = []
+query = []
+for i in range(N):
+    j = list(map(int, input().split()))    
+    maps.append(j) #maps의 index가 maps[r]의 인덱스가 m
     
-    # Step2. 회전을 진행합니다.
-    # 시계방향 회전시에는, 
-    # 1차원 배열을 오른쪽으로 k칸 밀어준다고
-    # 생각할 수 있습니다.
-    if d == CW:
-        for col in range(m):
-            temp[(col + k) % m] = plate[row][col]
-    else:
-        for col in range(m):
-            temp[(col - k + m) % m] = plate[row][col]
-    
-    # Step3. 회전 이후의 결과인 temp 값을
-    # 다시 plate에 옮겨줍니다.
-    for col in range(m):
-        plate[row][col] = temp[col]
 
+for i in range(Q):
+    x, d, k = map(int, input().split())
+    query.append((x,d,k))
+
+
+#회전하는 함수
+def rotate_clock_wise(arr,k):
+    for _ in range(k):
+        temp = arr[-1]
+        for i in range(len(arr)-1, 0, -1):
+            arr[i] = arr[i-1]
+        arr[0] = temp
+
+
+def rotate_counter_clock_wise(arr, k):
+    for _ in range(k):
+        temp = arr[0]
+        for i in range(len(arr)-1):
+            arr[i] = arr[i+1]
+        arr[-1] = temp
 
 def rotate(x, d, k):
-    # x 배수에 대해서만 밀어주는 작업을 진행합니다.
-    for i in range(n):
-        if (i + 1) % x == 0:
-            shift(i, d, k)
-            
-
-def in_range(x, y):
-    return 0 <= x and x < n and 0 <= y and y < m
+    for i in range(N):
+        if (i+1)%x == 0:
+            if d == 1:
+                rotate_counter_clock_wise(maps[i], k)
+            else:
+                rotate_clock_wise(maps[i], k)
 
 
-def remove():
-    is_removed = False
-    dxs, dys = [1, -1, 0, 0], [0, 0, 1, -1]
-    
-    # Step1. removed 배열을 초기화합니다.
-    for x in range(n):
-        for y in range(m):
-            removed[x][y] = False
-    
-    # Step2. 인접한 숫자 중 같은 쌍을 찾아
-    # 지워야 한다는 표시를 합니다.
-    # 이때, 열에 대해서는 원형으로 이루어진 판이기 때문에
-    # 양쪽 경계에서 인접한 곳의 위치를 구하는 부분에 유의합니다.
-    for x in range(n):
-        for y in range(m):
-            if plate[x][y] == BLANK:
-                continue
-            
-            for dx, dy in zip(dxs, dys):
-                # 열에 대해서는 원형으로 이어져있습니다.
-                nx, ny = x + dx, (y + dy + m) % m
-                if in_range(nx, ny) and plate[nx][ny] == plate[x][y]:
-                    removed[x][y] = removed[nx][ny] = True
-    
-    # Step3. 지워야 할 부분들을 전부 지워줍니다.
-    for x in range(n):
-        for y in range(m):
-            if removed[x][y]:
-                is_removed = True
-                plate[x][y] = BLANK
-    
-    return is_removed
 
+
+def check():
+    visited = [[False]*M for _ in range(N)]
+    ismerge = False
+    
+    for r in range(N):
+        for c in range(M):
+            if maps[r][c] != 0 and not visited[r][c]:
+                q = deque()
+                q.append((r, c))
+                visited[r][c] = True
+                group = [(r, c)]
+                target_num = maps[r][c]
+                
+                while q:
+                    x, y = q.popleft()
+                    for dx, dy in [(-1,0), (1,0), (0,-1), (0,1)]:
+                        nx = x + dx
+                        ny = (y + dy) % M  # 좌우 회전 가능성 고려
+                        if 0 <= nx < N and not visited[nx][ny] and maps[nx][ny] == target_num:
+                            visited[nx][ny] = True
+                            q.append((nx, ny))
+                            group.append((nx, ny))
+                
+                if len(group) > 1:
+                    ismerge = True
+                    for x, y in group:
+                        maps[x][y] = 0
+
+    return ismerge
 
 def normalize():
-    total_sum, cnt = 0, 0
-    for i in range(n):
-        for j in range(m):
-            if plate[i][j] != BLANK:
-                total_sum += plate[i][j];
-                cnt += 1
+    count = 0
+    total = 0
+    for r in range(N):
+        for m in range(M):
+            if maps[r][m] != 0:
+                count += 1
+                total += maps[r][m]
     
-    # 남아 있는 숫자가 있을 경우에만 정규화를 진행합니다.
-    if cnt > 0:
-        avg = total_sum // cnt
-        
-        for i in range(n):
-            for j in range(m):
-                if plate[i][j] == BLANK:
-                    continue
-                
-                if plate[i][j] < avg:
-                    plate[i][j] += 1
-                elif plate[i][j] > avg:
-                    plate[i][j] -= 1
-                
+    standard = total//count
+
+    for r in range(N):
+        for m in range(M):
+            if maps[r][m] != 0:
+                if maps[r][m] > standard:
+                    maps[r][m] -= 1
+                if maps[r][m] < standard:
+                    maps[r][m] += 1
+            
+    
+
+
 
 def simulate(x, d, k):
-    # Step1. 회전을 진행합니다.
     rotate(x, d, k)
-    
-    # Step2. 인접하며 동일한 숫자를 찾아 지웁니다.
-    is_removed = remove()
-    
-    # Step3. 지워진 숫자가 없다면, 정규화를 진행합니다.
-    if not is_removed:
+    ismerge = check()
+    #print(maps)
+    if not ismerge:
         normalize()
+#    print(maps)
 
-        
-# q번에 걸쳐 시뮬레이션을 진행합니다.
-for _ in range(q):
-    x, d, k = tuple(map(int, input().split()))
-    simulate(x, d, k)
+for (x,d,k) in query:
+    simulate(x,d,k)
 
-ans = sum([
-    plate[i][j]
-    for i in range(n)
-    for j in range(m)
-    if plate[i][j] != BLANK
-])
 
-print(ans)
+
+print(sum([sum(maps[i]) for i in range(N)]))
+
+
+
+
+
+
+
