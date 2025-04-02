@@ -14,7 +14,6 @@
           # 평균보다 큰 수  N = N-1
           # 평균보다 작은 N = N + 1
 
-from collections import deque
 N, M, Q = map(int, input().split())
 maps = []
 query = []
@@ -54,36 +53,45 @@ def rotate(x, d, k):
 
 
 
-
 def check():
-    visited = [[False]*M for _ in range(N)]
+    #인접 조건
+    #상하 좌우 체크
     ismerge = False
-    
+    candiates = []
+    visited = [[False]*M for _ in range(N)]
     for r in range(N):
-        for c in range(M):
-            if maps[r][c] != 0 and not visited[r][c]:
-                q = deque()
-                q.append((r, c))
-                visited[r][c] = True
-                group = [(r, c)]
-                target_num = maps[r][c]
+        for m in range(M):
+            #up은 신경 안써도 되네
+            if maps[r][m] != 0 and visited[r][m]:
+                candiate = [(r,m)]
+                target_num = maps[r][m]
+                left = (m-1+M)%M
+                right = (m+1+M)%M
                 
-                while q:
-                    x, y = q.popleft()
-                    for dx, dy in [(-1,0), (1,0), (0,-1), (0,1)]:
-                        nx = x + dx
-                        ny = (y + dy) % M  # 좌우 회전 가능성 고려
-                        if 0 <= nx < N and not visited[nx][ny] and maps[nx][ny] == target_num:
-                            visited[nx][ny] = True
-                            q.append((nx, ny))
-                            group.append((nx, ny))
+                if 0 <= r+1 < N:
+                    visited[r+1][m] = True
+                    if maps[r+1][m] == target_num:
+                        candiate.append((r+1,m))
+                if 0 <= r-1 < N:
+                    visited[r-1][m] = True
+                    if maps[r-1][m] == target_num:
+                        candiate.append((r-1,m))            
+                if maps[r][left] == target_num:
+                    visited[r][left] = True
+                        candiate.append((r,left))
+                if maps[r][right] == target_num:
+                    visited[r][right] = True
+                        candiate.append((r,right))            
                 
-                if len(group) > 1:
+                if len(candiate) > 1:
+                    candiates.extend(candiate)
                     ismerge = True
-                    for x, y in group:
-                        maps[x][y] = 0
+
+    for r, m in list(set(candiates)):
+        maps[r][m] = 0
 
     return ismerge
+
 
 def normalize():
     count = 0
