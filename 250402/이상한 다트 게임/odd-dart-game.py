@@ -78,10 +78,10 @@ def check():
                         candiate.append((r-1,m))            
                 if maps[r][left] == target_num:
                     visited[r][left] = True
-                        candiate.append((r,left))
+                    candiate.append((r,left))
                 if maps[r][right] == target_num:
                     visited[r][right] = True
-                        candiate.append((r,right))            
+                    candiate.append((r,right))            
                 
                 if len(candiate) > 1:
                     candiates.extend(candiate)
