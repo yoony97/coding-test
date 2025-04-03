@@ -52,7 +52,7 @@ def calculate(arr):
     for row in range(5,-1,-1):
         if sum(arr[row]) == 4:
             score+= 1
-            down(yellow, row)
+            down(arr, row)
     return score
 
 
