@@ -38,12 +38,15 @@ def down(arr, start_row):
 
 def check(arr):
     count = 0
-    for row in range(2): #0,1 행만 관리함
+    for row in range(2):
         if sum(arr[row]) >= 1:
             count += 1
-    
-    for i in range(count):
-        down(arr, 5)
+
+    for _ in range(count):
+        for row in range(5, 0, -1):
+            for col in range(4):
+                arr[row][col] = arr[row - 1][col]
+        arr[0] = [0, 0, 0, 0]
 
 
 
