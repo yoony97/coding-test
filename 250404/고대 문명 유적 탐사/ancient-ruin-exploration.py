@@ -49,8 +49,8 @@ def chain(arr):
     total_score = 0
     removal_positions = []  # -1로 변경할 좌표들을 저장
 
-    for row in range(5):
-        for col in range(5):
+    for col in range(5):
+        for row in range(5):
             if visited[row][col]:
                 continue
             # 이미 제거된 셀은 건너뜁니다.
