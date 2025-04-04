@@ -49,8 +49,8 @@ def chain(arr):
     total_score = 0
     removal_positions = []  # -1로 변경할 좌표들을 저장
 
-    for col in range(5):
-        for row in range(5):
+    for row in range(5):
+        for col in range(5):
             if visited[row][col]:
                 continue
             # 이미 제거된 셀은 건너뜁니다.
@@ -100,39 +100,53 @@ def fill(result, added, arr):
 
 def simulate(added, arr):
     max_score = -1
-    info = (-1, -1, -1)
+    info = None  # (degree, cx, cy)
     max_result = []
-    best_arr = None
-    # 최대 점수를 주는 회전 구하기 (원본 arr은 그대로 유지)
+    # 후보 회전 선택 시 tie-break 조건 추가:
+    # 최대 점수 우선, 점수가 같으면 회전 각도, 그 다음 열, 그 다음 행 순으로 선택
     for degree in range(3):
         for cx in range(1, 4):
             for cy in range(1, 4):
                 temp_arr = rotate((cx, cy), degree, arr)
-                score, result, updated_arr = chain(temp_arr)
+                score, result, _ = chain(temp_arr)
+                # 점수가 0 이하면 회전 효과가 없으므로 무시
+                if score <= 0:
+                    continue
                 if score > max_score:
-                    info = (degree, cx, cy)
                     max_score = score
+                    info = (degree, cx, cy)
                     max_result = result
-                    best_arr = updated_arr
+                elif score == max_score:
+                    # tie-break: 작은 회전 각도, 그 다음 작은 열, 그 다음 작은 행
+                    if info is not None:
+                        prev_degree, prev_cx, prev_cy = info
+                        if (degree < prev_degree or 
+                           (degree == prev_degree and cy < prev_cy) or 
+                           (degree == prev_degree and cy == prev_cy and cx < prev_cx)):
+                            info = (degree, cx, cy)
+                            max_result = result
+
     # 회전 가능한 그룹이 없으면 -1 반환
-    if max_score == -1 or len(max_result) == 0:
+    if max_score <= 0 or len(max_result) == 0:
         return -1
 
     total_score = 0
     max_d, max_cx, max_cy = info
+    #print(max_score)
     # 최대 점수를 주는 회전을 원본 arr에 적용 (새 배열 반환)
     arr = rotate((max_cx, max_cy), max_d, arr)
     score, result, arr = chain(arr)
     total_score += score
-
+    #print(arr)
     added, arr = fill(result, added, arr)  # -1 셀 채우기
     s, result, arr = chain(arr)  # 연쇄 확인 (이미 채워진 셀은 새로운 체인으로 인식되지 않음)
     total_score += s
+    #print(arr)
     while s > 0:
         added, arr = fill(result, added, arr)
         s, result, arr = chain(arr)
         total_score += s
-
+        #print(arr)
     return (added, total_score, arr)
 
 
@@ -150,3 +164,4 @@ for i in range(K):
         break
     added, total_score, arr = sim_result
     print(total_score, end = ' ')
+
