@@ -5,20 +5,23 @@ pawn = []
 arr = [[0]*C for _ in range(R)]
 dx = [-1, 0, 1, 0]
 dy = [0, 1, 0, -1]
-
 for i in range(K):
     c, d = map(int, input().split())
-    pawn.append((c-1, d))
+    pawn.append((c-1,d))
 
 def inbound(x, y):
-    return 0 <= x < R and 0 <= y < C
+    if 0 <= x < R and 0  <= y < C:
+        return True
+    return False
+
 
 def can_move(x, y):
-    # 숲 내부이거나, 숲 위쪽에서 진입 중일 땐 True
-    if 0 <= x < R and 0 <= y < C:
-        return arr[x][y] == 0
-    elif x < R and 0 <= y < C:
-        return True
+    if not inbound(x, y):  # 보드 밖이면
+        if x < R and 0 <= y < C:  # 위쪽 바깥 영역은 허용
+            return True
+    else:  # 보드 안이면
+        if arr[x][y] == 0:
+            return True
     return False
 
 def init():
@@ -27,70 +30,77 @@ def init():
             arr[i][j] = 0
 
 def move(pawn, idx):
-    c, d = pawn
-    x, y = -2, c  # 골렘 중심 시작 좌표
-
+    c, d  = pawn
+    x, y = -2, c #센터 좌표
     while True:
-        # 아래로 전진
-        nx = x + 1
+        nx = x+1
         ny = y
-        if all(can_move(nx + dx[i], ny + dy[i]) for i in range(4)) and can_move(nx, ny):
-            x, y = nx, ny
-        # 왼쪽 회전
-        elif all(can_move(x + dx[i] + 1, y + dy[i] - 1) for i in range(4)) and can_move(x + 1, y - 1):
-            x += 1
-            y -= 1
-            d = (d - 1) % 4
-        # 오른쪽 회전
-        elif all(can_move(x + dx[i] + 1, y + dy[i] + 1) for i in range(4)) and can_move(x + 1, y + 1):
-            x += 1
-            y += 1
-            d = (d + 1) % 4
+        #남쪽으로 직진 가능해?
+        if can_move(nx+1, ny) and can_move(nx-1, ny) and can_move(nx, ny+1) and can_move(nx, ny-1) and can_move(nx,ny):
+            x = nx
+            y = ny
+        #서쪽으로 회전 가능해?
+        elif can_move(x, y-2) and can_move(x+1, y-1) and can_move(x-1, y-1) and can_move(x+2,y-1) and can_move(x+1, y-2):
+            x = x+1
+            y = y-1
+            d = (d-1)%4
+        #동쪽으로 회전 가능해?
+        elif can_move(x, y+2) and can_move(x+1, y+1) and can_move(x-1, y+1) and can_move(x+2,y+1) and can_move(x+1, y+2):
+            x = x+1
+            y = y+1
+            d = (d+1)%4
+        elif not all(inbound(x + dx[i], y + dy[i]) for i in range(4)) or not inbound(x, y):
+            init()
+            return (False, -1, -1)
+            
+
         else:
-            # 설치 시 몸통이 전부 숲 안에 있는지 확인
-            if not inbound(x, y) or not all(inbound(x + dx[i], y + dy[i]) for i in range(4)):
-                init()
-                return (False, -1, -1)
-
-            # 골렘 설치
-            arr[x][y] = idx  # 중심
+            arr[x][y] = idx
+            ex = -1
+            ey = -1
             for i in range(4):
-                nx, ny = x + dx[i], y + dy[i]
                 if i == d:
-                    arr[nx][ny] = -idx  # 출구
-                    ex, ey = nx, ny     # 출구 위치 저장
+                    ex = x+dx[i]  
+                    ey = y+dy[i]
+                    arr[ex][ey] = -idx
                 else:
-                    arr[nx][ny] = idx
+                    arr[x+dx[i]][y+dy[i]] = idx
             return (True, ex, ey)
-
-def bfs(sx, sy):
-    q = deque([(sx, sy)])
+            
+    
+def bfs(x,y):
+    q = deque([(x,y)])
     visited = [[False]*C for _ in range(R)]
-    visited[sx][sy] = True
-    max_row = sx
-
+    visited[x][y] = True
+    max_row = x
     while q:
-        x, y = q.popleft()
-        num = arr[x][y]
+        cx, cy = q.popleft()
+        num = arr[cx][cy]
         for i in range(4):
-            nx, ny = x + dx[i], y + dy[i]
-            if inbound(nx, ny) and not visited[nx][ny]:
-                # 같은 골렘 or 출구에서 다른 골렘 이동
-                if abs(arr[nx][ny]) == abs(num):
+            nx = cx + dx[i]
+            ny = cy + dy[i]
+            if inbound(nx, ny) and not visited[nx][ny] and arr[cx][cy] != 0:
+                if abs(arr[nx][ny]) == abs(num): # 같은 골램일 떼 이동
+                    q.append((nx,ny))
                     visited[nx][ny] = True
-                    q.append((nx, ny))
-                    max_row = max(max_row, nx)
-                elif num < 0 and abs(arr[nx][ny]) != abs(num):
+                    max_row = max(nx, max_row)
+                elif num < 0 and abs(num) != abs(arr[nx][ny]): #출구 일때, 서로 다른 골렘에 이동 가능
+                    q.append((nx,ny))
                     visited[nx][ny] = True
-                    q.append((nx, ny))
-                    max_row = max(max_row, nx)
+                    max_row = max(nx, max_row)
     return max_row
+            
 
-# 실행
+#출구를 음수로 설정했어
+#쌓이기 시작하면서 작은 값들이 밑으로 깔린다.
+#따라서, 출구일 떄, 보다 
+
 answer = 0
 for i in range(K):
-    flag, sx, sy = move(pawn[i], i+1)
+    flag, x, y= move(pawn[i],i+1)
     if flag:
-        score = bfs(sx, sy)
-        answer += score + 1  # 0-based → 1-based
+        score = bfs(x,y)
+        #print(score+1)
+        answer += score+1
+
 print(answer)
