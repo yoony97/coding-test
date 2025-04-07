@@ -1,107 +1,81 @@
-#원형 벨트에 l개의 의자가 있음
-## 의자 위치 x[x_1, x_2, ..., x_{L-1}라고 했을 때, x = 0을 기점으로 시게 방향으로 위치함
-# 의자 앞에 초밥 여러개 가능
-# 초밥은 1초에 한칸씩 회전 
-# 처음에는 벨트위에 초밥이 없음, 의자에 사람도 없음
-def make_sushi():
-    """
-        t초에 회전 한번 일어난 이후, 시각 t에 위치 x앞에 있는 벨트 위에 name 이름을 부착한 회전초밥을 올림
-        이름이 적혀 있는 초밥이 같은 위치에 여러개 놓여 잇을 수 잇음
-    """
-    pass
-
-def enter_guest():
-    """
-        t초에 회전 한번 일어난 이후, 이름이 name인 사람이 시각 t에 x 의자에 앉음
-        이때부터 위치 x 앞으로 오는 초밥들 중 자신의 이름이 적혀 있는 초밥을 정확히 n개 먹고 자리를 떠남
-        만약 시각 t에 위치 x에 자신의 이름이 적혀있는 초밥이 놓여있다면 바로 먹음
-        동시에 여러개 있다면 여러개 먹을 수 있음
-        시간 소요 안됨
-    """
-    pass
-def take_picture():
-    """
-        초밥 회전 발생 후, 손님이 앉아있는 자리에서 자신의 이름이 적힌 초밥을 먹은 뒤 시간 t에 오마카세 집 촬영함, 
-        현재 남아있는 사람 수와 초밥 수를 출력함
-    """
-    pass
 from collections import deque
 
 L, Q = map(int, input().split())
-m2p = {}
-people = [0]*L
-sushi = [deque([]) for _ in range(L)]
+
+rotation_offset = 0
 prev_t = 0
 
-def rotate(sushi):
-    new_sushi = [sushi[-1]]
-    for i in range(L-1):
-        new_sushi.append(sushi[i])
+# 초밥 리스트 (고정 크기)
+sushi = [deque() for _ in range(L)]
 
-    return new_sushi
-
-def eat(sushi):
-    for i in range(L):
-        if people[i] > 0:
-            name = m2p[i]
-            temp = deque([])
-            while sushi[i]:
-                if people[i] == 0: #다먹은 경우
-                    del m2p[i]
-                    break
-                s_name = sushi[i].popleft()
-                if name == s_name:
-                    people[i] -= 1
-                else:
-                    temp.append(s_name)
-        
-            while sushi[i]:
-                s_name = sushi[i].popleft()
-                temp.append(s_name)
-            sushi[i] = temp
-    return sushi
+# 손님 이름 정보 (의자 위치 기준)
+m2p = {}
+# 손님이 먹어야 할 초밥 수
+people = [0] * L
 
 
-    
+rotation_offset = 0
+prev_t = 0
+
+belt = [deque() for _ in range(L)]
+seat_to_guest = {}  # 실제 의자 번호 x → 이름
+guest_sushi_goal = [0] * L  # 실제 의자 번호 x → 남은 초밥 수
+
+def belt_pos_at_seat(x):
+    """의자 x 앞에 있는 벨트 위치"""
+    return (x - rotation_offset + L) % L
+
+def eat(x):
+    """의자 x에 앉은 손님이 먹기 시도"""
+    if guest_sushi_goal[x] == 0:
+        return
+    name = seat_to_guest[x]
+    belt_pos = belt_pos_at_seat(x)
+    temp = deque()
+    while belt[belt_pos]:
+        sushi = belt[belt_pos].popleft()
+        if sushi == name:
+            guest_sushi_goal[x] -= 1
+            if guest_sushi_goal[x] == 0:
+                del seat_to_guest[x]
+                break
+        else:
+            temp.append(sushi)
+    belt[belt_pos] = temp
+
+result = []
 
 for i in range(Q):
     op = list(input().split())
-    cur_t = int(op[1])
-    differ = cur_t - prev_t
-    
-    for _ in range(differ):
-        sushi = rotate(sushi)
-        sushi = eat(sushi)
+    t = int(op[1])
+    diff = t - prev_t
 
-    
-    #회전은 계속하며 밥도 계속 먹는다.
-    #여기서 회전 시켜야함
-    
-    if op[0] == '100': #초밥 추가
+    # 매초 회전 + 먹기
+    for _ in range(diff):
+        rotation_offset = (rotation_offset + 1) % L
+        for x in list(seat_to_guest.keys()):
+            eat(x)
+
+    prev_t = t
+
+    if op[0] == "100":  # 초밥 추가
         x, name = int(op[2]), op[3]
-        sushi[x].append(name)
-        sushi = eat(sushi)
+        belt_pos = belt_pos_at_seat(x)
+        belt[belt_pos].append(name)
+        if guest_sushi_goal[x] > 0:
+            eat(x)
 
-    
-    elif op[0] == '200':
+    elif op[0] == "200":  # 손님 입장
         x, name, n = int(op[2]), op[3], int(op[4])
-        m2p[x] = name
-        people[x] = n
-        
-        #여기서 즉시 먹는 경우가 존재한다
-        sushi = eat(sushi) 
+        seat_to_guest[x] = name
+        guest_sushi_goal[x] = n
+        eat(x)
 
-
-    elif op[0] == '300':
-        n_sushi = 0
-        n_people = 0
-        for i in range(L):
-            n_sushi += len(sushi[i])
-            if people[i] > 0:
-                n_people += 1
-        print(n_people, n_sushi)
+    elif op[0] == "300":  # 촬영
+        n_people = sum(1 for p in guest_sushi_goal if p > 0)
+        n_sushi = sum(len(q) for q in belt)
+        result.append((n_people, n_sushi))
     
-    # print(cur_t, sushi)
-    # print(people)
 
-    prev_t = cur_t
+for x,y in result:
+    print(x,y)
