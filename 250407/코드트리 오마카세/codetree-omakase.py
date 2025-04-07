@@ -1,33 +1,22 @@
-from collections import deque
+from collections import defaultdict, deque
 
 L, Q = map(int, input().split())
 
-rotation_offset = 0
-prev_t = 0
-
-# 초밥 리스트 (고정 크기)
-sushi = [deque() for _ in range(L)]
-
-# 손님 이름 정보 (의자 위치 기준)
-m2p = {}
-# 손님이 먹어야 할 초밥 수
-people = [0] * L
-
 
 rotation_offset = 0
 prev_t = 0
 
-belt = [deque() for _ in range(L)]
-seat_to_guest = {}  # 실제 의자 번호 x → 이름
-guest_sushi_goal = [0] * L  # 실제 의자 번호 x → 남은 초밥 수
+belt = defaultdict(deque)  # key: belt position, value: deque of sushi names
+seat_to_guest = {}         # key: seat position, value: guest name
+guest_sushi_goal = {}      # key: seat position, value: number of sushi to eat
 
 def belt_pos_at_seat(x):
-    """의자 x 앞에 있는 벨트 위치"""
+    """의자 x 앞에 있는 벨트 위치 계산"""
     return (x - rotation_offset + L) % L
 
 def eat(x):
-    """의자 x에 앉은 손님이 먹기 시도"""
-    if guest_sushi_goal[x] == 0:
+    """손님이 자기 앞에 있는 초밥 먹기 시도"""
+    if guest_sushi_goal.get(x, 0) == 0:
         return
     name = seat_to_guest[x]
     belt_pos = belt_pos_at_seat(x)
@@ -38,6 +27,7 @@ def eat(x):
             guest_sushi_goal[x] -= 1
             if guest_sushi_goal[x] == 0:
                 del seat_to_guest[x]
+                del guest_sushi_goal[x]
                 break
         else:
             temp.append(sushi)
@@ -50,7 +40,7 @@ for i in range(Q):
     t = int(op[1])
     diff = t - prev_t
 
-    # 매초 회전 + 먹기
+    # 회전 및 먹기 처리
     for _ in range(diff):
         rotation_offset = (rotation_offset + 1) % L
         for x in list(seat_to_guest.keys()):
@@ -58,24 +48,22 @@ for i in range(Q):
 
     prev_t = t
 
-    if op[0] == "100":  # 초밥 추가
+    if op[0] == "100":
         x, name = int(op[2]), op[3]
-        belt_pos = belt_pos_at_seat(x)
-        belt[belt_pos].append(name)
-        if guest_sushi_goal[x] > 0:
+        belt[belt_pos_at_seat(x)].append(name)
+        if guest_sushi_goal.get(x, 0) > 0:
             eat(x)
 
-    elif op[0] == "200":  # 손님 입장
+    elif op[0] == "200":
         x, name, n = int(op[2]), op[3], int(op[4])
         seat_to_guest[x] = name
         guest_sushi_goal[x] = n
         eat(x)
 
-    elif op[0] == "300":  # 촬영
-        n_people = sum(1 for p in guest_sushi_goal if p > 0)
-        n_sushi = sum(len(q) for q in belt)
+    elif op[0] == "300":
+        n_people = len(guest_sushi_goal)
+        n_sushi = sum(len(q) for q in belt.values())
         result.append((n_people, n_sushi))
-    
 
 for x,y in result:
     print(x,y)
