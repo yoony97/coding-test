@@ -50,18 +50,16 @@ def change_auth(c, power):
 
 def count_reachable(c):
     count = 0
-    visited = [False]*(N+1)
     def dfs(node_idx, depth):
         nonlocal count
         for child in Nodes[node_idx].child_IDS:
-            #print(f"{node_idx} → {child}: depth={depth+1}, auth={Nodes[child].auth}, alram={Nodes[child].alram}")
-            if Nodes[child].auth >= depth + 1 and Nodes[child].alram == 1 and not visited[child]:
-                count += 1
-                visited[child] = True
             if Nodes[child].alram == 1:
+                if Nodes[child].auth >= depth + 1:
+                    count += 1
                 dfs(child, depth + 1)
     dfs(c, 0)
-    print(f"{count}")
+    print(count)
+
 
 
 for _ in range(Q):
