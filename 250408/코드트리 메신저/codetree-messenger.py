@@ -1,77 +1,126 @@
-class Node:
-    def __init__(self):
-        self.id = 0
-        self.pid = -1
-        self.child_IDS = []
-        self.auth = 0
-        self.alram = 1
-    def __repr__(self):
-        return f"Node(pid={self.pid}, mid={self.id}, child={self.child_IDS}, auth={self.auth}, alram={self.alram})"
+MAX_N = 100001
+MAX_D = 22
 
-MAX_DEPTH = 20
-MAX_NODE = 100000
-N, Q = map(int, input().split())
-Nodes = [Node() for _ in range(N+1)]
+n, q = 0, 0
+a, p, val = [0] * MAX_N, [0] * MAX_N, [0] * MAX_N
+noti = [False] * MAX_N
+nx = [[0 for _ in range(MAX_D)] for _ in range(MAX_N)]
 
-def init(cmd):
-    parents = cmd[:N]
-    authority = cmd[N:]
-    for i in range(N):
-        pid = parents[i]
-        Nodes[i+1].pid = pid
-        Nodes[i+1].id = i+1
-        
-        Nodes[i+1].auth = authority[i] if authority[i] < 20 else 20
-        if pid != -1:
-            Nodes[pid].child_IDS.append(i+1)
+# 초기 설정 값을 받아옵니다.
+def init(inputs):
+    global n, a, p, val, nx
+    # 부모 채팅과 채팅의 권한 정보를 입력받습니다.
+    for i in range(1, n + 1):
+        p[i] = inputs[i]
+    
+    for i in range(1, n + 1):
+        a[i] = inputs[i + n]
+        # 채팅의 권한이 20을 초과하는 경우 20으로 제한합니다.
+        if a[i] > 20:
+            a[i] = 20
+    
+    # nx 배열과 val 값을 초기화합니다.
+    for i in range(1, n + 1):
+        cur = i
+        x = a[i]
+        nx[cur][x] += 1
+        # 상위 채팅으로 이동하며 nx와 val 값을 갱신합니다.
+        while p[cur] and x:
+            cur = p[cur]
+            x -= 1
+            if x:
+                nx[cur][x] += 1
+            val[cur] += 1
 
-def change_parent(c1, c2):
-    p1 = Nodes[c1].pid
-    p2 = Nodes[c2].pid
+# 채팅의 알림 상태를 토글합니다.
+def toggle_noti(chat):
+    cur = p[chat]
+    num = 1
+    # 상위 채팅으로 이동하며 noti 값에 따라 nx와 val 값을 갱신합니다.
+    while cur:
+        for i in range(num, 22):
+            val[cur] += nx[chat][i] if noti[chat] else -nx[chat][i]
+            if i > num:
+                nx[cur][i - num] += nx[chat][i] if noti[chat] else -nx[chat][i]
+        if noti[cur]:
+            break
+        cur = p[cur]
+        num += 1
+    noti[chat] = not noti[chat]
+
+# 채팅의 권한의 크기를 변경합니다.
+def change_power(chat, power):
+    bef_power = a[chat]
+    power = min(power, 20)  # 권한의 크기를 20으로 제한합니다.
+    a[chat] = power
+
+    nx[chat][bef_power] -= 1
+    if not noti[chat]:
+        cur = p[chat]
+        num = 1
+        # 상위 채팅으로 이동하며 nx와 val 값을 갱신합니다.
+        while cur:
+            if bef_power >= num:
+                val[cur] -= 1
+            if bef_power > num:
+                nx[cur][bef_power - num] -= 1
+            if noti[cur]:
+                break
+            cur = p[cur]
+            num += 1
+
+    nx[chat][power] += 1
+    if not noti[chat]:
+        cur = p[chat]
+        num = 1
+        # 상위 채팅으로 이동하며 nx와 val 값을 갱신합니다.
+        while cur:
+            if power >= num:
+                val[cur] += 1
+            if power > num:
+                nx[cur][power - num] += 1
+            if noti[cur]:
+                break
+            cur = p[cur]
+            num += 1
+
+# 두 채팅의 부모를 교체합니다.
+def change_parent(chat1, chat2):
+    bef_noti1 = noti[chat1]
+    bef_noti2 = noti[chat2]
+
+    if not noti[chat1]:
+        toggle_noti(chat1)
+    if not noti[chat2]:
+        toggle_noti(chat2)
+
+    p[chat1], p[chat2] = p[chat2], p[chat1]
+
+    if not bef_noti1:
+        toggle_noti(chat1)
+    if not bef_noti2:
+        toggle_noti(chat2)
+
+# 해당 채팅의 val 값을 출력합니다.
+def print_count(chat):
+    print(val[chat])
 
 
-    if p1 != -1 and c1 in Nodes[p1].child_IDS:
-        Nodes[p1].child_IDS.remove(c1)
-    if p2 != -1 and c2 in Nodes[p2].child_IDS:
-        Nodes[p2].child_IDS.remove(c2)
-
-    Nodes[c1].pid, Nodes[c2].pid = p2, p1
-
-    if p2 != -1:
-        Nodes[p2].child_IDS.append(c1)
-    if p1 != -1:
-        Nodes[p1].child_IDS.append(c2)
-
-
-def change_alram(c):
-    Nodes[c].alram *= -1
-
-def change_auth(c, power):
-    Nodes[c].auth = power
-
-def count_reachable(c):
-    count = 0
-    def dfs(node_idx, depth):
-        nonlocal count
-        for child in Nodes[node_idx].child_IDS:
-            if Nodes[child].alram == 1:
-                if Nodes[child].auth >= depth + 1:
-                    count += 1
-                dfs(child, depth + 1)
-    dfs(c, 0)
-    print(count)
-
-
-
-for _ in range(Q):
-    cmd = list(map(int, input().split()))
-    if cmd[0] == 100:
-        init(cmd[1:])
-    elif cmd[0] == 200:
-        change_alram(cmd[1])
-    elif cmd[0] == 300:
-        change_auth(cmd[1], cmd[2])
-    elif cmd[0] == 400:
-        change_parent(cmd[1], cmd[2])
-    elif cmd[0] == 500:
-        count_reachable(cmd[1])
+n, q = map(int, input().split())
+for _ in range(q):
+    inputs = list(map(int, input().split()))
+    query = inputs[0]
+    if query == 100:
+        init(inputs)
+    elif query == 200:
+        chat = inputs[1]
+        toggle_noti(chat)
+    elif query == 300:
+        chat, power = inputs[1], inputs[2]
+        change_power(chat, power)
+    elif query == 400:
+        chat1, chat2 = inputs[1], inputs[2]
+        change_parent(chat1, chat2)
+    elif query == 500:
+        chat = inputs[1]
+        print_count(chat)
