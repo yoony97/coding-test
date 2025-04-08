@@ -20,7 +20,8 @@ def init(cmd):
         pid = parents[i]
         Nodes[i+1].pid = pid
         Nodes[i+1].id = i+1
-        Nodes[i+1].auth = authority[i]
+        
+        Nodes[i+1].auth = authority[i] if authority[i] < 20 else 20
         if pid != -1:
             Nodes[pid].child_IDS.append(i+1)
 
@@ -71,11 +72,6 @@ for _ in range(Q):
     elif cmd[0] == 300:
         change_auth(cmd[1], cmd[2])
     elif cmd[0] == 400:
-        #print(f"{cmd[1]} 변경 전 : {Nodes[cmd[1]]}")
-        #print(f"{cmd[2]} 변경 전 : {Nodes[cmd[2]]}")
-        #print('부모를 변경합니다')
         change_parent(cmd[1], cmd[2])
-        #print(f"{cmd[1]} 변경 후 : {Nodes[cmd[1]]}")
-        #print(f"{cmd[2]} 변경 후 : {Nodes[cmd[2]]}")
     elif cmd[0] == 500:
         count_reachable(cmd[1])
