@@ -293,6 +293,6 @@ else:
         move_cnt, killed = move_man(cx, cy, best_view)
         
         print(move_cnt, best_stone, killed)
-print(0)
+    print(0)
 
 
