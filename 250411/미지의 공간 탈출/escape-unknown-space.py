@@ -1,101 +1,60 @@
+def myprint_3d(arr3):
+    for arr in arr3:
+        for lst in arr:
+            print(*lst)
+        print()
+    print()
 
-"""
-시간의 벽 단면도 ( 윗면과 동서남북 네면 )
-"""
-from collections import deque
+def myprint_2d(arr):
+        for lst in arr:
+            print(*lst)
+        print()
 
-flue_dx = [0, 0, 1, -1]
-flue_dy = [1, -1, 0, 0]
+def find_3d_start():
+    for i in range(M):
+        for j in range(M):
+            if arr3[4][i][j]==2:
+                return 4,i,j
+
+def find_2d_end():
+    for i in range(N):
+        for j in range(N):
+            if arr[i][j]==4:
+                arr[i][j]=0
+                return i, j
+
+def find_3d_base():
+    for i in range(N):
+        for j in range(N):
+            if arr[i][j]==3:
+                return i, j
+
+def find_3d_end_2d_start():
+    # [1] 3차원 시작좌표(base) 찾기
+    bi,bj = find_3d_base()
+
+    # [2] 3차원 좌표에서 2차원 연결좌표 찾기(1차 목적지)
+    for i in range(bi, bi+M):
+        for j in range(bj, bj+M):
+            if arr[i][j]!=3:        # 3차원 위치가 아니면 skip
+                continue
+
+            if arr[i][j+1]==0:      # 우측에 2차 시작점(3차원 우측으로 1차출구)
+                return 0, M-1, (M-1)-(i-bi), i, j+1     # ek(평면)=0, ei=M-1, ej=i, si=i, sj=j+1
+            elif arr[i][j-1]==0:    # 좌측으로 1차출구!
+                return 1, M-1, i-bi, i, j-1             # ek(평면)=1, ei=M-1, ej=i, si=i, sj=j+1
+            elif arr[i+1][j]==0:    # 아래쪽으로 1차출구!
+                return 2, M-1, j-bj, i+1, j             # ek(평면)=2, ei=M-1, ej=i, si=i, sj=j+1
+            elif arr[i-1][j]==0:    # 위쪽으로 1차출구!
+                return 3, M-1, (M-1)-(j-bj), i-1, j     # ek(평면)=3, ei=M-1, ej=i, si=i, sj=j+1
+
+    # 여기에 올일은 없지만..
+    return -1
+
 left_nxt = {0:2, 2:1, 1:3, 3:0}
 right_nxt = {0:3, 2:0, 1:2, 3:1}
-EAST, WEST, NORTH, SOUTH, TOP = 0, 1, 2, 3, 4
-N, M, F = map(int, input().split())
-arr = []
-cube = []
-isfirst_3d = False
-left_top = []
-right_bottom = []
-exit = []
-for i in range(N):
-    row = list(map(int, input().split()))
-    for j in range(N):
-        if row[j] == 4:
-            exit = [i,j]
-        if row[j] == 3 and not isfirst_3d:
-            isfirst_3d = True
-            left_top = [i,j]
-            right_bottom = [i + M - 1, j + M - 1]
-    arr.append(row)
-
-
-start = []
-found_start = False
-for i in range(5):
-    temp = []
-    if i == TOP:
-        found_start = True
-    for r in range(M):
-        row = list(map(int, input().split()))
-        if found_start:
-            for c in range(M):
-                if row[c] == 2:
-                    start = [r, c]
-        temp.append(row)
-    cube.append(temp)
-
-flue = []
-for i in range(F):
-    r, c, d, v = map(int, input().split())
-    flue.append((r,c,d,v))
-
-def find_exit(arr, left_top, right_bottom):
-    lx, ly = left_top
-    rx, ry = right_bottom
-    d3_exit = [-1, -1]
-    for i in range(lx, rx+1):
-        for j in range(ly, ry+1):
-            for dx, dy in [(1,0), (0,1), (-1,0), (0,-1)]:
-                nx = i + dx
-                ny = j + dy
-                if 0 <= nx < N and 0 <= ny < N:
-                    if arr[nx][ny] == 0:
-                        d3_exit = [nx, ny]
-                        break
-
-
-    if d3_exit == [-1, -1]:
-        return [-1,-1] #못찾음
-    #찾고 동서남북 중 어디니 찾아야함
-    else:
-        x, y = d3_exit
-        temp = []
-        direct = -1
-        if lx <= x <= rx and y > ry:  # 동쪽이 출구다.
-            direct = EAST
-            rl_x = abs(x - M - 1)
-            temp = [M - 1, rl_x]
-            # print(d3_exit)
-
-        if lx <= x <= rx and y < ly:  # 서쪽이 출구다.
-            direct = WEST
-            rlx = abs(x - M - 1)
-            temp = [M - 1, M - 1 - rlx]
-
-
-        if x > rx and ly <= y <= ry: #남쪽이 출구다
-            direct = SOUTH
-            rly = abs(M - 1 - y)
-            temp = [M - 1, rly]
-
-        if x < lx and ly <= y <= ry: #북쪽이 출구다
-            direct = NORTH
-            rly = abs(y - M-1)
-            temp = [M-1 , rly]
-
-
-        return direct, temp, d3_exit
-
-
+# dist = bfs_3d(sk_3d, si_3d, sj_3d,ek_3d, ei_3d, ej_3d)
+from collections import deque
 def bfs_3d(sk, si, sj,ek, ei, ej):
     q = deque()
     v = [[[0]*M for _ in range(M)] for _ in range(5)]
@@ -136,7 +95,7 @@ def bfs_3d(sk, si, sj,ek, ei, ej):
                 nk=ck
 
             # 미방문, 조건 맞으면
-            if v[nk][ni][nj]==0 and cube[nk][ni][nj]==0:
+            if v[nk][ni][nj]==0 and arr3[nk][ni][nj]==0:
                 q.append((nk,ni,nj))
                 v[nk][ni][nj]=v[ck][ci][cj]+1
 
@@ -144,52 +103,15 @@ def bfs_3d(sk, si, sj,ek, ei, ej):
     # myprint_3d(v)
     return -1
 
-di=[ 0, 0, 1,-1]
-dj=[ 1,-1, 0, 0]
-def spread(flue, ei, ej):
-    v = [[401] * N for _ in range(N)]
-    for wi, wj, wd, wv in flue:  # wv 단위로 wd방향으로 확산표시(출구가 아닌경우만 확산)
-        v[wi][wj] = 1
-        for mul in range(1, N + 1):
-            wi, wj = wi + di[wd], wj + dj[wd]
-            if 0 <= wi < N and 0 <= wj < N and arr[wi][wj] == 0 and (wi, wj) != (ei, ej):
-                if v[wi][wj] > wv * mul:  # 더 큰 값 일때만 갱신(겹칠수있으니)
-                    v[wi][wj] = wv * mul
-            else:
-                break
-
-    return v
-
-
-# def bfs_2d(sx_2d, sy_2d, flue_arr, arr, cnt):
-#     q = deque([(sx_2d,sy_2d, cnt)])
-#     visited = [[False]*N for _ in range(N)]
-#     visited[sx_2d][sy_2d] = True
-#     while q:
-#         #print(q)
-#         x, y, t = q.popleft()
-#         if x == exit[0] and y == exit[1]:
-#             return t
-#         for dx, dy in [(1,0), (0,1), (-1,0), (0,-1)]:
-#             nx = x + dx
-#             ny = y + dy
-#             if 0 <= nx < N and 0 <= ny < N and not visited[nx][ny]:
-#                 if arr[nx][ny] == 0 and t+1 < flue_arr[nx][ny] :
-#                     q.append((nx,ny, t+1))
-#                     visited[nx][ny] = True
-#                 elif arr[nx][ny] == 4:
-#                     return t+1
-#
-#     return -1
-
+#     dist = bfs_2d(v, dist, si, sj, ei, ej)
 def bfs_2d(v, dist, si, sj, ei, ej):
     q = deque()
+
     q.append((si,sj))
     v[si][sj]=dist
 
     while q:
         ci,cj = q.popleft()
-        #print(ci,cj, v[ci][cj])
         if (ci,cj)==(ei,ej):
             return v[ci][cj]
 
@@ -203,13 +125,40 @@ def bfs_2d(v, dist, si, sj, ei, ej):
     # 목적지를 찾을 수 없는 경우
     return -1
 
-arr[start[0]][start[1]] = 0
-flue_arr = spread(flue, exit[0], exit[1])
-direct, temp, d3_exit = find_exit(arr, left_top, right_bottom)
-time = bfs_3d(TOP, start[0], start[1], direct, temp[0], temp[1])
-answer = bfs_2d(flue_arr, time, d3_exit[0], d3_exit[1], exit[0], exit[1])
-#answer = bfs_2d(d3_exit[0], d3_exit[1], flue_arr, arr, time)
+##########################################
+##########################################
 
+N, M, F = map(int, input().split())
+arr = [list(map(int, input().split())) for _ in range(N)]
+arr3 = [[list(map(int, input().split())) for _ in range(M)] for _ in range(5)]
+wall = [list(map(int,input().split())) for _ in range(F)]
 
-print(answer)
+# [1] 주요위치들 찾기
+# 3차원 시작, 3차원 끝, 2차원 시작, 2차원 끝 좌표 탐색
+sk_3d, si_3d, sj_3d = find_3d_start()
+ei, ej = find_2d_end()
+ek_3d, ei_3d, ej_3d, si, sj = find_3d_end_2d_start()
 
+# [2] 3차원공간 탐색: 시작위치 -> 탈출위치거리 탐색(BFS 최단거리)
+dist = bfs_3d(sk_3d, si_3d, sj_3d,ek_3d, ei_3d, ej_3d)
+
+# 동 서 남 북
+di=[ 0, 0, 1,-1]
+dj=[ 1,-1, 0, 0]
+if dist!=-1:
+    # [3] 2차원 탐색 준비: 시간이상현상 처리해서 v에 시간표시: BFS확산시 그보다 작으면 통과하게표시
+    v = [[401]*N for _ in range(N)]
+    for wi,wj,wd,wv in wall:        # wv 단위로 wd방향으로 확산표시(출구가 아닌경우만 확산)
+        v[wi][wj]=1
+        for mul in range(1, N+1):
+            wi,wj = wi+di[wd], wj+dj[wd]
+            if 0<=wi<N and 0<=wj<N and arr[wi][wj]==0 and (wi,wj)!=(ei,ej):
+                if v[wi][wj]>wv*mul:    # 더 큰 값 일때만 갱신(겹칠수있으니)
+                    v[wi][wj]=wv*mul
+            else:
+                break
+
+    # [4] 2차원 시작위치에서 BFS로 탈출구탐색(v에 적혀있는 값보다 작은 경우 지나감)
+    dist = bfs_2d(v, dist, si, sj, ei, ej)
+
+print(dist)
