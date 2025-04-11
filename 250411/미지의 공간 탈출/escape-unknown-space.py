@@ -161,31 +161,55 @@ def spread(flue, ei, ej):
     return v
 
 
-def bfs_2d(sx_2d, sy_2d, flue_arr, arr, cnt):
-    q = deque([(sx_2d,sy_2d, cnt)])
-    visited = [[False]*N for _ in range(N)]
-    visited[sx_2d][sy_2d] = True
-    while q:
-        #print(q)
-        x, y, t = q.popleft()
-        if x == exit[0] and y == exit[1]:
-            return t
-        for dx, dy in [(1,0), (0,1), (-1,0), (0,-1)]:
-            nx = x + dx
-            ny = y + dy
-            if 0 <= nx < N and 0 <= ny < N and not visited[nx][ny]:
-                if arr[nx][ny] == 0 and t+1 < flue_arr[nx][ny] :
-                    q.append((nx,ny, t+1))
-                    visited[nx][ny] = True
-                elif arr[nx][ny] == 4:
-                    return t+1
+# def bfs_2d(sx_2d, sy_2d, flue_arr, arr, cnt):
+#     q = deque([(sx_2d,sy_2d, cnt)])
+#     visited = [[False]*N for _ in range(N)]
+#     visited[sx_2d][sy_2d] = True
+#     while q:
+#         #print(q)
+#         x, y, t = q.popleft()
+#         if x == exit[0] and y == exit[1]:
+#             return t
+#         for dx, dy in [(1,0), (0,1), (-1,0), (0,-1)]:
+#             nx = x + dx
+#             ny = y + dy
+#             if 0 <= nx < N and 0 <= ny < N and not visited[nx][ny]:
+#                 if arr[nx][ny] == 0 and t+1 < flue_arr[nx][ny] :
+#                     q.append((nx,ny, t+1))
+#                     visited[nx][ny] = True
+#                 elif arr[nx][ny] == 4:
+#                     return t+1
+#
+#     return -1
 
+def bfs_2d(v, dist, si, sj, ei, ej):
+    q = deque()
+    q.append((si,sj))
+    v[si][sj]=dist
+
+    while q:
+        ci,cj = q.popleft()
+        #print(ci,cj, v[ci][cj])
+        if (ci,cj)==(ei,ej):
+            return v[ci][cj]
+
+        # 네방향, 범위내, (미방문)/조건맞으면(길이고, v[ci][cj]+1<v[ni][nj])
+        for di,dj in ((-1,0),(1,0),(0,-1),(0,1)):
+            ni,nj = ci+di, cj+dj
+            if 0<=ni<N and 0<=nj<N and arr[ni][nj]==0 and v[ci][cj]+1<v[ni][nj]:
+                q.append((ni,nj))
+                v[ni][nj]=v[ci][cj]+1
+
+    # 목적지를 찾을 수 없는 경우
     return -1
 
-
+arr[start[0]][start[1]] = 0
 flue_arr = spread(flue, exit[0], exit[1])
 direct, temp, d3_exit = find_exit(arr, left_top, right_bottom)
 time = bfs_3d(TOP, start[0], start[1], direct, temp[0], temp[1])
-answer = bfs_2d(d3_exit[0], d3_exit[1], flue_arr, arr, time)
+answer = bfs_2d(flue_arr, time, d3_exit[0], d3_exit[1], exit[0], exit[1])
+#answer = bfs_2d(d3_exit[0], d3_exit[1], flue_arr, arr, time)
+
+
 print(answer)
 
