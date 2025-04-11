@@ -144,19 +144,19 @@ def bfs_3d(sk, si, sj,ek, ei, ej):
     # myprint_3d(v)
     return -1
 
-
-def spread(flue):
-    v = [[float('inf')]*N for _ in range(N)]
-    for i in flue:
-        r, c, d, value = i
-        v[r][c] = 1
-        sr, sc = r + flue_dx[d], c + flue_dy[d]
-        cnt = 1
-        while 0 <= sr < N and 0 <= sc < N and arr[sr][sc] == 0 and v[sr][sc] == float('inf'):
-            v[sr][sc] = value*cnt
-            sr = sr + flue_dx[d]
-            sc = sc + flue_dy[d]
-            cnt = cnt + 1
+di=[ 0, 0, 1,-1]
+dj=[ 1,-1, 0, 0]
+def spread(flue, ei, ej):
+    v = [[401] * N for _ in range(N)]
+    for wi, wj, wd, wv in flue:  # wv 단위로 wd방향으로 확산표시(출구가 아닌경우만 확산)
+        v[wi][wj] = 1
+        for mul in range(1, N + 1):
+            wi, wj = wi + di[wd], wj + dj[wd]
+            if 0 <= wi < N and 0 <= wj < N and arr[wi][wj] == 0 and (wi, wj) != (ei, ej):
+                if v[wi][wj] > wv * mul:  # 더 큰 값 일때만 갱신(겹칠수있으니)
+                    v[wi][wj] = wv * mul
+            else:
+                break
 
     return v
 
@@ -183,7 +183,7 @@ def bfs_2d(sx_2d, sy_2d, flue_arr, arr, cnt):
     return -1
 
 
-flue_arr = spread(flue)
+flue_arr = spread(flue, exit[0], exit[1])
 direct, temp, d3_exit = find_exit(arr, left_top, right_bottom)
 time = bfs_3d(TOP, start[0], start[1], direct, temp[0], temp[1])
 answer = bfs_2d(d3_exit[0], d3_exit[1], flue_arr, arr, time)
