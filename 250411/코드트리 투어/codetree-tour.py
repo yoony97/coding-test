@@ -1,4 +1,7 @@
 import heapq
+import sys
+input = sys.stdin.readline
+
 Q = int(input())
 pp = set()
 earning = [-1]*(30_001)
@@ -106,3 +109,4 @@ for i in range(Q):
             else:
                 heapq.heappush(cost_result[start], (1, id))
         #여행 상품 생성
+
