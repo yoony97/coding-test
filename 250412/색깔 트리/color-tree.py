@@ -8,7 +8,7 @@ colors = [-1]*(100_001)
 pids = [-9]*(100_001)
 childs = [[] for  i in range(100_001)]
 ischanged = [False]*(100_001) #자식이 추가되었는 지 관리
-candiate = set()
+roots = set()
 
 time = 1
 
@@ -39,6 +39,8 @@ def canMakeChild(curr, needDepth):
 def add_node(body):
     global time
     m_id, p_id, color, depth = body
+    if p_id == -1:
+        roots.add(m_id)
     if p_id == -1 or canMakeChild(p_id, 1):
         pids[m_id] = p_id
         colors[m_id] = color
@@ -94,8 +96,7 @@ for i in range(Q):
         print(print_color(body[0])[0])
     if op == 400:
         beauty = 0
-        for i in range(1, 100_001):
+        for i in roots:
             # root 노드들에 대해 점수를 계산합니다
-            if pids[i] == -1 :
-                beauty += getBeauty(i, colors[i], update_time[i])[0]
+            beauty += getBeauty(i, colors[i], update_time[i])[0]
         print(beauty)
