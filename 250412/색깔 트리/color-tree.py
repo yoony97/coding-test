@@ -1,4 +1,7 @@
 from collections import deque
+import sys
+sys.setrecursionlimit(10000)
+
 COLOR_MAX = 5
 MAX_DEPTH = 100
 depths = [-1]*(100_001)
