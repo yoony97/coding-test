@@ -68,33 +68,25 @@ def find_judgement():
     return -1
 
 def try_judge(t):
-    impossible = []
-    while pq:
-        p, st, pid, dm, u = pq[0]
-        if debug: print(f"[채점 시작] {t}초에 {dm}과 같은 도메인의 채점 여부가 {hash_dm[dm].processing} 입니다.")
-        if not hash_dm[dm].processing: #같은 도메인이 채점 중인가?
-            if debug: print(f"[채점 시작] {t}초에 {dm}과 같은 채점 가능 시각 여부가 {hash_dm[dm].get_time(t)} 입니다.")
-            if hash_dm[dm].get_time(t): #채점이 가능한가?
-                idx = find_judgement() #쉬고있는 채점기가 있는가?
-                if debug: print(f"[채점 시작] {t}초에 쉬고있는 채점기가 {idx} 입니다.")
-                if idx != -1: #쉬고있는 채점기가 있네
-                    if debug: print(f"[채점 시작] {t}초에 채점 가능한 url {u} 입니다. 채점큐에 넣겠습니다.")
-                    heapq.heappop(pq)
-                    isjudge[idx] = True
-                    hash_dm[dm].processing = True
-                    hash_url[u] = False #채점 대기큐에서 해당 u가 벗어났어요
-                    hash_dm[dm].update_start(t)
-                    judge_el[idx] = (t, p, st, pid, dm, u)
+    i = 0
+    while i < len(pq):
+        p, st, pid, dm, u = pq[i]  # peek without popping
+        domain = hash_dm[dm]
+
+        if not domain.processing and domain.get_time(t):
+            idx = find_judgement()
+            if idx != -1:
+                # 이 아이템을 채점기로 옮길 수 있다
+                pq.pop(i)  # 리스트 pop (i번째 위치에서 제거)
+                heapq.heapify(pq)  # 다시 heapify: O(N) 이지만 1회
+                isjudge[idx] = True
+                domain.processing = True
+                hash_url[u] = False
+                domain.update_start(t)
+                judge_el[idx] = (t, p, st, pid, dm, u)
                 break
-                    
-        e = heapq.heappop(pq)
-        impossible.append(e)
-
-    if impossible:
-        for i in impossible:
-            heapq.heappush(pq, i)
-    if debug: print(f"[채점 시작] 채점기로 옮긴 뒤 대기 큐 상황{pq}")
-
+        i += 1
+        
 def end_judge(t, jid):
     #t초에 jid 채점기에서 진행한 채점을 종료함
     #J_id 채점기는 다시 쉼
